@@ -1,9 +1,45 @@
-main {
-  min-height: calc(100vh - 200px);
+.main-page {
+  background: #19212b;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+}
 
-  .container {
-    border: 1px solid green;
-    max-width: 1200px;
-    height: 100%;
+.greetings-box {
+  height: fit-content;
+}
+
+.greetings {
+  font-size: 72px;
+  line-height: 75px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.learn-more {
+  letter-spacing: 2px;
+  color: #19212b;
+  width: 150px;
+  height: 60px;
+  background: #edd874;
+  border: 1px solid #edd874;
+  border-radius: 20px;
+  margin: 30px 0 0 150px;
+  transition: 0.3s;
+
+  &:hover {
+    width: 160px;
+    height: 70px;
+    margin: 20px 0 0 150px;
+    font-size: 28px;
+    background: #f1d64c;
+    border: 1px solid #f1d64c;
+    cursor: pointer;
+    transition: 0.3s;
   }
+}
+
+.main-img {
+  width: 40vw;
 }

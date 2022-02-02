@@ -1,3 +1,16 @@
-.container {
+* {
+  font-size: 24px;
+  line-height: 31px;
+  letter-spacing: 5px;
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Neucha';
+  color: #bebebe;
+  margin: 0px;
+  background: #19212b;
+}
+
+.root {
+  width: 80vw;
   margin: 0 auto;
 }
