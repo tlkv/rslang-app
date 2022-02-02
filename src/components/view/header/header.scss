@@ -1,3 +1,9 @@
-.test-block {
-  color: red;
+header {
+  height: 100px;
+
+  .container {
+    border: 1px solid blue;
+    max-width: 1200px;
+    height: 100%;
+  }
 }

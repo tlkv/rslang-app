@@ -1,0 +1,9 @@
+main {
+  min-height: calc(100vh - 200px);
+
+  .container {
+    border: 1px solid green;
+    max-width: 1200px;
+    height: 100%;
+  }
+}
