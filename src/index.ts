@@ -3,4 +3,3 @@ import './sass/global.scss';
 import App from './components/app/app';
 
 const app = new App(document.body);
-app.start();

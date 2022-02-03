@@ -1,8 +1,15 @@
 import './header.scss';
+import Component from '../templates/component';
 
-export default function initHeader(root: HTMLElement) {
-  const elem = document.createElement('header');
-  const someComputedValue = 'someComputedValue';
-  elem.innerHTML = `<div class="container">HEADER + ${someComputedValue}</container>`;
-  root.append(elem);
+class Header extends Component {
+  protected elementContent = 'Header';
+
+  protected elementWrapper = `<div class="container">${this.elementContent}</div>`;
+
+  constructor() {
+    super('header', ['header-cl'], 'header', document.body); // tag, class, id
+    this.container.innerHTML = this.elementWrapper;
+  }
 }
+
+export default Header;

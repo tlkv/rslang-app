@@ -1,5 +1,13 @@
-import IState from '../interfaces/IState';
+class State {
+  currentPage: number;
 
-const state: IState = {
-  currentPage: 1,
-};
+  setCurrentPage(page: number) {
+    this.currentPage = page;
+  }
+
+  constructor() {
+    this.currentPage = 1;
+  }
+}
+
+export default State;

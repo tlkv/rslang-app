@@ -1,8 +1,15 @@
 import './footer.scss';
+import Component from '../templates/component';
 
-export default function initFooter(root: HTMLElement) {
-  const elem = document.createElement('footer');
-  const someComputedValue = 'someComputedValue';
-  elem.innerHTML = `<div class="container">FOOTER + ${someComputedValue}</container>`;
-  root.append(elem);
+class Footer extends Component {
+  protected elementContent = 'FOOTER';
+
+  protected elementWrapper = `<div class="container">${this.elementContent}</div>`;
+
+  constructor() {
+    super('footer', ['footer-cl'], 'footer', document.body); // tag, class, id
+    this.container.innerHTML = this.elementWrapper;
+  }
 }
+
+export default Footer;
