@@ -1,10 +1,14 @@
+.main {
+  position: relative;
+}
+
 .main-page {
-  width: 80vw;
-  margin: 0 auto;
+  width: 1200px;
+  height: 95vh;
   background: #19212b;
-  height: 90vh;
   display: flex;
   align-items: center;
+  margin: 0 auto;
 }
 
 .greetings-box {
@@ -20,28 +24,156 @@
 }
 
 .learn-more {
-  letter-spacing: 2px;
-  color: #19212b;
   width: 150px;
   height: 60px;
   background: #edd874;
   border: 1px solid #edd874;
   border-radius: 20px;
+  letter-spacing: 2px;
+  color: #19212b;
   margin: 30px 0 0 150px;
   transition: 0.3s;
 
   &:hover {
     width: 160px;
     height: 70px;
-    margin: 20px 0 0 150px;
     font-size: 28px;
     background: #f1d64c;
     border: 1px solid #f1d64c;
+    margin: 20px 0 0 150px;
     cursor: pointer;
     transition: 0.3s;
   }
 }
 
 .main-img {
-  width: 40vw;
+  width: 35vw;
+}
+
+.advantages {
+  width: 1200px;
+  height: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  z-index: 3;
+  top: 85vh;
+  left: 350px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 1px 3px 4px rgb(0 0 0 / 10%);
+  padding: 30px;
+}
+
+.advantage {
+  height: 100px;
+  background: none;
+  font-weight: bold;
+  color: #2e3844;
+  padding: 0 0 0 20px;
+
+  &:hover {
+    color: #7dcddb;
+    transition: 0.3s;
+  }
+}
+
+.advantage-border {
+  background: none;
+  border-left: 2px solid #7dcddb;
+  border-right: 2px solid #7dcddb;
+}
+
+.about-us {
+  background: rgb(255, 255, 255);
+  height: 110vh;
+}
+
+.about-us-box {
+  background: rgb(255, 255, 255);
+  width: 1200px;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.our-team-title {
+  background: rgb(255, 255, 255);
+  width: fit-content;
+  font-size: 78px;
+  font-weight: bold;
+  letter-spacing: 10px;
+  color: #7dcddb;
+  margin: 90px 0 80px 450px;
+
+  &:hover {
+    transform: rotate(360deg);
+    transition: 0.4s;
+  }
+}
+
+.team-card-box {
+  background: rgb(255, 255, 255);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.teammate {
+  width: 350px;
+  height: 650px;
+  box-sizing: border-box;
+  background: #ffe97d;
+  border: 1px solid #ffe97d;
+  border-radius: 20px;
+  box-shadow: 1px 3px 4px rgb(0 0 0 / 10%);
+  padding: 20px;
+  position: relative;
+  transition: 1s;
+
+  &:hover {
+    z-index: 10;
+    transform: scale(1.2);
+  }
+}
+
+.teammate-img {
+  width: 250px;
+  height: 250px;
+  margin-left: 30px;
+  border-radius: 10px;
+}
+
+.name {
+  background: #ffe97d;
+  padding: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #2e3844;
+  margin: 0px 0 5px 60px;
+}
+
+.kristina {
+  margin: 0px 0 5px 90px;
+}
+
+.andrey {
+  margin: 0px 0 5px 90px;
+}
+
+.position {
+  width: fit-content;
+  background: #7dcddb;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  padding: 0 10px;
+  margin: 0px 0 10px 100px;
+}
+
+.contribution-description {
+  background: #ffe97d;
+  padding: 10px;
+  font-size: 20px;
+  color: #2e3844;
 }

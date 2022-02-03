@@ -3,7 +3,7 @@ import initMain from '../view/main/main';
 import initFooter from '../view/footer/footer';
 
 class App {
-  constructor(public root: HTMLDivElement) {
+  constructor(public root: HTMLElement) {
     this.root = root;
   }
 
