@@ -1,4 +1,5 @@
 import './footer.scss';
+import '../../../../assets/png/github.png';
 
 export default function initFooter(root: HTMLElement) {
   root.insertAdjacentHTML(

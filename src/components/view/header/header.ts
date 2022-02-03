@@ -1,4 +1,5 @@
 import './header.scss';
+import '../../../../assets/png/icon.png';
 
 export default function initHeader(root: HTMLElement) {
   root.insertAdjacentHTML(

@@ -28,7 +28,6 @@
     "webpack-remove-empty-scripts": "^0.7.1"
   },
   "dependencies": {
-    "eslint-config-airbnb-typescript": "^16.1.0",
-    "file-loader": "^6.2.0"
+    "eslint-config-airbnb-typescript": "^16.1.0"
   }
 }

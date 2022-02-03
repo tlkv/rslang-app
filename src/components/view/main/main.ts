@@ -1,4 +1,5 @@
 import './main.scss';
+import '../../../../assets/png/main-img.png';
 
 export default function initMain(root: HTMLElement) {
   root.insertAdjacentHTML(
