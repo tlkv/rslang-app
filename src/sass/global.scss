@@ -1,8 +1,11 @@
 .container {
   margin: 0 auto;
   max-width: 1200px;
+  border: 1px solid blue;
+  height: 100%;
+  overflow: hidden;
 }
 
-.routed-component {
-  min-height: 100px;
+.app-center-block {
+  border: 1px solid red;
 }

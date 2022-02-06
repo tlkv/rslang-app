@@ -1,5 +1,9 @@
 import './sass/reset.scss';
 import './sass/global.scss';
-import App from './components/app/app';
+import App from './app/app';
 
-const app = new App(document.body);
+const rootElem = document.getElementById('root');
+if (rootElem) {
+  const app = new App(rootElem);
+  app.start();
+}
