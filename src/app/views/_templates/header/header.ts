@@ -1,15 +1,23 @@
 import './header.scss';
 import Component from '../component';
 import defaultRoutes from '../../../models/router/defaultRoutes';
+import '../../../../assets/icon.png';
 
 class Header extends Component {
-  elemContent = `<a href="#${defaultRoutes.frontpage.path}">${defaultRoutes.frontpage.name}</a>
-  <a href="#${defaultRoutes.authorization.path}">${defaultRoutes.authorization.name}</a>
-  <a href="#${defaultRoutes.textbook.path}">${defaultRoutes.textbook.name}</a>
-  <a href="#${defaultRoutes.gameSprint.path}">${defaultRoutes.gameSprint.name}</a>
-  <a href="#${defaultRoutes.gameAudio.path}">${defaultRoutes.gameAudio.name}</a>
-  <a href="#${defaultRoutes.statistics.path}">${defaultRoutes.statistics.name}</a>
-  <a href="#${defaultRoutes.testpage.path}">${defaultRoutes.testpage.name}</a>`;
+  elemContent = `<nav class="navigation"> 
+        <div class="title"> 
+          <img src="./assets/icon.png" alt="icon" class="icon" /> 
+          <h1 class="h1">RS-Lang</h1> 
+        </div>       
+        <a href="#${defaultRoutes.frontpage.path}" class="menu-item">Home</a>
+        <a href="#${defaultRoutes.textbook.path}" class="menu-item">${defaultRoutes.textbook.name}</a>
+        <a href="#${defaultRoutes.gameSprint.path}" class="menu-item">${defaultRoutes.gameSprint.name}</a>
+        <a href="#${defaultRoutes.gameAudio.path}" class="menu-item">${defaultRoutes.gameAudio.name}</a>
+        <a href="#${defaultRoutes.statistics.path}" class="menu-item">${defaultRoutes.statistics.name}</a>
+        <a href="#${defaultRoutes.testpage.path}" class="menu-item">${defaultRoutes.testpage.name}</a>
+        <a href="#${defaultRoutes.authorization.path}" class="log-in">log-in</a>
+        <a href="#${defaultRoutes.authorization.path}" class="sign-out">sign out</a>
+      </nav>`;
 
   elemWrapper = new Component('div', ['container']);
 

@@ -1,3 +1,38 @@
 footer {
-  height: 100px;
+  width: 100%;
+  height: 70px;
+  background: #19212b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.authors-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.github-img {
+  width: 50px;
+  height: 50px;
+  margin: 15px;
+}
+
+.author {
+  text-decoration: none;
+  margin: 15px;
+  transition: 0.3s;
+
+  &:hover {
+    color: #7dcddb;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+}
+
+.rs-school {
+  width: 100px;
+  height: 50px;
 }
