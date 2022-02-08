@@ -1,11 +1,18 @@
+* {
+  font-size: 20px;
+  line-height: 31px;
+  letter-spacing: 5px;
+  font-style: normal;
+  font-weight: normal;
+  font-family: 'Neucha';
+  color: #bebebe;
+  margin: 0px;
+  background: #1e2733;
+}
+
 .container {
   margin: 0 auto;
   max-width: 1200px;
-  border: 1px solid blue;
   height: 100%;
   overflow: hidden;
-}
-
-.app-center-block {
-  border: 1px solid red;
 }
