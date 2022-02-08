@@ -1,7 +1,6 @@
 import './header.scss';
 import Component from '../component';
 import defaultRoutes from '../../../models/router/defaultRoutes';
-import '../../../../assets/icon.png';
 
 class Header extends Component {
   elemContent = `<nav class="navigation"> 

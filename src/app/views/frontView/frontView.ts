@@ -2,8 +2,6 @@ import './frontView.scss';
 import Component from '../_templates/component';
 import Header from '../_templates/header/header';
 import Footer from '../_templates/footer/footer';
-import '../../../assets/main-img.png';
-import '../../../assets/anastasiya.jpg';
 
 class FrontView extends Component {
   SectionMainContent = `<section class="main-page"> 

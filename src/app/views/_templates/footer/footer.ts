@@ -1,10 +1,9 @@
 import './footer.scss';
 import Component from '../component';
-import '../../../../assets/github.png';
 
 class Footer extends Component {
   elemContent = `<footer>
-      <p class="year-of-creation">@2022</p>
+      <p class="year-of-creation">&copy;2022</p>
       <div class="authors-box">
           <img src="./assets/github.png" alt="github" class="github-img">
           <a href="https://github.com/kristykov" class="author">Kristina</a>
