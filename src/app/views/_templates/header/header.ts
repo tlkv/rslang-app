@@ -4,8 +4,10 @@ import defaultRoutes from '../../../models/router/defaultRoutes';
 
 class Header extends Component {
   elemContent = `<nav class="navigation"> 
-        <div class="title"> 
-          <img src="./assets/icon.png" alt="icon" class="icon" /> 
+        <div class="title">
+          <a href="#frontpage">
+            <img src="./assets/icon.png" alt="icon" class="icon" />
+          </a>  
           <h1 class="h1">RS-Lang</h1> 
         </div>       
         <a href="#${defaultRoutes.frontpage.path}" class="menu-item">Home</a>
