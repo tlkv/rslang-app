@@ -1,3 +1,7 @@
 .textbook-block {
   min-height: calc(100vh - 200px);
 }
+
+.textbook-categories-wrapper .active {
+  border: 1px solid red;
+}

@@ -19,13 +19,13 @@ class TestController {
         'I catch Event! ',
         e,
         'showState + increase by 1 and DRAW IT',
-        (this.model.currentPage += 1),
+        (this.model.textbookPage += 1),
       );
       console.log('state now', state);
-      this.view.frontBlockWrapper.container.innerHTML += `current state change ${
-        state.currentPage
+      this.view.frontBlockWrapper.container.innerHTML += `textbook state change ${
+        state.textbookPage
       } words data
-      ${JSON.stringify(await testApi())} `; // appernd received data to current page
+      ${JSON.stringify(await testApi())} `; // appernd received data to textbook page
     });
   }
 }
