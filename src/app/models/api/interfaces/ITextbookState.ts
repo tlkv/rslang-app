@@ -1,3 +1,3 @@
-type ITextbookState = 'textbookCategory' | 'textbookMaxPage' | 'textbookPage';
+type ITextbookState = 'textbookGroup' | 'textbookMaxPage' | 'textbookPage';
 
 export default ITextbookState;

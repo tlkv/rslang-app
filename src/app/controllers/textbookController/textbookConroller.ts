@@ -1,6 +1,7 @@
 import TextbookView from '../../views/textbookView/textbookView';
 import { State, state } from '../../models/api/state/state';
 import ITextbookState from '../../models/api/interfaces/ITextbookState';
+import getWordsTextbook from '../../models/api/api/getWordsTextbook';
 
 class TextbookController {
   view: TextbookView;
@@ -11,15 +12,25 @@ class TextbookController {
     this.model = state;
     this.view = new TextbookView(
       root,
-      this.model.textbookCategory,
+      this.model.textbookGroup,
       this.model.textbookPage,
       this.model.textbookMaxPage,
+      this.model.words,
     );
     this.containerListener();
+    this.getWordsTextbook();
+  }
+
+  async getWordsTextbook() {
+    this.model.words = JSON.stringify(
+      await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage),
+    );
+    this.view.words = this.model.words;
+    this.view.renderTextbook();
   }
 
   containerListener() {
-    this.view.frontBlock.container.addEventListener('click', async (e) => {
+    this.view.frontBlock.container.addEventListener('click', (e) => {
       const currAttrType = (e.target as HTMLInputElement).getAttribute('data-state');
       const currAttrVal = (e.target as HTMLInputElement).getAttribute('data-value');
       if (currAttrType && currAttrVal) {
@@ -27,11 +38,11 @@ class TextbookController {
         console.log(this.model);
         this.view[currAttrType as ITextbookState] = parseInt(currAttrVal, 10);
       }
-      if (currAttrType === 'textbookCategory') {
+      if (currAttrType === 'textbookGroup') {
         this.model.textbookPage = 0;
         this.view.textbookPage = 0;
       }
-      this.view.renderTextbook();
+      this.getWordsTextbook();
     });
   }
 }

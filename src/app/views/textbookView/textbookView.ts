@@ -16,17 +16,20 @@ class TextbookView extends Component {
 
   footer: Footer;
 
-  textbookCategory: number;
+  textbookGroup: number;
 
   textbookPage: number;
 
   textbookMaxPage: number;
 
+  words: string;
+
   constructor(
     root: HTMLElement,
-    textbookCategory: number,
+    textbookGroup: number,
     textbookPage: number,
     textbookMaxPage: number,
+    words: string,
   ) {
     super('div', ['textbook-view'], root);
 
@@ -36,15 +39,16 @@ class TextbookView extends Component {
     this.frontBlock.container.append(this.frontBlockWrapper.container);
     // this.frontBlockWrapper.container.innerHTML = this.frontBlockContent;
 
-    this.textbookCategory = textbookCategory;
+    this.textbookGroup = textbookGroup;
     this.textbookPage = textbookPage;
     this.textbookMaxPage = textbookMaxPage;
+    this.words = words;
 
     this.renderTextbook();
   }
 
   renderTextbook() {
-    console.log(this.textbookCategory, this.textbookPage);
+    console.log(this.textbookGroup, this.textbookPage);
     let first = '';
     let prev = '';
     let next = '';
@@ -61,8 +65,8 @@ class TextbookView extends Component {
 
     for (let i = 0; i < 6; i += 1) {
       buttons += `<button class="textbook-categories-button ${
-        this.textbookCategory === i ? 'active' : ''
-      }" data-state="textbookCategory" data-value="${i}">Category ${i + 1}</button>`;
+        this.textbookGroup === i ? 'active' : ''
+      }" data-state="textbookGroup" data-value="${i}">Category ${i + 1}</button>`;
     }
 
     const elemHeading = `
@@ -82,13 +86,16 @@ class TextbookView extends Component {
     this.frontBlockWrapper.container.innerHTML = elemHeading;
 
     console.log(
-      'this.textbookCategory',
-      this.textbookCategory,
+      'this.textbookGroup',
+      this.textbookGroup,
       'this.textbookPage',
       this.textbookPage,
       'textbookMaxPage',
       this.textbookMaxPage,
+      'words',
+      this.words,
     );
+    this.frontBlockWrapper.container.innerHTML += this.words;
   }
 }
 

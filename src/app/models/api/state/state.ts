@@ -1,19 +1,19 @@
 import IDictWord from '../interfaces/IDictWord';
 
 export class State {
-  textbookCategory: number;
+  textbookGroup: number;
 
   textbookPage: number;
 
   textbookMaxPage: number;
 
-  words: IDictWord[];
+  words: string;
 
   constructor() {
     this.textbookPage = 0;
     this.textbookMaxPage = 29;
-    this.textbookCategory = 0;
-    this.words = [];
+    this.textbookGroup = 0;
+    this.words = '';
   }
 
   /* // optional methods - not required for All fields
