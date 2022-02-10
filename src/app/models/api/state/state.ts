@@ -7,13 +7,13 @@ export class State {
 
   textbookMaxPage: number;
 
-  words: string;
+  words: IDictWord[];
 
   constructor() {
     this.textbookPage = 0;
     this.textbookMaxPage = 29;
     this.textbookGroup = 0;
-    this.words = '';
+    this.words = [];
   }
 
   /* // optional methods - not required for All fields

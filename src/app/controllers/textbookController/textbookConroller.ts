@@ -8,41 +8,62 @@ class TextbookController {
 
   model: State;
 
+  audio = new Audio();
+
+  audioExample = new Audio();
+
+  audioMeaning = new Audio();
+
   constructor(root: HTMLElement) {
     this.model = state;
-    this.view = new TextbookView(
-      root,
+    this.view = new TextbookView(root);
+    this.containerListener();
+    this.renderWordsTextbook();
+  }
+
+  async renderWordsTextbook() {
+    this.model.words = await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage);
+
+    this.audio.pause();
+    this.audioMeaning.pause();
+    this.audioExample.pause();
+
+    this.view.renderTextbook(
       this.model.textbookGroup,
       this.model.textbookPage,
       this.model.textbookMaxPage,
       this.model.words,
     );
-    this.containerListener();
-    this.getWordsTextbook();
-  }
-
-  async getWordsTextbook() {
-    this.model.words = JSON.stringify(
-      await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage),
-    );
-    this.view.words = this.model.words;
-    this.view.renderTextbook();
   }
 
   containerListener() {
     this.view.frontBlock.container.addEventListener('click', (e) => {
       const currAttrType = (e.target as HTMLInputElement).getAttribute('data-state');
       const currAttrVal = (e.target as HTMLInputElement).getAttribute('data-value');
+      const currAudio = (e.target as HTMLInputElement).getAttribute('data-audio');
+      const currAudioMeaning = (e.target as HTMLInputElement).getAttribute('data-audio-meaning');
+      const currAudioExample = (e.target as HTMLInputElement).getAttribute('data-audio-example');
+
       if (currAttrType && currAttrVal) {
         this.model[currAttrType as ITextbookState] = parseInt(currAttrVal, 10);
-        console.log(this.model);
-        this.view[currAttrType as ITextbookState] = parseInt(currAttrVal, 10);
+        if (currAttrType === 'textbookGroup') {
+          this.model.textbookPage = 0;
+        }
+        this.renderWordsTextbook();
       }
-      if (currAttrType === 'textbookGroup') {
-        this.model.textbookPage = 0;
-        this.view.textbookPage = 0;
+
+      if (currAudio && currAudioMeaning && currAudioExample) {
+        this.audio.src = currAudio;
+        this.audioMeaning.src = currAudioMeaning;
+        this.audioExample.src = currAudioExample;
+        this.audio.addEventListener('ended', () => {
+          this.audioMeaning.play();
+        });
+        this.audioMeaning.addEventListener('ended', () => {
+          this.audioExample.play();
+        });
+        this.audio.play();
       }
-      this.getWordsTextbook();
     });
   }
 }
