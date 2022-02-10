@@ -36,6 +36,7 @@ class TextbookView extends Component {
     const wordCards = TextbookView.renderWordCards(words);
 
     const elemContent = `
+    <h2 class="textbook-view-title">Textbook</h2>
     <div class="textbook-categories-wrapper">
       ${buttons}
     </div>
@@ -113,11 +114,11 @@ class TextbookView extends Component {
             <i class="fas fa-volume-up color-group-${word.group + 1}"></i></span>
           </h4>
           <h2 class="textbook-meaning-title">
-          <i class="fas fa-comment color-group-${word.group + 1}"></i> Meaning</h2>
+          <i class="fa-solid fa-book color-group-${word.group + 1}"></i> Meaning</h2>
           <p class="textbook-meaning-content">${word.textMeaning}</p>
           <p class="textbook-meaning-content">${word.textMeaningTranslate}</p>
           <h2 class="textbook-example-title">
-          <i class="fas fa-file  color-group-${word.group + 1}"></i> Example</h2>
+          <i class="fa-solid fa-comment color-group-${word.group + 1}"></i> Example</h2>
           <p class="textbook-example-content">${word.textExample}</p>
           <p class="textbook-example-content">${word.textExampleTranslate}</p>
         </div>
