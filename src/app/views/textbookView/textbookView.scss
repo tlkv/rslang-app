@@ -9,8 +9,7 @@ button {
   cursor: pointer;
 }
 
-button > i,
-span > i {
+button > i {
   pointer-events: none; /* don't remove - it avoids propagation */
 }
 
@@ -62,6 +61,7 @@ span > i {
   color: #000;
   .textbook-audio {
     cursor: pointer;
+    border: 0;
   }
   .fa-volume-up {
     font-size: 26px;
@@ -123,7 +123,7 @@ span > i {
   color: $textbook-color-6;
 }
 
-.item-shadow-1 {
+/* .item-shadow-1 {
   box-shadow: 0 5px 10px $textbook-color-1;
 }
 .item-shadow-2 {
@@ -140,7 +140,7 @@ span > i {
 }
 .item-shadow-6 {
   box-shadow: 0 5px 10px $textbook-color-6;
-}
+} */
 
 .textbook-categories-button {
   margin: 5px 10px;
@@ -199,6 +199,25 @@ span > i {
   }
 }
 
+.button-card-color-1 {
+  background-color: $textbook-color-1;
+}
+.button-card-color-2 {
+  background-color: $textbook-color-2;
+}
+.button-card-color-3 {
+  background-color: $textbook-color-3;
+}
+.button-card-color-4 {
+  background-color: $textbook-color-4;
+}
+.button-card-color-5 {
+  background-color: $textbook-color-5;
+}
+.button-card-color-6 {
+  background-color: $textbook-color-6;
+}
+
 .textbook-categories-wrapper {
   margin: 20px 0;
   display: flex;
@@ -230,6 +249,33 @@ span > i {
   text-transform: uppercase;
   text-align: center;
   color: #fff;
+}
+
+.textbook-learned-button,
+.textbook-diff-button {
+  text-transform: uppercase;
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 10px;
+  color: #fff;
+  border: 0;
+}
+
+.textbook-learned-button:hover,
+.textbook-diff-button:hover {
+  filter: brightness(0.9);
+}
+
+.textbook-card-transcription {
+  margin-bottom: 10px;
+}
+
+.textbook-card-learned {
+  border: 1px solid blue;
+}
+
+.textbook-card-difficult {
+  border: 1px solid red;
 }
 
 @media (max-width: 1200px) {

@@ -14,6 +14,8 @@ class TextbookView extends Component {
 
   footer: Footer;
 
+  public groupsAmount = 6;
+
   constructor(root: HTMLElement) {
     super('div', ['textbook-view'], root);
 
@@ -28,12 +30,13 @@ class TextbookView extends Component {
     textbookPage: number,
     textbookMaxPage: number,
     words: IDictWord[],
+    isAuth: boolean,
   ) {
-    const buttons = TextbookView.renderButtons(textbookGroup);
+    const buttons = this.renderButtons(textbookGroup);
 
     const pagination = TextbookView.renderPagination(textbookPage, textbookMaxPage);
 
-    const wordCards = TextbookView.renderWordCards(words);
+    const wordCards = TextbookView.renderWordCards(words, isAuth);
 
     const elemContent = `
     <h2 class="textbook-view-title">Textbook</h2>
@@ -50,9 +53,9 @@ class TextbookView extends Component {
     this.frontBlockWrapper.container.innerHTML = elemContent;
   }
 
-  static renderButtons(textbookGroup: number) {
+  renderButtons(textbookGroup: number) {
     let buttons = '';
-    for (let i = 0; i < 6; i += 1) {
+    for (let i = 0; i < this.groupsAmount; i += 1) {
       let buttonActive = ' active';
       let buttonData = '';
       if (textbookGroup !== i) {
@@ -61,8 +64,9 @@ class TextbookView extends Component {
       }
       buttons += `<button class="textbook-categories-button${buttonActive}"
       ${buttonData}>
-      <div class="button-inner-left">Group</div>
-      <div class="button-inner-right button-inner-color-${i + 1}">${i + 1}</div></button>`;
+      <div class="button-inner-left" ${buttonData}>Group</div>
+      <div class="button-inner-right button-inner-color-${i + 1}"
+      ${buttonData}>${i + 1}</div></button>`;
     }
     return buttons;
   }
@@ -94,8 +98,16 @@ class TextbookView extends Component {
     return pagination;
   }
 
-  static renderWordCards(words: IDictWord[]) {
+  static renderWordCards(words: IDictWord[], isAuth: boolean) {
     function renderWordCard(word: IDictWord) {
+      let authButtons = '';
+      if (isAuth) {
+        authButtons = `
+          <button class="textbook-diff-button button-card-color-${word.group + 1}"
+          data-add-difficult="${word.id}">+ Add as difficult</button>
+          <button class="textbook-learned-button button-card-color-${word.group + 1}"
+          data-add-learned="${word.id}">+ Add as learned</button>`;
+      }
       return `
       <div class="textbook-card-item item-shadow-${word.group + 1}"
         data-id ="${word.id}"
@@ -107,12 +119,13 @@ class TextbookView extends Component {
           <h2 class="textbook-card-word">${word.word}</h2>
           <h3 class="textbook-card-translate">${word.wordTranslate}</h3>
           <h4 class="textbook-card-transcription">${word.transcription}
-            <span class="textbook-audio"
+            <button class="textbook-audio"
             data-audio ="${baseUrl}/${word.audio}"
             data-audio-meaning ="${baseUrl}/${word.audioMeaning}" 
             data-audio-example ="${baseUrl}/${word.audioExample}">
-            <i class="fas fa-volume-up color-group-${word.group + 1}"></i></span>
+            <i class="fas fa-volume-up color-group-${word.group + 1}"></i></button>
           </h4>
+          ${authButtons}
           <h2 class="textbook-meaning-title">
           <i class="fa-solid fa-book color-group-${word.group + 1}"></i> Meaning</h2>
           <p class="textbook-meaning-content">${word.textMeaning}</p>

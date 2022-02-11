@@ -9,6 +9,8 @@ export class State {
 
   words: IDictWord[];
 
+  isAuth = true;
+
   constructor() {
     this.textbookPage = 0;
     this.textbookMaxPage = 29;

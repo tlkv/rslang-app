@@ -15,7 +15,14 @@ class TestController {
 
   customEventListener() {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
-      console.log(
+      console.log('test click');
+      if (this.model.isAuth) {
+        this.model.isAuth = false;
+      } else {
+        this.model.isAuth = true;
+      }
+      console.log('this.model.isAuth', this.model.isAuth);
+      /* console.log(
         'I catch Event! ',
         e,
         'showState + increase by 1 and DRAW IT',
@@ -25,7 +32,7 @@ class TestController {
       this.view.frontBlockWrapper.container.innerHTML += `textbook state change ${
         state.textbookPage
       } words data
-      ${JSON.stringify(await testApi())} `; // appernd received data to textbook page
+      ${JSON.stringify(await testApi())} `; // appernd received data to textbook page */
     });
   }
 }
