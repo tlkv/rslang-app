@@ -45,7 +45,7 @@ button > i {
 }
 
 .textbook-card-img {
-  height: 170px;
+  height: 190px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -69,7 +69,8 @@ button > i {
 }
 
 .textbook-example-title,
-.textbook-meaning-title {
+.textbook-meaning-title,
+.textbook-game-answers {
   font-weight: bold;
   margin-top: 15px;
   margin-bottom: 5px;
@@ -218,6 +219,31 @@ button > i {
   background-color: $textbook-color-6;
 }
 
+.res-textbook-1 {
+  color: $textbook-color-1;
+  border: 1px solid $textbook-color-1;
+}
+.res-textbook-2 {
+  color: $textbook-color-2;
+  border: 1px solid $textbook-color-2;
+}
+.res-textbook-3 {
+  color: $textbook-color-3;
+  border: 1px solid $textbook-color-3;
+}
+.res-textbook-4 {
+  color: $textbook-color-4;
+  border: 1px solid $textbook-color-4;
+}
+.res-textbook-5 {
+  color: $textbook-color-5;
+  border: 1px solid $textbook-color-5;
+}
+.res-textbook-6 {
+  color: $textbook-color-6;
+  border: 1px solid $textbook-color-6;
+}
+
 .textbook-categories-wrapper {
   margin: 20px 0;
   display: flex;
@@ -270,12 +296,38 @@ button > i {
   margin-bottom: 10px;
 }
 
+.textbook-card-difficult,
 .textbook-card-learned {
-  border: 1px solid blue;
+  position: relative;
 }
 
-.textbook-card-difficult {
-  border: 1px solid red;
+.textbook-card-difficult::after {
+  right: 0;
+  top: 5px;
+  width: 32px;
+  height: 32px;
+  content: '';
+  display: block;
+  position: absolute;
+  background: url('../../../assets/svg/Exclamation.svg') center/contain no-repeat;
+}
+
+.textbook-card-learned::after {
+  right: 10px;
+  top: 5px;
+  width: 40px;
+  height: 40px;
+  content: '';
+  display: block;
+  position: absolute;
+  background: url('../../../assets/svg/Checkmark.svg') center/contain no-repeat;
+}
+
+.textbook-game-res {
+  text-transform: uppercase;
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 10px;
 }
 
 @media (max-width: 1200px) {

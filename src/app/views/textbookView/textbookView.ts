@@ -72,43 +72,44 @@ class TextbookView extends Component {
   }
 
   static renderPagination(textbookPage: number, textbookMaxPage: number) {
-    let first = '';
-    let prev = '';
-    let next = '';
-    let last = '';
-
-    if (textbookPage !== 0) {
-      first = 'data-state="textbookPage" data-value="0"';
-      prev = `data-state="textbookPage"data-value="${textbookPage - 1}"`;
-    }
-    if (textbookPage !== textbookMaxPage) {
-      next = `data-state="textbookPage" data-value="${textbookPage + 1}"`;
-      last = `data-state="textbookPage" data-value="${textbookMaxPage}"`;
-    }
+    const first = 'data-state="textbookPage" data-value="0"';
+    const prev = `data-state="textbookPage"data-value="${textbookPage - 1}"`;
+    const next = `data-state="textbookPage" data-value="${textbookPage + 1}"`;
+    const last = `data-state="textbookPage" data-value="${textbookMaxPage}"`;
 
     const pagination = `
-    <button class="textbook-pages-button pagination-first"${first}><i class="fa-solid fa-angles-left"></i></button>
+    <button class="textbook-pages-button pagination-first"${textbookPage !== 0 ? first : ''}>
+    <i class="fa-solid fa-angles-left"></i>
+    </button>
     <button class="textbook-pages-button pagination-prev"
-    ${prev}><i class="fa-solid fa-angle-left"></i></button>
-    <button class="textbook-pages-button pagination-current">${textbookPage + 1}</button>
+    ${textbookPage !== 0 ? prev : ''}><i class="fa-solid fa-angle-left"></i>
+    </button>
+    <button class="textbook-pages-button pagination-current">${textbookPage + 1}
+    </button>
     <button class="textbook-pages-button pagination-next"
-    ${next}><i class="fa-solid fa-angle-right"></i></button>
-    <button class="textbook-pages-button pagination-last"${last}><i class="fa-solid fa-angles-right"></i></button>`;
+    ${textbookPage !== textbookMaxPage ? next : ''}><i class="fa-solid fa-angle-right"></i>
+    </button>
+    <button class="textbook-pages-button pagination-last"
+    ${textbookPage !== textbookMaxPage ? last : ''}>
+    <i class="fa-solid fa-angles-right"></i>
+    </button>`;
 
     return pagination;
   }
 
   static renderWordCards(words: IDictWord[], isAuth: boolean) {
-    function renderWordCard(word: IDictWord) {
-      let authButtons = '';
-      if (isAuth) {
-        authButtons = `
+    const renderWordCard = (word: IDictWord) => {
+      const authButtons = `
           <button class="textbook-diff-button button-card-color-${word.group + 1}"
           data-add-difficult="${word.id}">+ Add as difficult</button>
           <button class="textbook-learned-button button-card-color-${word.group + 1}"
-          data-add-learned="${word.id}">+ Add as learned</button>`;
-      }
-      return `
+          data-add-learned="${word.id}">+ Add as learned</button>
+          <h2 class="textbook-game-answers">
+          <i class="fa-solid fa-trophy color-group-${word.group + 1}"></i> Game Answers</h2>
+          <span class="textbook-game-res res-textbook-${word.group + 1}">Sprint - 0</span>
+          <span class="textbook-game-res 
+          res-textbook-${word.group + 1}"> Audio Challenge - 0</span>`;
+      const wordCard = `
       <div class="textbook-card-item item-shadow-${word.group + 1}"
         data-id ="${word.id}"
         data-group ="${word.group}"
@@ -125,7 +126,7 @@ class TextbookView extends Component {
             data-audio-example ="${baseUrl}/${word.audioExample}">
             <i class="fas fa-volume-up color-group-${word.group + 1}"></i></button>
           </h4>
-          ${authButtons}
+          ${isAuth ? authButtons : ''}
           <h2 class="textbook-meaning-title">
           <i class="fa-solid fa-book color-group-${word.group + 1}"></i> Meaning</h2>
           <p class="textbook-meaning-content">${word.textMeaning}</p>
@@ -137,7 +138,9 @@ class TextbookView extends Component {
         </div>
       </div>
       `;
-    }
+      return wordCard;
+    };
+
     const wordCards = words.map((i) => renderWordCard(i)).join('');
     return wordCards;
   }

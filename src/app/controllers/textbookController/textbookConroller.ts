@@ -65,11 +65,13 @@ class TextbookController {
       }
 
       if (difficultStatus) {
-        currTarget.parentElement?.parentElement?.classList.add('textbook-card-difficult');
+        currTarget.parentElement
+          ?.querySelector('.textbook-card-word')
+          ?.classList.toggle('textbook-card-difficult');
       }
 
       if (learnedStatus) {
-        currTarget.parentElement?.parentElement?.classList.add('textbook-card-learned');
+        currTarget.parentElement?.parentElement?.classList.toggle('textbook-card-learned');
       }
     });
   }

@@ -1,6 +1,5 @@
 import TestView from '../../views/testView/testView';
 import { State, state } from '../../models/api/state/state';
-import testApi from '../../models/api/api/testApi';
 
 class TestController {
   view: TestView;
@@ -15,13 +14,13 @@ class TestController {
 
   customEventListener() {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
-      console.log('test click');
-      if (this.model.isAuth) {
-        this.model.isAuth = false;
-      } else {
-        this.model.isAuth = true;
+      const current = e.target as HTMLElement;
+
+      if (current.classList.contains('auth-state')) {
+        this.model.isAuth = !this.model.isAuth;
+        console.log('this.model.isAuth', this.model.isAuth);
       }
-      console.log('this.model.isAuth', this.model.isAuth);
+
       /* console.log(
         'I catch Event! ',
         e,
