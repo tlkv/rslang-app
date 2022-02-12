@@ -21,13 +21,15 @@ class TextbookController {
     this.renderWordsTextbook();
   }
 
-  async renderWordsTextbook() {
-    this.model.words = await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage);
-
+  pauseAudio() {
     this.audio.pause();
     this.audioMeaning.pause();
     this.audioExample.pause();
+  }
 
+  async renderWordsTextbook() {
+    this.model.words = await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage);
+    this.pauseAudio();
     this.view.renderTextbook(
       this.model.textbookGroup,
       this.model.textbookPage,
@@ -37,10 +39,22 @@ class TextbookController {
     );
   }
 
+  async renderDifficultWords() {
+    this.model.words = await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage); //
+    this.pauseAudio();
+    this.view.renderDifficultWords(this.model.words, this.model.isAuth);
+    console.log('diff words'); //
+  }
+
   containerListener() {
     this.view.frontBlock.container.addEventListener('click', (e) => {
       const currTarget = e.target as HTMLInputElement;
       if (currTarget.tagName !== 'BUTTON') {
+        return;
+      }
+
+      if (currTarget.classList.contains('button-diff-words')) {
+        this.renderDifficultWords();
         return;
       }
 

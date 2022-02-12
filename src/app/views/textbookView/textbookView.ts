@@ -32,14 +32,14 @@ class TextbookView extends Component {
     words: IDictWord[],
     isAuth: boolean,
   ) {
-    const buttons = this.renderButtons(textbookGroup);
+    const buttons = this.renderButtons(textbookGroup, isAuth);
 
     const pagination = TextbookView.renderPagination(textbookPage, textbookMaxPage);
 
     const wordCards = TextbookView.renderWordCards(words, isAuth);
 
     const elemContent = `
-    <h2 class="textbook-view-title">Textbook</h2>
+    <h2 class="textbook-view-title">Textbook - Group ${textbookGroup + 1}</h2>
     <div class="textbook-categories-wrapper">
       ${buttons}
     </div>
@@ -53,7 +53,24 @@ class TextbookView extends Component {
     this.frontBlockWrapper.container.innerHTML = elemContent;
   }
 
-  renderButtons(textbookGroup: number) {
+  renderDifficultWords(words: IDictWord[], isAuth: boolean) {
+    const buttons = this.renderButtons(this.groupsAmount + 1, isAuth);
+
+    const wordCards = TextbookView.renderWordCards(words, isAuth); //
+
+    const elemContent = `
+    <h2 class="textbook-view-title">Difficult Words</h2>
+    <div class="textbook-categories-wrapper">
+      ${buttons}
+    </div>
+    <div class="textbook-words-wrapper">
+      ${wordCards}
+    </div>`;
+
+    this.frontBlockWrapper.container.innerHTML = elemContent;
+  }
+
+  renderButtons(textbookGroup: number, isAuth: boolean) {
     let buttons = '';
     for (let i = 0; i < this.groupsAmount; i += 1) {
       let buttonActive = ' active';
@@ -67,6 +84,10 @@ class TextbookView extends Component {
       <div class="button-inner-left" ${buttonData}>Group</div>
       <div class="button-inner-right button-inner-color-${i + 1}"
       ${buttonData}>${i + 1}</div></button>`;
+    }
+    if (isAuth) {
+      buttons += `<button class="textbook-categories-button button-diff-words active">
+      Difficult Words <i class="fa-solid fa-star"></i></button>`;
     }
     return buttons;
   }
