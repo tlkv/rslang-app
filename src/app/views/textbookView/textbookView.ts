@@ -48,6 +48,9 @@ class TextbookView extends Component {
     </div>
     <div class="textbook-words-wrapper">
       ${wordCards}
+    </div>
+    <div class="textbook-pages-wrapper">
+      ${pagination}
     </div>`;
 
     this.frontBlockWrapper.container.innerHTML = elemContent;
@@ -100,19 +103,19 @@ class TextbookView extends Component {
 
     const pagination = `
     <button class="textbook-pages-button pagination-first"${textbookPage !== 0 ? first : ''}>
-    <i class="fa-solid fa-angles-left"></i>
+      <i class="fa-solid fa-angles-left"></i>
     </button>
     <button class="textbook-pages-button pagination-prev"
-    ${textbookPage !== 0 ? prev : ''}><i class="fa-solid fa-angle-left"></i>
+      ${textbookPage !== 0 ? prev : ''}><i class="fa-solid fa-angle-left"></i>
     </button>
-    <button class="textbook-pages-button pagination-current">${textbookPage + 1}
+    <button class="textbook-pages-button pagination-current">
+      ${textbookPage + 1}/${textbookMaxPage + 1}
     </button>
     <button class="textbook-pages-button pagination-next"
-    ${textbookPage !== textbookMaxPage ? next : ''}><i class="fa-solid fa-angle-right"></i>
+      ${textbookPage !== textbookMaxPage ? next : ''}><i class="fa-solid fa-angle-right"></i>
     </button>
     <button class="textbook-pages-button pagination-last"
-    ${textbookPage !== textbookMaxPage ? last : ''}>
-    <i class="fa-solid fa-angles-right"></i>
+      ${textbookPage !== textbookMaxPage ? last : ''}> <i class="fa-solid fa-angles-right"></i>
     </button>`;
 
     return pagination;

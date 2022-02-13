@@ -252,6 +252,10 @@ button > i {
 
 .textbook-pages-wrapper {
   margin: 25px 0;
+  .pagination-current {
+    width: 68px;
+    letter-spacing: 2px;
+  }
 }
 
 .textbook-pages-button {
