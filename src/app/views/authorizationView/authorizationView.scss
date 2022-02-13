@@ -1,7 +1,3 @@
-.authorization-block {
-  background: rgb(37, 50, 61);
-}
-
 .authorization-box {
   width: 100%;
   height: 930px;
@@ -35,6 +31,11 @@
   background: none;
   width: 100%;
   color: #ffffff;
+
+  & > span {
+    font-size: 16px;
+    color: rgb(139, 11, 11);
+  }
 }
 
 .inputs {
@@ -51,10 +52,11 @@
 }
 
 .password-input {
-  width: 66%;
+  width: 61%;
 }
 
-.register-btn {
+.register-btn,
+.signIn-btn {
   width: 250px;
   height: 60px;
   background: #ffe97d;
@@ -63,13 +65,22 @@
   padding: 10px;
   color: #2e3844;
   transition: 0.3s;
+
+  &:hover {
+    width: 250px;
+    height: 60px;
+    padding: 5px;
+    background: #ffe252;
+    border: 1px solid #ffe250;
+    font-size: 32px;
+  }
 }
 
-.register-btn:hover {
-  width: 250px;
-  height: 60px;
-  padding: 5px;
-  background: #ffe252;
-  border: 1px solid #ffe250;
-  font-size: 32px;
+.view {
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    color: #7dcddb;
+  }
 }

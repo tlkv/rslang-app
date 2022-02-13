@@ -1,5 +1,5 @@
 class Api {
-  private base = 'https://react-learnwords-example.herokuapp.com/' as string;
+  private base = 'https://rslang29.herokuapp.com/' as string;
 
   private users = `${this.base}users` as string;
 
@@ -21,34 +21,47 @@ class Api {
   }
 
   registerUser = async (name: string, email: string, password: string) => {
-    const response = (
-      await fetch(this.users, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password }),
-      })
-    ).json();
-    const { id, name: userName, email: userEmail } = await response;
-    console.log(id, userName, userEmail);
+    const response = await fetch(this.users, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+    const res = await response;
+    let result;
+    if (res.ok) {
+      const data = await res.json();
+      const signInRes = await this.signInUser(data.email, password);
+      if (signInRes.isSucceeded) {
+        result = { isSucceeded: true, status: res.status, data };
+        return result;
+      }
+    }
+    result = { isSucceeded: false, status: res.status };
+    return result;
   };
 
   signInUser = async (email: string, password: string) => {
-    const response = (
-      await fetch(this.signin, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      })
-    ).json();
-    const { message, token, refreshToken, userId } = await response;
-    await this.setLocalStorage(userId, email, token, refreshToken);
-    console.log(` message: ${message}, token, refreshToken, userId: ${userId}`);
+    const response = await fetch(this.signin, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    const res = await response;
+    let result;
+    if (res.ok) {
+      const data = await res.json();
+      await this.setLocalStorage(data.userId, data.email, data.token, data.refreshToken);
+      result = { isSucceeded: true, status: res.status };
+      return result;
+    }
+    result = { isSucceeded: false, status: res.status };
+    return result;
   };
 
   getAllWords = async (group = 1, page = 1) => {

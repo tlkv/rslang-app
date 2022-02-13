@@ -1,6 +1,8 @@
 export class State {
   currentPage: number;
 
+  isAuth = false;
+
   constructor() {
     this.currentPage = 1;
   }
