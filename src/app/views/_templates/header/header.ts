@@ -1,6 +1,7 @@
 import './header.scss';
 import Component from '../component';
 import defaultRoutes from '../../../models/router/defaultRoutes';
+import { state } from '../../../models/api/state/state';
 
 class Header extends Component {
   elemContent = `<nav class="navigation"> 
@@ -17,7 +18,7 @@ class Header extends Component {
         <a href="#${defaultRoutes.statistics.path}" class="menu-item">${defaultRoutes.statistics.name}</a>
         <a href="#${defaultRoutes.testpage.path}" class="menu-item">${defaultRoutes.testpage.name}</a>
         <a href="#${defaultRoutes.authorization.path}" class="log-in">log-in</a>
-        <button class="log-out">log-out</button>
+        <button class="log-out" id="log-out">log-out</button>
       </nav>`;
 
   elemWrapper = new Component('div', ['container']);
@@ -33,12 +34,14 @@ class Header extends Component {
     this.elemWrapper.container.addEventListener('click', async (e) => {
       const target = e.target as HTMLElement;
 
-      if (target.tagName !== 'BUTTON') return;
+      if (target.id !== 'log-out') return;
 
       localStorage.removeItem('userId');
       localStorage.removeItem('email');
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
+
+      state.isAuth = false;
     });
   }
 }

@@ -11,7 +11,7 @@ class AuthorizationView extends Component {
         <h2 class="authorization-title">Nice to see you again</h2>
         <span class="inputs-name">Name: <input type="text" class="text-input inputs" id="name"></span> 
         <span class="inputs-name">Password: <input type="password" class="password-input inputs" id="password"></span> 
-        <a href="#${defaultRoutes.frontpage.path}"><button class="signIn-btn">sign in</button></a>
+        <a href="#${defaultRoutes.frontpage.path}"><button class="signIn-btn" id="signIn-btn">sign in</button></a>
         <p id="sign-in-link" class="view">don't have an account yet? Register now!</p>
       </div>
     </section>`;
@@ -25,7 +25,7 @@ class AuthorizationView extends Component {
         <div class="inputs-name">Password: <input type="password" class="password-input inputs" id="password"><br>
         <span>password length must be more than 8 characters</span>
         </div> 
-        <a href="#${defaultRoutes.frontpage.path}"><button class="register-btn">Register</button></a>
+        <a href="#${defaultRoutes.frontpage.path}"><button class="register-btn" id="register-btn">Register</button></a>
         <p id="register-link" class="view">Do you already have an account?</p>
       </div>
     </section>`;
