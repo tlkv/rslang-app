@@ -4,8 +4,8 @@ import Header from '../_templates/header/header';
 import Footer from '../_templates/footer/footer';
 
 class TestView extends Component {
-  frontBlockContent = `TEST
-  Page ( click ON IT TO CHANGE state and draw some API data)`;
+  frontBlockContent = `<button class="auth-state">
+  Change Authorisation State True or False</button>`;
 
   frontBlockWrapper = new Component('div', ['container']);
 
