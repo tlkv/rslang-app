@@ -15,8 +15,6 @@ export class State {
 
   isAuth = true;
 
-  isAuth = false;
-
   constructor() {
     this.textbookGroup = 0;
     this.textbookPage = 0;
