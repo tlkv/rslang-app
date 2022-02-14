@@ -56,7 +56,7 @@ class Api {
     let result;
     if (res.ok) {
       const data = await res.json();
-      await this.setLocalStorage(data.userId, data.email, data.token, data.refreshToken);
+      await this.setLocalStorage(data.userId, email, data.token, data.refreshToken);
       result = { isSucceeded: true, status: res.status };
       return result;
     }

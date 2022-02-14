@@ -47,12 +47,12 @@ class AuthorizationController {
 
       if (target.id !== 'signIn-btn') return;
 
-      const name = this.view.frontBlock.container.querySelector('#name') as HTMLInputElement;
+      const email = this.view.frontBlock.container.querySelector('#email') as HTMLInputElement;
       const password = this.view.frontBlock.container.querySelector(
         '#password',
       ) as HTMLInputElement;
 
-      const resp = await this.api.signInUser(name.value, password.value).then((response) => {
+      const resp = await this.api.signInUser(email.value, password.value).then((response) => {
         if (response.isSucceeded) {
           this.model.isAuth = true;
         }
