@@ -144,7 +144,7 @@ button > i {
 } */
 
 .textbook-categories-button {
-  margin: 5px 10px;
+  margin: 10px;
   width: 13%;
   height: 60px;
   background-color: #f3f4f8;
@@ -248,6 +248,7 @@ button > i {
   margin: 20px 0;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .textbook-pages-wrapper {
@@ -334,14 +335,24 @@ button > i {
   padding: 5px 10px;
 }
 
-.button-diff-words {
+.button-diff-words,
+.button-learned-words {
   font-weight: bold;
   color: #000;
   line-height: 24px;
+  padding-right: 50px;
   i {
     color: #fab117;
     font-size: 30px;
   }
+}
+
+.button-learned-words {
+  background: url('../../../assets/svg/Checkmark.svg') #f3f4f8 right 5px center / 40px no-repeat;
+}
+
+.button-diff-words {
+  background: url('../../../assets/svg/Exclamation.svg') #f3f4f8 right 5px center / 40px no-repeat;
 }
 
 @media (max-width: 1200px) {

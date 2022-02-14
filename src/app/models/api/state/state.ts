@@ -7,14 +7,20 @@ export class State {
 
   textbookMaxPage: number;
 
+  textbookShowDifficult: boolean;
+
+  textbookShowLearned: boolean;
+
   words: IDictWord[];
 
   isAuth = true;
 
   constructor() {
+    this.textbookGroup = 0;
     this.textbookPage = 0;
     this.textbookMaxPage = 29;
-    this.textbookGroup = 0;
+    this.textbookShowDifficult = false;
+    this.textbookShowLearned = false;
     this.words = [];
   }
 

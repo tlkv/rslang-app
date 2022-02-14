@@ -57,7 +57,7 @@ class TextbookView extends Component {
   }
 
   renderDifficultWords(words: IDictWord[], isAuth: boolean) {
-    const buttons = this.renderButtons(this.groupsAmount + 1, isAuth);
+    const buttons = this.renderButtons(this.groupsAmount, isAuth, 'difficult');
 
     const wordCards = TextbookView.renderWordCards(words, isAuth); //
 
@@ -73,14 +73,14 @@ class TextbookView extends Component {
     this.frontBlockWrapper.container.innerHTML = elemContent;
   }
 
-  renderButtons(textbookGroup: number, isAuth: boolean) {
+  renderButtons(textbookGroup: number, isAuth: boolean, authOptGroup?: string) {
     let buttons = '';
     for (let i = 0; i < this.groupsAmount; i += 1) {
       let buttonActive = ' active';
       let buttonData = '';
       if (textbookGroup !== i) {
         buttonActive = '';
-        buttonData = `data-state="textbookGroup" data-value="${i}"`;
+        buttonData = `data-action="textbook-group" data-state="textbookGroup" data-value="${i}"`;
       }
       buttons += `<button class="textbook-categories-button${buttonActive}"
       ${buttonData}>
@@ -89,17 +89,24 @@ class TextbookView extends Component {
       ${buttonData}>${i + 1}</div></button>`;
     }
     if (isAuth) {
-      buttons += `<button class="textbook-categories-button button-diff-words active">
-      Difficult Words <i class="fa-solid fa-star"></i></button>`;
+      buttons += `<button class="textbook-categories-button button-diff-words
+      ${authOptGroup === 'difficult' ? ' active' : ''}" data-action="textbook-show-difficult">
+      Difficult Words</button>
+      <button class="textbook-categories-button button-learned-words
+      ${authOptGroup === 'learned' ? ' active' : ''}" data-action="textbook-show-learned">
+      Learned Words</button>`;
     }
     return buttons;
   }
 
   static renderPagination(textbookPage: number, textbookMaxPage: number) {
-    const first = 'data-state="textbookPage" data-value="0"';
-    const prev = `data-state="textbookPage"data-value="${textbookPage - 1}"`;
-    const next = `data-state="textbookPage" data-value="${textbookPage + 1}"`;
-    const last = `data-state="textbookPage" data-value="${textbookMaxPage}"`;
+    const first = 'data-action="textbook-pagination" data-state="textbookPage" data-value="0"';
+    const prev = `data-action="textbook-pagination" data-state="textbookPage"
+    data-value="${textbookPage - 1}"`;
+    const next = `data-action="textbook-pagination" data-state="textbookPage" data-value="
+    ${textbookPage + 1}"`;
+    const last = `data-action="textbook-pagination" data-state="textbookPage" data-value="
+    ${textbookMaxPage}"`;
 
     const pagination = `
     <button class="textbook-pages-button pagination-first"${textbookPage !== 0 ? first : ''}>
@@ -125,9 +132,11 @@ class TextbookView extends Component {
     const renderWordCard = (word: IDictWord) => {
       const authButtons = `
           <button class="textbook-diff-button button-card-color-${word.group + 1}"
-          data-add-difficult="${word.id}">+ Add as difficult</button>
+          data-add-difficult="${word.id}"
+          data-action="textbook-add-difficult">+ Add as difficult</button>
           <button class="textbook-learned-button button-card-color-${word.group + 1}"
-          data-add-learned="${word.id}">+ Add as learned</button>
+          data-add-learned="${word.id}"
+          data-action="textbook-add-learned">+ Add as learned</button>
           <h2 class="textbook-game-answers">
           <i class="fa-solid fa-trophy color-group-${word.group + 1}"></i> Game Answers</h2>
           <span class="textbook-game-res res-textbook-${word.group + 1}">Sprint - 0</span>
@@ -141,11 +150,11 @@ class TextbookView extends Component {
         <div class="textbook-card-img" style="background-image: url(${baseUrl}/${word.image}");>
         </div>
         <div class="textbook-card-content">
-          <h2 class="textbook-card-word">${word.word}</h2>
+          <h2 class="textbook-card-word">${word.word /* class on prev line */}</h2>
           <h3 class="textbook-card-translate">${word.wordTranslate}</h3>
           <h4 class="textbook-card-transcription">${word.transcription}
             <button class="textbook-audio"
-            data-audio ="${baseUrl}/${word.audio}"
+            data-action="textbook-audio" data-audio ="${baseUrl}/${word.audio}"
             data-audio-meaning ="${baseUrl}/${word.audioMeaning}" 
             data-audio-example ="${baseUrl}/${word.audioExample}">
             <i class="fas fa-volume-up color-group-${word.group + 1}"></i></button>
