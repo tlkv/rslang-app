@@ -1,3 +1,362 @@
+$textbook-color-1: rgb(1, 129, 189);
+$textbook-color-2: rgb(8, 15, 109);
+$textbook-color-3: rgb(5, 128, 56);
+$textbook-color-4: rgb(8, 68, 16);
+$textbook-color-5: rgb(180, 85, 61);
+$textbook-color-6: rgb(124, 26, 9);
+
+button {
+  cursor: pointer;
+}
+
+button > i {
+  pointer-events: none; /* don't remove - it avoids propagation */
+}
+
 .textbook-block {
   min-height: calc(100vh - 200px);
+}
+
+.textbook-pages-wrapper,
+.textbook-categories-wrapper {
+  text-align: center;
+}
+
+.textbook-categories-wrapper {
+  .active {
+    filter: brightness(1);
+  }
+}
+
+.textbook-words-wrapper {
+  margin: 15px 10px;
+  display: grid;
+  grid-gap: 40px 20px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.textbook-card-item {
+  border-top-left-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: hidden;
+  background-color: #f3f4f8;
+}
+
+.textbook-card-img {
+  height: 190px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.textbook-card-content {
+  padding: 15px 10px 25px 15px;
+  background-color: #f3f4f8;
+}
+
+.textbook-card-content * {
+  background-color: #f3f4f8;
+  color: #000;
+  .textbook-audio {
+    cursor: pointer;
+    border: 0;
+  }
+  .fa-volume-up {
+    font-size: 26px;
+  }
+}
+
+.textbook-example-title,
+.textbook-meaning-title,
+.textbook-game-answers {
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.textbook-example-content,
+.textbook-meaning-content {
+  font-size: 16px;
+  * {
+    font-size: 16px;
+    line-height: 1.5em;
+  }
+  i {
+    font-style: italic;
+  }
+  b {
+    font-weight: bold;
+  }
+}
+
+.textbook-card-word {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.textbook-card-translate,
+.textbook-card-transcription {
+  font-size: 22px;
+}
+
+.color-group-1 {
+  color: $textbook-color-1;
+}
+
+.color-group-2 {
+  color: $textbook-color-2;
+}
+
+.color-group-3 {
+  color: $textbook-color-3;
+}
+
+.color-group-4 {
+  color: $textbook-color-4;
+}
+
+.color-group-5 {
+  color: $textbook-color-5;
+}
+.color-group-6 {
+  color: $textbook-color-6;
+}
+
+/* .item-shadow-1 {
+  box-shadow: 0 5px 10px $textbook-color-1;
+}
+.item-shadow-2 {
+  box-shadow: 0 5px 10px $textbook-color-2;
+}
+.item-shadow-3 {
+  box-shadow: 0 5px 10px $textbook-color-3;
+}
+.item-shadow-4 {
+  box-shadow: 0 5px 10px $textbook-color-4;
+}
+.item-shadow-5 {
+  box-shadow: 0 5px 10px $textbook-color-5;
+}
+.item-shadow-6 {
+  box-shadow: 0 5px 10px $textbook-color-6;
+} */
+
+.textbook-categories-button {
+  margin: 10px;
+  width: 13%;
+  height: 60px;
+  background-color: #f3f4f8;
+  overflow: hidden;
+  border-radius: 15px;
+  border: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  filter: brightness(0.6);
+  &:hover {
+    filter: brightness(1);
+  }
+  * {
+    background-color: #f3f4f8;
+  }
+  .button-inner-left,
+  .button-inner-right {
+    pointer-events: none; /*keep it */
+    font-weight: bold;
+    text-align: center;
+  }
+  .button-inner-left {
+    font-size: 30px;
+    color: #000;
+    flex-grow: 1;
+  }
+  .button-inner-right {
+    font-size: 40px;
+    color: #fff;
+    width: 60px;
+    position: relative;
+    left: 10px;
+  }
+  .button-inner-color-1 {
+    background-color: $textbook-color-1;
+  }
+  .button-inner-color-2 {
+    background-color: $textbook-color-2;
+  }
+  .button-inner-color-3 {
+    background-color: $textbook-color-3;
+  }
+  .button-inner-color-4 {
+    background-color: $textbook-color-4;
+  }
+  .button-inner-color-5 {
+    background-color: $textbook-color-5;
+  }
+  .button-inner-color-6 {
+    background-color: $textbook-color-6;
+  }
+}
+
+.button-card-color-1 {
+  background-color: $textbook-color-1;
+}
+.button-card-color-2 {
+  background-color: $textbook-color-2;
+}
+.button-card-color-3 {
+  background-color: $textbook-color-3;
+}
+.button-card-color-4 {
+  background-color: $textbook-color-4;
+}
+.button-card-color-5 {
+  background-color: $textbook-color-5;
+}
+.button-card-color-6 {
+  background-color: $textbook-color-6;
+}
+
+.res-textbook-1 {
+  color: $textbook-color-1;
+  border: 1px solid $textbook-color-1;
+}
+.res-textbook-2 {
+  color: $textbook-color-2;
+  border: 1px solid $textbook-color-2;
+}
+.res-textbook-3 {
+  color: $textbook-color-3;
+  border: 1px solid $textbook-color-3;
+}
+.res-textbook-4 {
+  color: $textbook-color-4;
+  border: 1px solid $textbook-color-4;
+}
+.res-textbook-5 {
+  color: $textbook-color-5;
+  border: 1px solid $textbook-color-5;
+}
+.res-textbook-6 {
+  color: $textbook-color-6;
+  border: 1px solid $textbook-color-6;
+}
+
+.textbook-categories-wrapper {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.textbook-pages-wrapper {
+  margin: 25px 0;
+  .pagination-current {
+    width: 68px;
+    letter-spacing: 2px;
+  }
+}
+
+.textbook-pages-button {
+  border: 0;
+  background-color: #f3f4f8;
+  color: #000;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  font-weight: bold;
+  * {
+    background-color: #f3f4f8;
+  }
+  i {
+    color: #000;
+  }
+}
+
+.textbook-view-title {
+  font-size: 40px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
+}
+
+.textbook-learned-button,
+.textbook-diff-button {
+  text-transform: uppercase;
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 10px;
+  color: #fff;
+  border: 0;
+}
+
+.textbook-learned-button:hover,
+.textbook-diff-button:hover {
+  filter: brightness(0.9);
+}
+
+.textbook-card-transcription {
+  margin-bottom: 10px;
+}
+
+.textbook-card-difficult,
+.textbook-card-learned {
+  position: relative;
+}
+
+.textbook-card-difficult::after {
+  right: 0;
+  top: 5px;
+  width: 32px;
+  height: 32px;
+  content: '';
+  display: block;
+  position: absolute;
+  background: url('../../../assets/svg/Exclamation.svg') center/contain no-repeat;
+}
+
+.textbook-card-learned::after {
+  right: 10px;
+  top: 250px;
+  width: 32px;
+  height: 32px;
+  content: '';
+  display: block;
+  position: absolute;
+  background: url('../../../assets/svg/Checkmark.svg') center/contain no-repeat;
+}
+
+.textbook-game-res {
+  text-transform: uppercase;
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 10px;
+}
+
+.button-diff-words,
+.button-learned-words {
+  font-weight: bold;
+  color: #000;
+  line-height: 24px;
+  padding-right: 50px;
+  i {
+    color: #fab117;
+    font-size: 30px;
+  }
+}
+
+.button-learned-words {
+  background: url('../../../assets/svg/Checkmark.svg') #f3f4f8 right 5px center / 40px no-repeat;
+}
+
+.button-diff-words {
+  background: url('../../../assets/svg/Exclamation.svg') #f3f4f8 right 5px center / 40px no-repeat;
+}
+
+@media (max-width: 1200px) {
+  .textbook-words-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
