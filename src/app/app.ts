@@ -20,7 +20,7 @@ class App {
   }
 
   start() {
-    window.addEventListener('popstate', this.router);
+    window.addEventListener('hashchange', this.router);
     window.addEventListener('load', this.router);
   }
 

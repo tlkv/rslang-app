@@ -1,6 +1,5 @@
 import TestView from '../../views/testView/testView';
 import { State, state } from '../../models/api/state/state';
-import testApi from '../../models/api/api/testApi';
 
 class TestController {
   view: TestView;
@@ -15,7 +14,14 @@ class TestController {
 
   customEventListener() {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
-      console.log(
+      const current = e.target as HTMLElement;
+
+      if (current.classList.contains('auth-state')) {
+        this.model.isAuth = !this.model.isAuth;
+        console.log('this.model.isAuth', this.model.isAuth);
+      }
+
+      /* console.log(
         'I catch Event! ',
         e,
         'showState + increase by 1 and DRAW IT',
@@ -25,7 +31,7 @@ class TestController {
       this.view.frontBlockWrapper.container.innerHTML += `textbook state change ${
         state.textbookPage
       } words data
-      ${JSON.stringify(await testApi())} `; // appernd received data to textbook page
+      ${JSON.stringify(await testApi())} `; // appernd received data to textbook page */
     });
   }
 }
