@@ -8,6 +8,7 @@ import TestController from './controllers/testController/testConroller';
 
 import IController from './models/api/interfaces/IController';
 import defaultRoutes from './models/router/defaultRoutes';
+import { state } from './models/api/state/state';
 
 class App {
   root: HTMLElement;
@@ -20,8 +21,15 @@ class App {
   }
 
   start() {
-    window.addEventListener('hashchange', this.router);
-    window.addEventListener('load', this.router);
+    window.addEventListener('hashchange', () => {
+      console.log('state.isAuth', state.isAuth);
+      this.router();
+    });
+    window.addEventListener('load', () => {
+      state.isAuth = !!localStorage.getItem('userId');
+      console.log('state.isAuth', state.isAuth);
+      this.router();
+    });
   }
 
   router() {

@@ -31,8 +31,15 @@ class TextbookView extends Component {
     textbookMaxPage: number,
     words: IDictWord[],
     isAuth: boolean,
+    textbookShowDifficult: boolean,
+    textbookShowLearned: boolean,
   ) {
-    const buttons = this.renderButtons(textbookGroup, isAuth);
+    const buttons = this.renderButtons(
+      textbookGroup,
+      isAuth,
+      textbookShowDifficult,
+      textbookShowLearned,
+    );
 
     const pagination = TextbookView.renderPagination(textbookPage, textbookMaxPage);
 
@@ -44,59 +51,65 @@ class TextbookView extends Component {
       ${buttons}
     </div>
     <div class="textbook-pages-wrapper">
-      ${pagination}
+      ${!textbookShowDifficult && !textbookShowLearned ? pagination : ''}
     </div>
     <div class="textbook-words-wrapper">
       ${wordCards}
     </div>
     <div class="textbook-pages-wrapper">
-      ${pagination}
+    ${!textbookShowDifficult && !textbookShowLearned ? pagination : ''}
     </div>`;
 
     this.frontBlockWrapper.container.innerHTML = elemContent;
   }
 
-  renderDifficultWords(words: IDictWord[], isAuth: boolean) {
-    const buttons = this.renderButtons(this.groupsAmount, isAuth, 'difficult');
-
-    const wordCards = TextbookView.renderWordCards(words, isAuth); //
-
-    const elemContent = `
-    <h2 class="textbook-view-title">Difficult Words</h2>
-    <div class="textbook-categories-wrapper">
-      ${buttons}
-    </div>
-    <div class="textbook-words-wrapper">
-      ${wordCards}
-    </div>`;
-
-    this.frontBlockWrapper.container.innerHTML = elemContent;
-  }
-
-  renderButtons(textbookGroup: number, isAuth: boolean, authOptGroup?: string) {
-    let buttons = '';
+  renderButtons(
+    textbookGroup: number,
+    isAuth: boolean,
+    textbookShowDifficult: boolean,
+    textbookShowLearned: boolean,
+  ) {
+    let categButtons = '';
     for (let i = 0; i < this.groupsAmount; i += 1) {
-      let buttonActive = ' active';
-      let buttonData = '';
-      if (textbookGroup !== i) {
-        buttonActive = '';
-        buttonData = `data-action="textbook-group" data-state="textbookGroup" data-value="${i}"`;
+      let buttonActive = '';
+      let buttonData = `data-action="textbook-group" data-state="textbookGroup" data-value="${i}"`;
+      if (textbookGroup === i && !textbookShowDifficult && !textbookShowLearned) {
+        buttonActive = ' active';
+        buttonData = '';
       }
-      buttons += `<button class="textbook-categories-button${buttonActive}"
+      categButtons += `<button class="textbook-categories-button${buttonActive}"
       ${buttonData}>
       <div class="button-inner-left" ${buttonData}>Group</div>
       <div class="button-inner-right button-inner-color-${i + 1}"
       ${buttonData}>${i + 1}</div></button>`;
     }
+
+    let additionalButtons = `
+      <a href="#gamesprint" class="textbook-categories-button button-start-sprint-game
+      ${textbookShowDifficult || textbookShowLearned ? 'disabled-link' : ''}"
+      data-action="start-sprint-game-textbook">Start Sprint Game</a>
+      <a href="#gameaudio" class="textbook-categories-button button-start-audio-game 
+      ${textbookShowDifficult || textbookShowLearned ? 'disabled-link' : ''}"
+      data-action="start-audio-game-textbook">Start Audio Game</a>`;
+
     if (isAuth) {
-      buttons += `<button class="textbook-categories-button button-diff-words
-      ${authOptGroup === 'difficult' ? ' active' : ''}" data-action="textbook-show-difficult">
+      additionalButtons += `<button class="textbook-categories-button button-diff-words
+      ${textbookShowDifficult ? ' active' : ''}" data-action="textbook-show-difficult">
       Difficult Words</button>
       <button class="textbook-categories-button button-learned-words
-      ${authOptGroup === 'learned' ? ' active' : ''}" data-action="textbook-show-learned">
+      ${textbookShowLearned ? ' active' : ''}" data-action="textbook-show-learned">
       Learned Words</button>`;
     }
-    return buttons;
+
+    const buttonsContainer = `
+    <div class="categories-buttons-container">
+      ${categButtons}
+    </div>
+    <div class="additional-buttons-container">
+      ${additionalButtons}
+    </div>
+    `;
+    return buttonsContainer;
   }
 
   static renderPagination(textbookPage: number, textbookMaxPage: number) {

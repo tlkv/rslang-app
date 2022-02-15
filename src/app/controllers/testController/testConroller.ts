@@ -16,10 +16,14 @@ class TestController {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
       const current = e.target as HTMLElement;
 
-      if (current.classList.contains('auth-state')) {
+      /* if (current.classList.contains('auth-state')) {
         this.model.isAuth = !this.model.isAuth;
+        this.model.textbookGroup = 0;
+        this.model.textbookPage = 0;
+        this.model.textbookShowDifficult = false;
+        this.model.textbookShowLearned = false;
         console.log('this.model.isAuth', this.model.isAuth);
-      }
+      } */
 
       /* console.log(
         'I catch Event! ',

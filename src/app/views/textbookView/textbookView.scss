@@ -246,9 +246,22 @@ button > i {
 
 .textbook-categories-wrapper {
   margin: 20px 0;
+}
+
+.categories-buttons-container,
+.additional-buttons-container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  cursor: pointer;
+}
+
+.button-start-sprint-game,
+.button-start-audio-game {
+  text-decoration: none;
+  color: #000;
+  padding: 5px;
+  font-weight: bold;
 }
 
 .textbook-pages-wrapper {
@@ -353,6 +366,11 @@ button > i {
 
 .button-diff-words {
   background: url('../../../assets/svg/Exclamation.svg') #f3f4f8 right 5px center / 40px no-repeat;
+}
+
+.disabled-link {
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 @media (max-width: 1200px) {
