@@ -18,7 +18,25 @@ class TextbookController {
     this.model = state;
     this.view = new TextbookView(root);
     this.containerListener();
-    this.renderWordsTextbook();
+    this.handleWordsUpdate();
+  }
+
+  async handleWordsUpdate() {
+    this.model.words = await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage);
+    this.renderWordsTextbookView();
+  }
+
+  renderWordsTextbookView() {
+    this.pauseAudio();
+    this.view.renderTextbook(
+      this.model.textbookGroup,
+      this.model.textbookPage,
+      this.model.textbookMaxPage,
+      this.model.words,
+      this.model.isAuth,
+      this.model.textbookShowDifficult,
+      this.model.textbookShowLearned,
+    );
   }
 
   pauseAudio() {
@@ -46,6 +64,8 @@ class TextbookController {
   }
 
   handleGroupsAndPagination(currTarget: HTMLInputElement) {
+    this.model.textbookShowDifficult = false;
+    this.model.textbookShowLearned = false;
     const currAttrType = currTarget.getAttribute('data-state');
     const currAttrVal = currTarget.getAttribute('data-value');
     if (currAttrType && currAttrVal) {
@@ -53,77 +73,42 @@ class TextbookController {
       if (currAttrType === 'textbookGroup') {
         this.model.textbookPage = 0;
       }
-      this.renderWordsTextbook();
+      this.handleWordsUpdate();
     }
   }
 
-  async renderWordsTextbook() {
-    this.model.words = await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage);
-    this.pauseAudio();
-    this.view.renderTextbook(
-      this.model.textbookGroup,
-      this.model.textbookPage,
-      this.model.textbookMaxPage,
-      this.model.words,
-      this.model.isAuth,
-    );
+  handleDifficultWords() {
+    this.model.textbookShowDifficult = true;
+    this.model.textbookShowLearned = false;
+    this.handleWordsUpdate();
   }
 
-  async renderDifficultWords() {
-    this.model.words = await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage); //
-    this.pauseAudio();
-    this.view.renderDifficultWords(this.model.words, this.model.isAuth);
-    console.log('diff words'); //
+  handleLearnedWords() {
+    this.model.textbookShowDifficult = false;
+    this.model.textbookShowLearned = true;
+    this.handleWordsUpdate();
+  }
+
+  static handleAddDifficult(currTarget: HTMLInputElement) {
+    currTarget.parentElement
+      ?.querySelector('.textbook-card-word')
+      ?.classList.toggle('textbook-card-difficult');
+    // this.handleWordsUpdate();
+  }
+
+  static handleAddLearned(currTarget: HTMLInputElement) {
+    currTarget.parentElement?.parentElement?.classList.toggle('textbook-card-learned');
+    // this.handleWordsUpdate();
   }
 
   containerListener() {
     this.view.frontBlock.container.addEventListener('click', (e) => {
       const currTarget = e.target as HTMLInputElement;
       const currAction = currTarget.getAttribute('data-action');
-
       if (!currAction) {
         return;
       }
 
-      /* if (currAction === 'textbook-group' || currAction === 'textbook-pagination') {
-        const currAttrType = currTarget.getAttribute('data-state');
-        const currAttrVal = currTarget.getAttribute('data-value');
-        if (currAttrType && currAttrVal) {
-          this.model[currAttrType as ITextbookState] = parseInt(currAttrVal, 10);
-          if (currAttrType === 'textbookGroup') {
-            this.model.textbookPage = 0;
-          }
-          this.renderWordsTextbook();
-        }
-      } */
-
-      if (currAction === 'textbook-add-learned') {
-        const learnedStatus = currTarget.getAttribute('data-add-learned');
-        if (learnedStatus) {
-          currTarget.parentElement?.parentElement?.classList.toggle('textbook-card-learned');
-        }
-      }
-
-      if (currAction === 'textbook-add-difficult') {
-        const difficultStatus = currTarget.getAttribute('data-add-difficult');
-        if (difficultStatus) {
-          currTarget.parentElement
-            ?.querySelector('.textbook-card-word')
-            ?.classList.toggle('textbook-card-difficult');
-        }
-      }
-
-      if (currAction === 'textbook-show-difficult') {
-        this.model.textbookShowDifficult = true;
-        this.model.textbookShowLearned = false;
-        this.renderDifficultWords();
-      }
-
-      if (currAction === 'textbook-show-learned') {
-        console.log('textbook-show-learned');
-      }
-
-      // ref
       switch (currAction) {
         case 'textbook-audio':
           this.handleAudio(currTarget);
@@ -133,6 +118,18 @@ class TextbookController {
           break;
         case 'textbook-pagination':
           this.handleGroupsAndPagination(currTarget);
+          break;
+        case 'textbook-show-difficult':
+          this.handleDifficultWords();
+          break;
+        case 'textbook-show-learned':
+          this.handleLearnedWords();
+          break;
+        case 'textbook-add-difficult':
+          TextbookController.handleAddDifficult(currTarget);
+          break;
+        case 'textbook-add-learned':
+          TextbookController.handleAddLearned(currTarget);
           break;
         default:
           break;

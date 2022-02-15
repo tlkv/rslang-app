@@ -4,8 +4,10 @@ import Header from '../_templates/header/header';
 import Footer from '../_templates/footer/footer';
 
 class TestView extends Component {
-  frontBlockContent = `<button class="auth-state">
-  Change Authorisation State True or False</button>`;
+  /* frontBlockContent = `<button class="auth-state">
+  Change Authorisation State True or False</button>`; */
+
+  frontBlockContent = 'Test Page';
 
   frontBlockWrapper = new Component('div', ['container']);
 

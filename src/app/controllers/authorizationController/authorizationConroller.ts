@@ -15,6 +15,8 @@ class AuthorizationController {
     this.api = new Api();
     this.register();
     this.signIn();
+    this.chooseView();
+    this.logOut();
   }
 
   register() {
@@ -34,7 +36,7 @@ class AuthorizationController {
             if (response.isSucceeded) {
               this.model.isAuth = true;
             } else {
-              this.view.chooseView();
+              this.chooseView();
             }
           });
       }
@@ -57,6 +59,43 @@ class AuthorizationController {
           this.model.isAuth = true;
         }
       });
+    });
+  }
+
+  chooseView() {
+    this.view.frontBlockContent = this.model.isAuth
+      ? this.view.authorizedUsersContent
+      : this.view.registrationBlockContent;
+    this.view.frontBlock.container.append(this.view.frontBlockWrapper.container);
+    this.view.frontBlockWrapper.container.innerHTML = this.view.frontBlockContent;
+
+    this.view.frontBlock.container.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+
+      if (target.tagName !== 'P') return;
+
+      if (target.id === 'register-link') {
+        this.view.frontBlockContent = this.view.authorizationBlockContent;
+      } else {
+        this.view.frontBlockContent = this.view.registrationBlockContent;
+      }
+
+      this.view.frontBlock.container.append(this.view.frontBlockWrapper.container);
+      this.view.frontBlockWrapper.container.innerHTML = this.view.frontBlockContent;
+    });
+  }
+
+  logOut() {
+    this.view.frontBlock.container.addEventListener('click', async (e) => {
+      const target = e.target as HTMLElement;
+
+      if (target.id !== 'log-out') return;
+
+      localStorage.removeItem('userId');
+      localStorage.removeItem('email');
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      this.model.isAuth = false;
     });
   }
 }

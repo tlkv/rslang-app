@@ -84,3 +84,22 @@
     color: #7dcddb;
   }
 }
+
+.authorization-block {
+  min-height: calc(100vh - 200px);
+}
+
+.log-out {
+  border: none;
+  font-size: 26px;
+  text-decoration: none;
+  color: #ffffff;
+  transition: 0.3s;
+
+  &:hover,
+  &:hover i {
+    color: #7dcddb;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+}
