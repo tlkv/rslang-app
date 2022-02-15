@@ -17,11 +17,11 @@ const defaultRoutes = {
   },
   gameSprint: {
     path: 'gamesprint',
-    name: 'Sprint Game',
+    name: 'Sprint',
   },
   gameAudio: {
     path: 'gameaudio',
-    name: 'Audio Game',
+    name: 'Audio',
   },
   testpage: {
     path: 'testpage',

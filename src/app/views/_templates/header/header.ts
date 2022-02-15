@@ -8,17 +8,23 @@ class Header extends Component {
           <a href="#frontpage">
             <img src="./assets/icon.png" alt="icon" class="icon" />
           </a>  
-          <h1 class="h1">RS-Lang</h1> 
-        </div>       
-        <a href="#${defaultRoutes.frontpage.path}" class="menu-item">Home</a>
+          <h1 class="h1"><a href="#${defaultRoutes.frontpage.path}" class="menu-item">RS-Lang</a></h1> 
+        </div>
+        <ul class="menu">    
         <a href="#${defaultRoutes.textbook.path}" class="menu-item">${defaultRoutes.textbook.name}</a>
-        <a href="#${defaultRoutes.gameSprint.path}" class="menu-item">${defaultRoutes.gameSprint.name}</a>
-        <a href="#${defaultRoutes.gameAudio.path}" class="menu-item">${defaultRoutes.gameAudio.name}</a>
+        <div class="dropdown">
+        <a href="#" class="menu-item">Games</a>
+        <div class="dropdown-content">
+        <a href="#${defaultRoutes.gameSprint.path}" class="dropdown-menu-item">${defaultRoutes.gameSprint.name}</a>
+        <a href="#${defaultRoutes.gameAudio.path}" class="dropdown-menu-item">${defaultRoutes.gameAudio.name}</a>
+        </div>
+        </div>
         <a href="#${defaultRoutes.statistics.path}" class="menu-item">${defaultRoutes.statistics.name}</a>
-        <a href="#${defaultRoutes.testpage.path}" class="menu-item">${defaultRoutes.testpage.name}</a>
-        <a href="#${defaultRoutes.authorization.path}" class="log-in">log-in</a>
+        <a href="#${defaultRoutes.authorization.path}" class="log-in">Login<ion-icon name="person-circle-outline" size="large"></ion-icon
+        ></a>
         <a href="#${defaultRoutes.authorization.path}" class="sign-out">sign out</a>
-      </nav>`;
+        </ul>
+        </nav>`;
 
   elemWrapper = new Component('div', ['container']);
 
