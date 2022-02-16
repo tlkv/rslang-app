@@ -1,7 +1,15 @@
 import TextbookView from '../../views/textbookView/textbookView';
 import { State, state } from '../../models/api/state/state';
 import ITextbookState from '../../models/api/interfaces/ITextbookState';
-import { getWordsTextbook, createDifficultWord } from '../../models/api/api/getWordsTextbook';
+import {
+  getWordsTextbook,
+  createDifficultWord,
+  createLearnedWord,
+  filterLearnedWords,
+  filterDifficultWords,
+  removeDifficultWord,
+  removeLearnedWord,
+} from '../../models/api/api/getWordsTextbook';
 
 class TextbookController {
   view: TextbookView;
@@ -22,7 +30,17 @@ class TextbookController {
   }
 
   async handleWordsUpdate() {
-    this.model.words = await getWordsTextbook(this.model.textbookGroup, this.model.textbookPage);
+    if (this.model.textbookShowDifficult) {
+      this.model.words = await filterDifficultWords();
+    } else if (this.model.textbookShowLearned) {
+      this.model.words = await filterLearnedWords();
+    } else {
+      this.model.words = await getWordsTextbook(
+        this.model.textbookGroup,
+        this.model.textbookPage,
+        this.model.isAuth,
+      );
+    }
     this.renderWordsTextbookView();
   }
 
@@ -77,29 +95,36 @@ class TextbookController {
     }
   }
 
-  handleDifficultWords() {
+  async handleDifficultWords() {
     this.model.textbookShowDifficult = true;
     this.model.textbookShowLearned = false;
     this.handleWordsUpdate();
   }
 
-  handleLearnedWords() {
+  async handleLearnedWords() {
     this.model.textbookShowDifficult = false;
     this.model.textbookShowLearned = true;
     this.handleWordsUpdate();
   }
 
-  static async handleAddDifficult(currTarget: HTMLInputElement) {
+  async handleAddDifficult(currTarget: HTMLInputElement) {
     await createDifficultWord(currTarget.getAttribute('data-add-difficult') as string);
-    currTarget.parentElement
-      ?.querySelector('.textbook-card-word')
-      ?.classList.add('textbook-card-difficult');
-    // this.handleWordsUpdate();
+    this.handleWordsUpdate();
   }
 
-  static handleAddLearned(currTarget: HTMLInputElement) {
-    currTarget.parentElement?.parentElement?.classList.add('textbook-card-learned');
-    // this.handleWordsUpdate();
+  async handleAddLearned(currTarget: HTMLInputElement) {
+    await createLearnedWord(currTarget.getAttribute('data-add-learned') as string);
+    this.handleWordsUpdate();
+  }
+
+  async handleRemDifficult(currTarget: HTMLInputElement) {
+    await removeDifficultWord(currTarget.getAttribute('data-rem-difficult') as string);
+    this.handleWordsUpdate();
+  }
+
+  async handleRemLearned(currTarget: HTMLInputElement) {
+    await removeLearnedWord(currTarget.getAttribute('data-rem-learned') as string);
+    this.handleWordsUpdate();
   }
 
   containerListener() {
@@ -127,10 +152,16 @@ class TextbookController {
           this.handleLearnedWords();
           break;
         case 'textbook-add-difficult':
-          TextbookController.handleAddDifficult(currTarget);
+          this.handleAddDifficult(currTarget);
           break;
         case 'textbook-add-learned':
-          TextbookController.handleAddLearned(currTarget);
+          this.handleAddLearned(currTarget);
+          break;
+        case 'textbook-rem-difficult':
+          this.handleRemDifficult(currTarget);
+          break;
+        case 'textbook-rem-learned':
+          this.handleRemLearned(currTarget);
           break;
         default:
           break;

@@ -34,6 +34,10 @@ class AuthorizationController {
           if (response.isSucceeded) {
             this.model.isAuth = true;
             window.location.reload();
+          } else {
+            AuthorizationController.throwErrDescription(
+              this.view.frontBlock.container.querySelector('.err-description') as HTMLElement,
+            );
           }
         });
       }
@@ -55,6 +59,10 @@ class AuthorizationController {
         if (response.isSucceeded) {
           this.model.isAuth = true;
           window.location.reload();
+        } else {
+          AuthorizationController.throwErrDescription(
+            this.view.frontBlock.container.querySelector('.err-description') as HTMLElement,
+          );
         }
       });
     });
@@ -96,6 +104,20 @@ class AuthorizationController {
       this.model.isAuth = false;
       window.location.reload();
     });
+  }
+
+  static throwErrDescription(errDescription: HTMLElement) {
+    if (errDescription.classList.contains('hide')) {
+      errDescription.classList.remove('hide');
+    }
+    errDescription.classList.add('visible');
+
+    setTimeout(() => {
+      if (errDescription.classList.contains('visible')) {
+        errDescription.classList.remove('visible');
+      }
+      errDescription.classList.add('hide');
+    }, 3000);
   }
 }
 

@@ -43,10 +43,21 @@ class TextbookView extends Component {
 
     const pagination = TextbookView.renderPagination(textbookPage, textbookMaxPage);
 
-    const wordCards = TextbookView.renderWordCards(words, isAuth);
+    const wordCards = TextbookView.renderWordCards(
+      words,
+      isAuth,
+      textbookShowDifficult,
+      textbookShowLearned,
+    );
+    let secTitile = `Textbook - Group ${textbookGroup + 1}`;
+    if (textbookShowDifficult) {
+      secTitile = 'Difficult words';
+    } else if (textbookShowLearned) {
+      secTitile = 'Learned words';
+    }
 
     const elemContent = `
-    <h2 class="textbook-view-title">Textbook - Group ${textbookGroup + 1}</h2>
+    <h2 class="textbook-view-title">${secTitile}</h2>
     <div class="textbook-categories-wrapper">
       ${buttons}
     </div>
@@ -141,29 +152,54 @@ class TextbookView extends Component {
     return pagination;
   }
 
-  static renderWordCards(words: IDictWord[], isAuth: boolean) {
+  static renderWordCards(
+    words: IDictWord[],
+    isAuth: boolean,
+    textbookShowDifficult: boolean,
+    textbookShowLearned: boolean,
+  ) {
+    console.log('words', words);
     const renderWordCard = (word: IDictWord) => {
-      const authButtons = `
-          <button class="textbook-diff-button button-card-color-${word.group + 1}"
-          data-add-difficult="${word.id}"
-          data-action="textbook-add-difficult">+ Add as difficult</button>
-          <button class="textbook-learned-button button-card-color-${word.group + 1}"
-          data-add-learned="${word.id}"
-          data-action="textbook-add-learned">+ Add as learned</button>
+      const isDifficult = isAuth && word.userWord && word.userWord.difficulty === 'difficult';
+      const isLearnedData = isAuth && word.userWord && word.userWord.optional;
+      const isLearned = isLearnedData && word.userWord.optional.isLearned === 'learned';
+      const isAdditionalPage = textbookShowDifficult || textbookShowLearned;
+      // eslint-disable-next-line no-underscore-dangle
+      const wId = isAuth ? word._id : word.id;
+      const additionalButtons = `
+      <button class="textbook-diff-button button-card-color-${word.group + 1}"
+      data-add-difficult="${wId}"
+      data-action="textbook-add-difficult">+ Add as difficult</button>
+      <button class="textbook-learned-button button-card-color-${word.group + 1}"
+      data-add-learned="${wId}"
+      data-action="textbook-add-learned">+ Add as learned</button>`;
+      const removeDifficult = `
+      <button class="textbook-diff-button button-card-color-${word.group + 1}"
+      data-rem-difficult="${wId}"
+      data-action="textbook-rem-difficult">- Remove as difficult</button>`;
+      const removeLearned = `
+      <button class="textbook-learned-button button-card-color-${word.group + 1}"
+      data-rem-learned="${wId}"
+      data-action="textbook-rem-learned">- Remove as learned</button>`;
+      const authButtons = `${!isAdditionalPage ? additionalButtons : ''}
+          ${isAuth && textbookShowDifficult ? removeDifficult : ''}
+          ${isAuth && textbookShowLearned ? removeLearned : ''}
           <h2 class="textbook-game-answers">
           <i class="fa-solid fa-trophy color-group-${word.group + 1}"></i> Game Answers</h2>
           <span class="textbook-game-res res-textbook-${word.group + 1}">Sprint - 0</span>
           <span class="textbook-game-res 
           res-textbook-${word.group + 1}"> Audio Challenge - 0</span>`;
       const wordCard = `
-      <div class="textbook-card-item item-shadow-${word.group + 1}"
-        data-id ="${word.id}"
+      <div class="textbook-card-item item-shadow-${word.group + 1}
+      ${isLearned ? 'textbook-card-learned' : ''}"
+        data-id ="${wId}"
         data-group ="${word.group}"
         data-page ="${word.page}">
         <div class="textbook-card-img" style="background-image: url(${baseUrl}/${word.image}");>
         </div>
         <div class="textbook-card-content">
-          <h2 class="textbook-card-word">${word.word /* class on prev line */}</h2>
+          <h2 class="textbook-card-word ${isDifficult ? 'textbook-card-difficult' : ''}">
+          ${word.word}</h2>
           <h3 class="textbook-card-translate">${word.wordTranslate}</h3>
           <h4 class="textbook-card-transcription">${word.transcription}
             <button class="textbook-audio"

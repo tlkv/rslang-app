@@ -1,4 +1,5 @@
 import IDictWord from '../interfaces/IDictWord';
+import IDictAuth from '../interfaces/IDictAuth';
 
 export class State {
   textbookGroup: number;
@@ -13,6 +14,8 @@ export class State {
 
   words: IDictWord[];
 
+  authWords: IDictAuth;
+
   isAuth = true;
 
   constructor() {
@@ -22,6 +25,10 @@ export class State {
     this.textbookShowDifficult = false;
     this.textbookShowLearned = false;
     this.words = [];
+    this.authWords = {
+      paginatedResults: [],
+      totalCount: [],
+    };
   }
 
   /* // optional methods - not required for All fields

@@ -1,5 +1,6 @@
 interface IDictWord {
   id: string;
+  _id: string;
   group: number;
   page: number;
   word: string;
@@ -13,6 +14,12 @@ interface IDictWord {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
+  userWord: {
+    difficulty: string;
+    optional: {
+      isLearned: string;
+    };
+  };
 }
 
 export default IDictWord;

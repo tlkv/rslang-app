@@ -12,6 +12,7 @@ class AuthorizationView extends Component {
   </div>`;
 
   authorizationBlockContent = `<section class="authorization-box">
+      <div class="err-description">OOPS! Incorrect e-mail or password</div>
       <img src="/assets/authorization-img.png" alt="authorization img" class="authorization-img">
       <div class="authorization">
         <p id="sign-in-link" class="view">Don't have an account yet? Register now!</p>
@@ -23,6 +24,7 @@ class AuthorizationView extends Component {
     </section>`;
 
   registrationBlockContent = ` <section class="authorization-box">
+      <div class="err-description">OOPS! Incorrect e-mail or password</div>
       <img src="/assets/authorization-img.png" alt="authorization img" class="authorization-img">
       <div class="authorization">
         <p id="register-link" class="view">Do you already have an account? Sign in!</p>
