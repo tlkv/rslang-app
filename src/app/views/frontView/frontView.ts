@@ -16,6 +16,8 @@ class FrontView extends Component {
       <img src="./assets/main-img.png" alt="main-img" class="main-img"></img> 
     </section>`;
 
+  SectionWave = new Component('div', ['main-wave']);
+
   SectionMainWrapper = new Component('div', ['container']);
 
   SectionAdvatagesContent = `<section class="advantages">
@@ -122,10 +124,12 @@ class FrontView extends Component {
   constructor(root: HTMLElement) {
     super('div', ['front-view'], root);
     this.header = new Header(this.container);
+    this.SectionWave = new Component('div', ['main-wave']);
 
     this.SectionMain = new Component('div', ['front-block', 'app-center-block'], this.container);
     this.SectionMain.container.append(this.SectionMainWrapper.container);
     this.SectionMainWrapper.container.innerHTML = this.SectionMainContent;
+    this.SectionMain.container.append(this.SectionWave.container);
 
     this.SectionAdvatages = new Component(
       'div',
