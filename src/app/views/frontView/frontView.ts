@@ -19,16 +19,48 @@ class FrontView extends Component {
   SectionMainWrapper = new Component('div', ['container']);
 
   SectionAdvatagesContent = `<section class="advantages">
-      <div class="advantage">More than 3000 words, <br> divided into 6 sections.</div>
-      <div class="advantage advantage-border">Daily statistics of learned words!<br> Improve it every day and reach new heights</div>
-      <div class="advantage">Learning words in a playful way!<br> two mini-games for better word memorization</div>
+      <div class="features">
+        <h2 class="section-title">Features</h2>
+        <p>An app that has a great variety of features for all our clients. Discover them below!</p>
+      </div>
+
+      <div class="advantage">
+        <div class="advantage-text">
+          <h3>Learn new words</h3>
+          <p>More than 3000 words, divided into 6 sections</p>
+        </div>
+        <div class="advantage-icon">
+          <div class="advantage-icon-circle"></div>
+          <ion-icon name="book-outline" class="icon-in-circle"></ion-icon>
+        </div>
+      </div>  
+      
+      <div class="advantage">
+        <div class="advantage-text">
+          <h3>Get your progress</h3>
+          <p>Daily statistics of learned words! Improve it every day and reach new height</p>
+        </div>
+        <div class="advantage-icon">
+          <div class="advantage-icon-circle"></div>
+          <ion-icon name="stats-chart-outline" class="icon-in-circle"></ion-icon>
+        </div>
+      </div>
+        <div class="advantage">
+        <div class="advantage-text">
+          <h3>Play and learn</h3>
+          <p>Learning words in a playful way. Two mini-games for better word memorization</p>
+        </div>
+        <div class="advantage-icon">
+          <div class="advantage-icon-circle"></div>
+          <ion-icon name="game-controller-outline" class="icon-in-circle"></ion-icon>
+        </div>
     </section>`;
 
   SectionAdvatagesWrapper = new Component('div', ['container']);
 
   SectionInfoContent = `<section class="about-us">
       <div class="about-us-box">
-        <h2 class="our-team-title">Our team</h2>
+        <h2 class="section-title">Our team</h2>
         <div class="team-card-box">
           <div class="teammate">
             <img src="https://avatars.githubusercontent.com/u/42784731?v=4" alt="kristina" class="teammate-img" >

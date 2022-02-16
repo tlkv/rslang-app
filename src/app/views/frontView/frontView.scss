@@ -1,7 +1,8 @@
 .front-block {
   width: 100%;
-  background: linear-gradient(20deg, rgba(66,86,112,1) 10%, rgba(30,39,51,1) 45%);
+  background: linear-gradient(20deg, rgba(66, 86, 112, 1) 10%, rgba(30, 39, 51, 1) 45%);
 }
+
 .advantages-block {
   width: 100%;
 }
@@ -53,9 +54,9 @@
     font-size: 28px;
     background: #f1d64c;
     border: 1px solid #f1d64c;
-    
+
     cursor: pointer;
- 
+
   }
 }
 
@@ -65,31 +66,86 @@
 
 .advantages {
   width: 1200px;
-  height: 200px;
+  // height: 600px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  flex-direction: column;
   z-index: 3;
   top: 890px;
   background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 1px 3px 4px rgb(0 0 0 / 10%);
   padding: 30px;
 }
 
+.features {
+  text-align: center;
+  padding: 70px 0 50px;
+}
+
+.section-title {
+  font-size: 50px;
+  color: #7dcddb;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.features p {
+  margin: 10px auto;
+  font-size: 28px;
+  color: #edd874;
+  font-weight: 500;
+}
+
 .advantage {
-  height: 100px;
+  width: 75%;
   background: none;
   font-weight: bold;
   color: #2e3844;
-  padding: 0 0 0 20px;
+  margin-bottom: 70px;
 
   &:hover {
     color: #7dcddb;
     transition: 0.3s;
   }
 }
+
+.advantage p {
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.advantage-text h3 {
+  color: #7dcddb;
+  font-size: 42px;
+}
+
+.advantage-icon {
+  position: relative;
+}
+
+.advantage-icon-circle {
+  width: 240px;
+  height: 240px;
+  position: relative;
+  margin: 0 auto;
+  border-radius: 50%;
+  box-shadow: 10px 10px 25px 5px rgb(125 205 219 / 32%);
+  transition: box-shadow ease .3s;
+}
+
+.advantage-icon:hover .advantage-icon-circle {
+  box-shadow: 10px 10px 25px 5px rgb(125 205 219 / 62%);
+}
+
+.icon-in-circle {
+  width: 160px;
+  height: 160px;
+  position: absolute;
+  top: 44px;
+  left: 348px;
+  color: #7dcddb;
+}
+
 
 .advantage-border {
   background: none;
@@ -105,7 +161,7 @@
   background: rgb(255, 255, 255);
   width: 100%;
   margin: 0 auto;
-  padding-top: 100px;
+  padding-top: 60px;
 }
 
 .our-team-title {
@@ -115,7 +171,7 @@
   font-weight: bold;
   letter-spacing: 10px;
   color: #7dcddb;
-  margin: 90px 0 80px 450px;
+  margin: 0px 0 80px 450px;
 
   &:hover {
     transform: rotate(360deg);
@@ -215,9 +271,10 @@
   .greetings {
     font-size: 52px;
   }
+
   .main-img {
     width: 40vw;
-  }  
+  }
 }
 
 @media screen and (max-width: 800px) {
@@ -229,15 +286,14 @@
     flex-direction: column;
     height: 1500px;
   }
+
   .greetings-box {
     width: 90%;
     text-align: center;
-  }  
+  }
 
   .learn-more {
     width: 100%;
     margin: 70px 0;
   }
 }
-
-
