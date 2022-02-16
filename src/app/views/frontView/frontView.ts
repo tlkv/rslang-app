@@ -61,31 +61,48 @@ class FrontView extends Component {
   SectionInfoContent = `<section class="about-us">
       <div class="about-us-box">
         <h2 class="section-title">Our team</h2>
+        
         <div class="team-card-box">
+
           <div class="teammate">
+          <div class="card-wave"><img class="top-wave" src="../../../assets/card-top.svg"></img></div>
             <img src="https://avatars.githubusercontent.com/u/42784731?v=4" alt="kristina" class="teammate-img" >
             <div class="info-box">
               <a  href="https://github.com/kristykov" class="name">Kristina</a>
               <span class="position">Position</span>
               <p class="contribution-description">contribution-description</p>
               </div>
+              <div class="card-wave"><img class="bottom-wave" src="../../../assets/wave.svg"></img>
+              </div>
           </div>
+
+
           <div class="teammate">
+          <div class="card-wave"><img class="top-wave" src="../../../assets/card-top.svg"></img></div>
             <img src="https://avatars.githubusercontent.com/u/54753081?v=4" alt="andrey" class="teammate-img">
             <div class="info-box">
               <a href="https://github.com/tlkv"class="name">Andrey</a>
               <span class="position">Position</span>
               <p class="contribution-description">contribution-description</p>
             </div>  
+            <div class="card-wave"><img class="bottom-wave" src="../../../assets/wave.svg"></img>
+            </div>
           </div>
+
+
           <div class="teammate">
+          <div class="card-wave"><img class="top-wave" src="../../../assets/card-top.svg"></img></div>
             <img src="./assets/anastasiya.jpg" alt="anastasiya" class="teammate-img">
             <div class="info-box">
               <a href="https://github.com/AnastasiyaPoleshuk" class="name">Anastasiya</a>
               <span class="position">Position</span>
               <p class="contribution-description">contribution-description</p>
             </div>
+            <div class="card-wave"><img class="bottom-wave" src="../../../assets/wave.svg"></img>
+            </div>
           </div>
+
+
         </div>
       </div>
   </section>`;
