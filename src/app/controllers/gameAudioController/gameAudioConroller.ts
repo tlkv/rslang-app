@@ -51,7 +51,7 @@ class GameAudioController {
           this.level = +checkedInput.value;
           console.log(this.level);
           this.pageStart = 1;
-          // this.audioWords = await this.getWords(this.level, this.pageStart);
+          this.audioWords = await this.getWords(this.level, this.pageStart);
           console.log(this.audioWords);
         }
       }

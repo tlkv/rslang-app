@@ -40,18 +40,15 @@ const FRONT_BLOCK_CONTENT_GAME = `<section class="audio-game">
 <button class="audio-btn">
 <ion-icon name="timer-outline"></ion-icon>
 </button>
-<form class="audio-words">
-<label><input type="radio" name="audio-wordl" value="1" class="audio-word-btn"></input>
-<div class="audio-word-circle">1</div></label>
-<label><input type="radio" name="audio-wordl" value="1" class="audio-word-btn"></input>
-<div class="audio-word-circle">2</div></label>
-<label><input type="radio" name="audio-wordl" value="1" class="audio-word-btn"></input>
-<div class="audio-word-circle">3</div></label>
-<label><input type="radio" name="audio-wordl" value="1" class="audio-word-btn"></input>
-<div class="audio-word-circle">4</div></label>
-<label><input type="radio" name="audio-wordl" value="1" class="audio-word-btn"></input>
-<div class="audio-word-circle">5</div></label>
-</form>
+<img id="word-img"/>
+<div id="main-word"></div>
+<div class="audio-words">
+<button class="audio-word-btn" ></button>
+<button class="audio-word-btn" ></button>
+<button class="audio-word-btn" ></button>
+<button class="audio-word-btn" ></button>
+<button class="audio-word-btn" ></button>
+</div>
 <button class="skip-btn"></button>
 </div>
 </section>`;
