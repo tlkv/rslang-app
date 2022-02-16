@@ -36,7 +36,7 @@ class GameSprintController {
     this.currentWordIndex = 0;
     this.correctCount = 0;
     this.incorrectCount = 0;
-    this.level = 1;
+    this.level = 0;
     this.pageStart = 1;
     this.isGameStarted = false;
     this.containerListener();
@@ -85,6 +85,8 @@ class GameSprintController {
     const alertRight = (document.querySelector('.alert-right') as HTMLElement);
     const alertWrong = (document.querySelector('.alert-wrong') as HTMLElement);
     if (word.match === answer) {
+      this.audio.src = '../../../assets/correct-sound.mp3';
+      this.audio.play();
       this.correctCount += 1;
       countDiv.innerHTML = `${+countDiv.innerHTML + 10}`;
       // trigger correct animation
@@ -94,6 +96,8 @@ class GameSprintController {
         alertRight.style.animationName = 'fadeOut1';
       }
     } else {
+      this.audio.src = '../../../assets/incorrect-sound.mp3';
+      this.audio.play();
       this.incorrectCount += 1;
       countDiv.innerHTML = `${+countDiv.innerHTML - 10 < 0 ? 0 : +countDiv.innerHTML - 10}`;
       // trigger incorrect animation
@@ -119,7 +123,7 @@ class GameSprintController {
   }
 
   setWords() {
-    if (!this.matchingWords) return;
+    if (!this.matchingWords || this.isGameStarted === false) return;
     const word = this.matchingWords[this.currentWordIndex];
     (document.getElementById('en-word') as HTMLElement).innerHTML = word.eng;
     (document.getElementById('ru-word') as HTMLElement).innerHTML = word.ru;
@@ -137,6 +141,7 @@ class GameSprintController {
   }
 
   updateTime() {
+    if (this.isGameStarted === false) return;
     (document.getElementById('sprint-timer') as HTMLElement).innerHTML = `${this.totalTime}`;
     if (this.totalTime <= 0) {
       this.isGameStarted = false;

@@ -7,27 +7,27 @@ const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
 <p class="sprint-settings-title-levels">Выберите уровень:</p>
 <form name="form1" id="sprint-levels" class="sprint-settings-levels-btns">
 <label>
-  <input type="radio" name="sprint-level" value="1" class="level-btn"></input>
+  <input type="radio" name="sprint-level" value="0" class="level-btn"></input>
   <div class="level-circle">A1</div>
 </label>
 <label>
-  <input type="radio" name="sprint-level" value="2" class="level-btn"></input>
+  <input type="radio" name="sprint-level" value="1" class="level-btn"></input>
   <div class="level-circle">A2</div>
 </label>
 <label>
-  <input type="radio" name="sprint-level" value="3" class="level-btn"></input>
+  <input type="radio" name="sprint-level" value="2" class="level-btn"></input>
   <div class="level-circle">B1</div>
   </label>
   <label>
-  <input type="radio" name="sprint-level" value="4" class="level-btn"></input>
+  <input type="radio" name="sprint-level" value="3" class="level-btn"></input>
   <div class="level-circle">B2</div>
   </label>
   <label>
-  <input type="radio" name="sprint-level" value="5" class="level-btn"></input>
+  <input type="radio" name="sprint-level" value="4" class="level-btn"></input>
   <div class="level-circle">C1</div>
   </label>
   <label>
-  <input type="radio" name="sprint-level" value="6" class="level-btn"></input>
+  <input type="radio" name="sprint-level" value="5" class="level-btn"></input>
   <div class="level-circle">C2</div>
   </label>
 </form>
