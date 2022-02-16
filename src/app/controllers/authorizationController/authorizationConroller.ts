@@ -30,15 +30,12 @@ class AuthorizationController {
           '#password',
         ) as HTMLInputElement;
 
-        const resp = await this.api
-          .registerUser(name.value, email.value, password.value)
-          .then((response) => {
-            if (response.isSucceeded) {
-              this.model.isAuth = true;
-            } else {
-              this.chooseView();
-            }
-          });
+        await this.api.registerUser(name.value, email.value, password.value).then((response) => {
+          if (response.isSucceeded) {
+            this.model.isAuth = true;
+            window.location.reload();
+          }
+        });
       }
     });
   }
@@ -54,9 +51,10 @@ class AuthorizationController {
         '#password',
       ) as HTMLInputElement;
 
-      const resp = await this.api.signInUser(email.value, password.value).then((response) => {
+      await this.api.signInUser(email.value, password.value).then((response) => {
         if (response.isSucceeded) {
           this.model.isAuth = true;
+          window.location.reload();
         }
       });
     });
@@ -65,7 +63,7 @@ class AuthorizationController {
   chooseView() {
     this.view.frontBlockContent = this.model.isAuth
       ? this.view.authorizedUsersContent
-      : this.view.registrationBlockContent;
+      : this.view.authorizationBlockContent;
     this.view.frontBlock.container.append(this.view.frontBlockWrapper.container);
     this.view.frontBlockWrapper.container.innerHTML = this.view.frontBlockContent;
 
@@ -96,6 +94,7 @@ class AuthorizationController {
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
       this.model.isAuth = false;
+      window.location.reload();
     });
   }
 }

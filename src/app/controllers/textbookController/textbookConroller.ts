@@ -1,7 +1,7 @@
 import TextbookView from '../../views/textbookView/textbookView';
 import { State, state } from '../../models/api/state/state';
 import ITextbookState from '../../models/api/interfaces/ITextbookState';
-import getWordsTextbook from '../../models/api/api/getWordsTextbook';
+import { getWordsTextbook, createDifficultWord } from '../../models/api/api/getWordsTextbook';
 
 class TextbookController {
   view: TextbookView;
@@ -89,15 +89,16 @@ class TextbookController {
     this.handleWordsUpdate();
   }
 
-  static handleAddDifficult(currTarget: HTMLInputElement) {
+  static async handleAddDifficult(currTarget: HTMLInputElement) {
+    await createDifficultWord(currTarget.getAttribute('data-add-difficult') as string);
     currTarget.parentElement
       ?.querySelector('.textbook-card-word')
-      ?.classList.toggle('textbook-card-difficult');
+      ?.classList.add('textbook-card-difficult');
     // this.handleWordsUpdate();
   }
 
   static handleAddLearned(currTarget: HTMLInputElement) {
-    currTarget.parentElement?.parentElement?.classList.toggle('textbook-card-learned');
+    currTarget.parentElement?.parentElement?.classList.add('textbook-card-learned');
     // this.handleWordsUpdate();
   }
 
