@@ -13,6 +13,10 @@ class GameAudioController {
 
   model: State;
 
+  audio = new Audio();
+
+  baseUrl = 'https://react-learnwords-example.herokuapp.com/';
+
   audioWords: IAudioWord[] | undefined;
 
   isGameStarted: boolean;
@@ -23,6 +27,14 @@ class GameAudioController {
 
   pageStart: number;
 
+  correctWords: string[];
+
+  incorrectWords: string[];
+
+  currentWordIndex: number;
+
+  currentMatchIndex: number;
+
   constructor(root: HTMLElement) {
     this.view = new GameAudioView(root);
     this.model = state;
@@ -30,6 +42,10 @@ class GameAudioController {
     this.isSkippedPressed = false;
     this.level = 1;
     this.pageStart = 0;
+    this.correctWords = [];
+    this.incorrectWords = [];
+    this.currentWordIndex = 0;
+    this.currentMatchIndex = 0;
     this.containerListener();
   }
 
@@ -52,10 +68,72 @@ class GameAudioController {
           console.log(this.level);
           this.pageStart = 1;
           this.audioWords = await this.getWords(this.level, this.pageStart);
-          console.log(this.audioWords);
+          this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
+          this.startGame();
         }
       }
     });
+  }
+
+  async startGame() {
+    this.resetValues();
+    this.isGameStarted = true;
+    this.setWords();
+  }
+
+  setWords() {
+    // TODO check if currentWordIndex > audioWords.length -> end game
+    if (!this.audioWords || this.isGameStarted === false || this.currentWordIndex > 10) return;
+    const question = this.audioWords[this.currentWordIndex];
+    console.log(question, this.currentWordIndex);
+    this.currentMatchIndex = question.matchIndex;
+    this.audio.src = `${this.baseUrl}${question.audio}`;
+    console.log(this.audio.src);
+    (document.getElementById('audio-word-player') as HTMLElement).onclick = () => {
+      console.log(this.audio.src, 'inside audio');
+      this.audio.play();
+    };
+    const btns = (document.querySelectorAll('.audio-word-btn') as NodeList);
+    btns.forEach((btn, i) => {
+      const b = btn as HTMLInputElement;
+      b.innerHTML = question.options[i];
+      b.addEventListener('click', (e) => {
+        this.checkAnswer();
+      });
+    });
+    const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
+    skipBtn.innerHTML = 'Skip';
+    console.log(skipBtn);
+    this.isSkippedPressed = false;
+    console.log('skipped', this.isSkippedPressed);
+    skipBtn.onclick = this.skipQuestions.bind(this);
+  }
+
+  skipQuestions(e: Event) {
+    console.log('start skip q', this.isSkippedPressed);
+    const btn = e.target as HTMLInputElement;
+    if (this.isSkippedPressed) {
+      this.currentWordIndex += 1;
+      this.isSkippedPressed = false;
+      console.log('skipped inside if', this.isSkippedPressed);
+      this.setWords();
+      return;
+    }
+    this.isSkippedPressed = true;
+    btn.innerHTML = 'Next';
+    console.log(btn);
+    console.log('skipped outside if', this.isSkippedPressed);
+  }
+
+  checkAnswer() {
+    console.log('check answer', this.level);
+  }
+
+  resetValues() {
+    this.currentWordIndex = 0;
+    this.correctWords = [];
+    this.incorrectWords = [];
+    this.isGameStarted = false;
   }
 
   static shuffle(array: string[]) {

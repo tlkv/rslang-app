@@ -41,7 +41,7 @@ const FRONT_BLOCK_CONTENT_GAME = `<section class="audio-game">
 <ion-icon name="timer-outline"></ion-icon>
 </button>
 <img id="word-img"/>
-<div id="main-word"></div>
+<div id="audio-word-player"><ion-icon name="volume-high-outline"></ion-icon></div>
 <div class="audio-words">
 <button class="audio-word-btn" ></button>
 <button class="audio-word-btn" ></button>
@@ -49,7 +49,7 @@ const FRONT_BLOCK_CONTENT_GAME = `<section class="audio-game">
 <button class="audio-word-btn" ></button>
 <button class="audio-word-btn" ></button>
 </div>
-<button class="skip-btn"></button>
+<button class="skip-btn" id="skip-btn"></button>
 </div>
 </section>`;
 
