@@ -34,11 +34,14 @@ class TextbookView extends Component {
     textbookShowDifficult: boolean,
     textbookShowLearned: boolean,
   ) {
+    const isAllLearned = words.every((item) => item?.userWord?.optional?.isLearned === 'learned');
+    const isPagination = !textbookShowDifficult && !textbookShowLearned;
     const buttons = this.renderButtons(
       textbookGroup,
       isAuth,
       textbookShowDifficult,
       textbookShowLearned,
+      isAllLearned,
     );
 
     const pagination = TextbookView.renderPagination(textbookPage, textbookMaxPage);
@@ -51,24 +54,42 @@ class TextbookView extends Component {
     );
     let secTitile = `Textbook - Group ${textbookGroup + 1}`;
     if (textbookShowDifficult) {
-      secTitile = 'Difficult words';
+      secTitile = `Difficult words - <span class="additional-counter">
+      ${words.length}</span>`;
     } else if (textbookShowLearned) {
-      secTitile = 'Learned words';
+      secTitile = `Learned words - <span class="additional-counter">
+      ${words.length}</span>`;
     }
 
+    if (isAllLearned) {
+      this.frontBlock.container.classList.add('all-learned');
+    } else {
+      this.frontBlock.container.classList.remove('all-learned');
+    }
+
+    if (textbookShowDifficult) {
+      this.frontBlock.container.classList.add('all-difficult');
+    } else {
+      this.frontBlock.container.classList.remove('all-difficult');
+    }
+
+    const searchField = `<input type="search"
+    class="adv-search" autocomplete="off" placeholder="Search words" data-action="search">`;
+
     const elemContent = `
-    <h2 class="textbook-view-title">${secTitile}</h2>
     <div class="textbook-categories-wrapper">
       ${buttons}
     </div>
+    <h2 class="textbook-view-title">${secTitile}</h2>
+    ${isPagination ? '' : searchField}
     <div class="textbook-pages-wrapper">
-      ${!textbookShowDifficult && !textbookShowLearned ? pagination : ''}
+      ${isPagination ? pagination : ''}
     </div>
     <div class="textbook-words-wrapper">
       ${wordCards}
     </div>
     <div class="textbook-pages-wrapper">
-    ${!textbookShowDifficult && !textbookShowLearned ? pagination : ''}
+    ${isPagination ? pagination : ''}
     </div>`;
 
     this.frontBlockWrapper.container.innerHTML = elemContent;
@@ -79,7 +100,9 @@ class TextbookView extends Component {
     isAuth: boolean,
     textbookShowDifficult: boolean,
     textbookShowLearned: boolean,
+    isAllLearned: boolean,
   ) {
+    const disableGamesCond = isAllLearned || textbookShowDifficult || textbookShowLearned;
     let categButtons = '';
     for (let i = 0; i < this.groupsAmount; i += 1) {
       let buttonActive = '';
@@ -97,10 +120,10 @@ class TextbookView extends Component {
 
     let additionalButtons = `
       <a href="#gamesprint" class="textbook-categories-button button-start-sprint-game
-      ${textbookShowDifficult || textbookShowLearned ? 'disabled-link' : ''}"
+      ${disableGamesCond ? 'disabled-link' : ''}"
       data-action="start-sprint-game-textbook">Start Sprint Game</a>
       <a href="#gameaudio" class="textbook-categories-button button-start-audio-game 
-      ${textbookShowDifficult || textbookShowLearned ? 'disabled-link' : ''}"
+      ${disableGamesCond ? 'disabled-link' : ''}"
       data-action="start-audio-game-textbook">Start Audio Game</a>`;
 
     if (isAuth) {
@@ -108,7 +131,8 @@ class TextbookView extends Component {
       ${textbookShowDifficult ? ' active' : ''}" data-action="textbook-show-difficult">
       Difficult Words</button>
       <button class="textbook-categories-button button-learned-words
-      ${textbookShowLearned ? ' active' : ''}" data-action="textbook-show-learned">
+      ${textbookShowLearned ? ' active' : ''} ${isAllLearned ? ' all-learned-button' : ''}"
+      data-action="textbook-show-learned">
       Learned Words</button>`;
     }
 
@@ -186,9 +210,9 @@ class TextbookView extends Component {
           ${isAuth && textbookShowLearned ? removeLearned : ''}
           <h2 class="textbook-game-answers">
           <i class="fa-solid fa-trophy color-group-${word.group + 1}"></i> Game Answers</h2>
-          <span class="textbook-game-res res-textbook-${word.group + 1}">Sprint - 0</span>
-          <span class="textbook-game-res 
-          res-textbook-${word.group + 1}"> Audio Challenge - 0</span>`;
+          <div class="textbook-game-res res-textbook-${word.group + 1}">Sprint Game - 0 of N</div>
+          <div class="textbook-game-res 
+          res-textbook-${word.group + 1}"> Audio Challenge - 0 of N</div>`;
       const wordCard = `
       <div class="textbook-card-item item-shadow-${word.group + 1}
       ${isLearned ? 'textbook-card-learned' : ''}"
