@@ -65,7 +65,7 @@ class GameAudioController {
             return;
           }
           this.level = +checkedInput.value;
-          console.log(this.level);
+          // console.log(this.level);
           this.pageStart = 1;
           this.audioWords = await this.getWords(this.level, this.pageStart);
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
@@ -83,14 +83,18 @@ class GameAudioController {
 
   setWords() {
     // TODO check if currentWordIndex > audioWords.length -> end game
-    if (!this.audioWords || this.isGameStarted === false || this.currentWordIndex > 10) return;
+    if (!this.audioWords || this.isGameStarted === false) return;
+    if (this.currentWordIndex >= this.audioWords.length) {
+      this.endGame();
+      return;
+    }
     const question = this.audioWords[this.currentWordIndex];
-    console.log(question, this.currentWordIndex);
+    // console.log(question, this.currentWordIndex);
     this.currentMatchIndex = question.matchIndex;
     this.audio.src = `${this.baseUrl}${question.audio}`;
-    console.log(this.audio.src);
+    // console.log(this.audio.src);
     (document.getElementById('audio-word-player') as HTMLElement).onclick = () => {
-      console.log(this.audio.src, 'inside audio');
+      // console.log(this.audio.src, 'inside audio');
       this.audio.play();
     };
     const btns = (document.querySelectorAll('.audio-word-btn') as NodeList);
@@ -98,35 +102,62 @@ class GameAudioController {
       const b = btn as HTMLInputElement;
       b.innerHTML = question.options[i];
       b.addEventListener('click', (e) => {
-        this.checkAnswer();
+        this.checkAnswer(e);
       });
+      b.style.backgroundColor = 'transparent';
     });
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
     skipBtn.innerHTML = 'Skip';
-    console.log(skipBtn);
+    // console.log(skipBtn);
     this.isSkippedPressed = false;
-    console.log('skipped', this.isSkippedPressed);
+    // console.log('skipped', this.isSkippedPressed);
     skipBtn.onclick = this.skipQuestions.bind(this);
+    this.audio.play();
+  }
+
+  endGame() {
+    this.isGameStarted = false;
+    this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_MODAL;
+    // do calculations
   }
 
   skipQuestions(e: Event) {
-    console.log('start skip q', this.isSkippedPressed);
+    // console.log('start skip q', this.isSkippedPressed);
     const btn = e.target as HTMLInputElement;
+    // use if for next btn
     if (this.isSkippedPressed) {
       this.currentWordIndex += 1;
       this.isSkippedPressed = false;
-      console.log('skipped inside if', this.isSkippedPressed);
+      // console.log('skipped inside if', this.isSkippedPressed);
       this.setWords();
       return;
     }
-    this.isSkippedPressed = true;
-    btn.innerHTML = 'Next';
-    console.log(btn);
-    console.log('skipped outside if', this.isSkippedPressed);
+    // use check answer for skip btn
+    this.checkAnswer(e);
+    // console.log(btn);
+    // console.log('skipped outside if', this.isSkippedPressed);
   }
 
-  checkAnswer() {
-    console.log('check answer', this.level);
+  checkAnswer(e: Event) {
+    const answers = Array.from((document.querySelectorAll('.audio-word-btn') as NodeList));
+    const target = e.target as HTMLInputElement;
+    const answer = target.innerHTML;
+    const matchBtn = answers[this.currentMatchIndex] as HTMLInputElement;
+    const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
+    if (matchBtn.innerHTML === answer) {
+      target.style.backgroundColor = 'green';
+      this.correctWords.push(answer);
+    } else {
+      console.log('wrong answer');
+      if (answer !== 'Skip') {
+        target.style.backgroundColor = 'red';
+      }
+      matchBtn.style.backgroundColor = 'green';
+      this.incorrectWords.push(answer);
+      // set matchBtn to green and set target to red
+    }
+    this.isSkippedPressed = true;
+    skipBtn.innerHTML = 'Next';
   }
 
   resetValues() {
