@@ -46,6 +46,7 @@ export const createDifficultWord = async (wordId: string) => {
   const token = localStorage.getItem('token');
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
+  // get then post or put!!!
   const requestParams = {
     method: 'POST',
     withCredentials: true,
@@ -72,6 +73,23 @@ export const createDifficultWord = async (wordId: string) => {
       optional: {},
     }),
   };
+
+  const requestParams3 = {
+    method: 'GET',
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/json',
+    },
+  };
+
+  const rawResponse3 = await fetch(url, requestParams3);
+
+  if (rawResponse3.status === 200) {
+    const content3 = await rawResponse3.json();
+    console.log('get', content3);
+  }
+
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
@@ -215,7 +233,7 @@ export const removeLearnedWord = async (wordId: string) => {
   const token = localStorage.getItem('token');
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
-  const requestParams2 = {
+  const requestParams = {
     method: 'PUT',
     withCredentials: true,
     headers: {
@@ -229,9 +247,9 @@ export const removeLearnedWord = async (wordId: string) => {
     }),
   };
 
-  const rawResponse2 = await fetch(url, requestParams2);
-  if (rawResponse2.status === 200) {
-    const content2 = await rawResponse2.json();
+  const rawResponse = await fetch(url, requestParams);
+  if (rawResponse.status === 200) {
+    const content2 = await rawResponse.json();
     console.log(content2);
   }
 };

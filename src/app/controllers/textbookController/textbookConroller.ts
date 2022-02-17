@@ -127,6 +127,19 @@ class TextbookController {
     this.handleWordsUpdate();
   }
 
+  handleSearch(currTarget: HTMLInputElement) {
+    const query = currTarget.value.toLowerCase();
+    const cards = this.view.frontBlockWrapper.container.querySelectorAll('.textbook-card-item');
+    cards.forEach((item) => {
+      const word = item.querySelector('.textbook-card-word')?.textContent;
+      if (query.length === 0 || word?.toLowerCase().includes(query)) {
+        item.classList.remove('hidden-card');
+      } else {
+        item.classList.add('hidden-card');
+      }
+    });
+  }
+
   containerListener() {
     this.view.frontBlock.container.addEventListener('click', (e) => {
       const currTarget = e.target as HTMLInputElement;
@@ -165,6 +178,14 @@ class TextbookController {
           break;
         default:
           break;
+      }
+    });
+
+    this.view.frontBlock.container.addEventListener('input', (e) => {
+      const currTarget = e.target as HTMLInputElement;
+      const currAction = currTarget.getAttribute('data-action');
+      if (currAction === 'search') {
+        this.handleSearch(currTarget);
       }
     });
   }
