@@ -1,10 +1,10 @@
 const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
 <div class="sprint-settings-container wide">
-<p class="sprint-settings-title">Аудиовызов</p>
-<p class="sprint-settings-description">Тренировка Аудиовызов улучшает твое восприятие речи на слух.</p>
+<p class="sprint-settings-title">Audiocall</p>
+<p class="sprint-settings-description">Audiocall training improves your listening comprehension.</p>
 </div>
 <div class="sprint-settings-container">
-<p class="sprint-settings-title-levels">Выберите уровень:</p>
+<p class="sprint-settings-title-levels">Choose the level:</p>
 <form name="form1" id="sprint-levels" class="sprint-settings-levels-btns">
 <label>
   <input type="radio" name="audio-level" value="0" class="level-btn"></input>
@@ -32,7 +32,7 @@ const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
   </label>
 </form>
 </div>
-<button class="start-audio-btn" id="start-audio-btn">Начать</button>
+<button class="start-audio-btn" id="start-audio-btn">Start</button>
 </section>`;
 
 const FRONT_BLOCK_CONTENT_GAME = `<section class="audio-game">
@@ -53,18 +53,18 @@ const FRONT_BLOCK_CONTENT_GAME = `<section class="audio-game">
 const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 <div class="sprint-game-modal-content">
 <div class="modal-upper-btns">
-<button class="to-results-btn">результат</button>
-<button class="to-see-words-btn">посмотреть мои слова</button>
+<button class="to-results-btn">Result</button>
+<button class="to-see-words-btn">See my words</button>
 </div>
 <div class="modal-results">
 <div class="card">
-<p class="result-message">Хороший результат! Но ты можешь лучше</p>
-<p class="result-statistics"><span id="correct-count">11</span> слов изучено, <span id="incorrect-count">4</span> слова на изучении</p>
+<p class="result-message">Great result. But you can do better!</p>
+<p class="result-statistics"><span id="correct-count">11</span> words learned, <span id="incorrect-count">4</span> words on study</p>
   <div class="box"><div class="percent">
       <svg><circle cx="70" cy="70" r="70"></circle><circle id="percent-circle" cx="70" cy="70" r="70"></circle><svg>
           <div class="num">
             <p class="percentage"><span id="percentage-amount">90</span>%</p>
-            <p class="learned-words">изученных слов</p>
+            <p class="learned-words">learned words</p>
           </div>
     </div>
         <p class="text"></p>
@@ -72,8 +72,8 @@ const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 </div>
 </div>
 <div class="modal-lower-btns">
-<button class="module-lower-btn" id="restart-sprint-btn">сыграть еще раз</button>
-<button class="module-lower-btn" id="to-text-book-btn"><a href="#textbook" class="module-lower-btn-ref">перейти в учебник</a></button>
+<button class="module-lower-btn" id="restart-sprint-btn">Play again</button>
+<button class="module-lower-btn" id="to-text-book-btn"><a href="#textbook" class="module-lower-btn-ref">Go to the textbook</a></button>
 </div>
 </div>
 </section>`;
