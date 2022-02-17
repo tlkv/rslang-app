@@ -1,8 +1,13 @@
+/* eslint-disable operator-linebreak */
 import GameStartSprintView from '../../views/gameSprintView/GameStartSprintView';
 import { State, state } from '../../models/api/state/state';
-import getWordsTextbook from '../../models/api/api/getWordsTextbook';
+import { getWordsTextbook } from '../../models/api/api/getWordsTextbook';
 import IMatchWord from '../../models/api/interfaces/IMatchWord';
-import { FRONT_BLOCK_CONTENT_START, FRONT_BLOCK_CONTENT_GAME, FRONT_BLOCK_CONTENT_MODAL } from '../../views/gameSprintView/const';
+import {
+  FRONT_BLOCK_CONTENT_START,
+  FRONT_BLOCK_CONTENT_GAME,
+  FRONT_BLOCK_CONTENT_MODAL,
+} from '../../views/gameSprintView/const';
 
 class GameSprintController {
   view: GameStartSprintView;
@@ -54,9 +59,13 @@ class GameSprintController {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-sprint-btn') as HTMLInputElement;
-        const restartBtn = (e.target as HTMLElement).closest('#restart-sprint-btn') as HTMLInputElement;
+        const restartBtn = (e.target as HTMLElement).closest(
+          '#restart-sprint-btn',
+        ) as HTMLInputElement;
         if (startBtn) {
-          const checkedInput = document.querySelector('input[name="sprint-level"]:checked') as HTMLInputElement;
+          const checkedInput = document.querySelector(
+            'input[name="sprint-level"]:checked',
+          ) as HTMLInputElement;
           this.level = +checkedInput.value;
           this.pageStart = 1;
           this.matchingWords = await this.getWords(this.level, this.pageStart);
@@ -81,9 +90,9 @@ class GameSprintController {
   checkAnswer(answer: boolean) {
     if (!this.matchingWords || this.totalTime <= 0) return;
     const word = this.matchingWords[this.currentWordIndex];
-    const countDiv = (document.getElementById('score-count') as HTMLElement);
-    const alertRight = (document.querySelector('.alert-right') as HTMLElement);
-    const alertWrong = (document.querySelector('.alert-wrong') as HTMLElement);
+    const countDiv = document.getElementById('score-count') as HTMLElement;
+    const alertRight = document.querySelector('.alert-right') as HTMLElement;
+    const alertWrong = document.querySelector('.alert-wrong') as HTMLElement;
     if (word.match === answer) {
       this.audio.src = '../../../assets/correct-sound.mp3';
       this.audio.play();
@@ -150,10 +159,15 @@ class GameSprintController {
       // calls a modal view
       this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_MODAL;
       const percent = this.calculateResult();
-      (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (4.4 * (100 - percent)).toString();
+      (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (
+        4.4 *
+        (100 - percent)
+      ).toString();
       (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
-      (document.getElementById('correct-count') as HTMLElement).innerHTML = this.correctCount.toString();
-      (document.getElementById('incorrect-count') as HTMLElement).innerHTML = this.incorrectCount.toString();
+      (document.getElementById('correct-count') as HTMLElement).innerHTML =
+        this.correctCount.toString();
+      (document.getElementById('incorrect-count') as HTMLElement).innerHTML =
+        this.incorrectCount.toString();
       // select elements and insert innerHtml scores
       // restart btn has the same id as the start btn
     } else {
@@ -186,8 +200,8 @@ class GameSprintController {
 
   async getWords(level: number, pageStart: number) {
     // eslint-disable-next-line max-len
-    const words1 = await getWordsTextbook(level, pageStart);
-    const words2 = await getWordsTextbook(level, pageStart + 1);
+    const words1 = await getWordsTextbook(level, pageStart, this.model.isAuth);
+    const words2 = await getWordsTextbook(level, pageStart + 1, this.model.isAuth);
     this.model.words = words1.concat(words2);
     const arr = this.model.words.map((w) => {
       const obj = Object.create(null);
@@ -198,7 +212,7 @@ class GameSprintController {
     const halfLen = shuffledArr.length / 2;
     for (let i = 0; i < halfLen; i += 1) {
       const startWord = shuffledArr[i];
-      const endWord = shuffledArr[(shuffledArr.length - 1) - i];
+      const endWord = shuffledArr[shuffledArr.length - 1 - i];
       startWord.ru = endWord.ru;
       startWord.match = false;
     }
