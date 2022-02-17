@@ -1,4 +1,5 @@
 import IDictWord from '../interfaces/IDictWord';
+import IDictAuth from '../interfaces/IDictAuth';
 
 export class State {
   textbookGroup: number;
@@ -7,24 +8,27 @@ export class State {
 
   textbookMaxPage: number;
 
+  textbookShowDifficult: boolean;
+
+  textbookShowLearned: boolean;
+
   words: IDictWord[];
 
+  authWords: IDictAuth;
+
+  isAuth = true;
+
   constructor() {
+    this.textbookGroup = 0;
     this.textbookPage = 0;
     this.textbookMaxPage = 29;
-    this.textbookGroup = 0;
+    this.textbookShowDifficult = false;
+    this.textbookShowLearned = false;
     this.words = [];
-    // get all the words from the server
-    // create an object for each
-    /*
-    [{
-      eng: 'word',
-      ru: 'translation',
-      match: true,
-    }]
-    */
-    // create two variables: correctMatches = 0 & incorrectMatches = 0;
-    // create a variable to track the current index of a word
+    this.authWords = {
+      paginatedResults: [],
+      totalCount: [],
+    };
   }
 
   /* // optional methods - not required for All fields

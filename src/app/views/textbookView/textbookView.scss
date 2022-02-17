@@ -9,13 +9,13 @@ button {
   cursor: pointer;
 }
 
-button > i,
-span > i {
+button > i {
   pointer-events: none; /* don't remove - it avoids propagation */
 }
 
 .textbook-block {
   min-height: calc(100vh - 200px);
+  padding-top: 15px;
 }
 
 .textbook-pages-wrapper,
@@ -42,11 +42,12 @@ span > i {
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
   overflow: hidden;
-  background-color: #f3f4f8;
+  background-color: #ffffff;
+  background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%);
 }
 
 .textbook-card-img {
-  height: 170px;
+  height: 190px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -54,14 +55,16 @@ span > i {
 
 .textbook-card-content {
   padding: 15px 10px 25px 15px;
-  background-color: #f3f4f8;
+  /* background-color: #f3f4f8;*/
 }
 
 .textbook-card-content * {
-  background-color: #f3f4f8;
+  /* background-color: #f3f4f8; */
   color: #000;
   .textbook-audio {
     cursor: pointer;
+    border: 0;
+    background: none;
   }
   .fa-volume-up {
     font-size: 26px;
@@ -69,7 +72,8 @@ span > i {
 }
 
 .textbook-example-title,
-.textbook-meaning-title {
+.textbook-meaning-title,
+.textbook-game-answers {
   font-weight: bold;
   margin-top: 15px;
   margin-bottom: 5px;
@@ -123,7 +127,7 @@ span > i {
   color: $textbook-color-6;
 }
 
-.item-shadow-1 {
+/* .item-shadow-1 {
   box-shadow: 0 5px 10px $textbook-color-1;
 }
 .item-shadow-2 {
@@ -140,10 +144,10 @@ span > i {
 }
 .item-shadow-6 {
   box-shadow: 0 5px 10px $textbook-color-6;
-}
+} */
 
 .textbook-categories-button {
-  margin: 5px 10px;
+  margin: 10px;
   width: 13%;
   height: 60px;
   background-color: #f3f4f8;
@@ -199,14 +203,76 @@ span > i {
   }
 }
 
+.button-card-color-1 {
+  background-color: $textbook-color-1;
+}
+.button-card-color-2 {
+  background-color: $textbook-color-2;
+}
+.button-card-color-3 {
+  background-color: $textbook-color-3;
+}
+.button-card-color-4 {
+  background-color: $textbook-color-4;
+}
+.button-card-color-5 {
+  background-color: $textbook-color-5;
+}
+.button-card-color-6 {
+  background-color: $textbook-color-6;
+}
+
+.res-textbook-1 {
+  color: $textbook-color-1;
+  border: 1px solid $textbook-color-1;
+}
+.res-textbook-2 {
+  color: $textbook-color-2;
+  border: 1px solid $textbook-color-2;
+}
+.res-textbook-3 {
+  color: $textbook-color-3;
+  border: 1px solid $textbook-color-3;
+}
+.res-textbook-4 {
+  color: $textbook-color-4;
+  border: 1px solid $textbook-color-4;
+}
+.res-textbook-5 {
+  color: $textbook-color-5;
+  border: 1px solid $textbook-color-5;
+}
+.res-textbook-6 {
+  color: $textbook-color-6;
+  border: 1px solid $textbook-color-6;
+}
+
 .textbook-categories-wrapper {
   margin: 20px 0;
+}
+
+.categories-buttons-container,
+.additional-buttons-container {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  cursor: pointer;
+}
+
+.button-start-sprint-game,
+.button-start-audio-game {
+  text-decoration: none;
+  color: #000;
+  padding: 5px;
+  font-weight: bold;
 }
 
 .textbook-pages-wrapper {
   margin: 25px 0;
+  .pagination-current {
+    width: 68px;
+    letter-spacing: 2px;
+  }
 }
 
 .textbook-pages-button {
@@ -232,6 +298,134 @@ span > i {
   color: #fff;
 }
 
+.textbook-learned-button,
+.textbook-diff-button {
+  text-transform: uppercase;
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 10px;
+  color: #fff;
+  border: 0;
+}
+
+.textbook-learned-button:hover,
+.textbook-diff-button:hover {
+  filter: brightness(0.9);
+}
+
+.textbook-card-transcription {
+  margin-bottom: 10px;
+}
+
+.textbook-card-difficult,
+.textbook-card-learned {
+  position: relative;
+}
+
+.textbook-card-difficult::after {
+  right: 0;
+  top: 55px;
+  width: 40px;
+  height: 40px;
+  content: '';
+  display: block;
+  position: absolute;
+  background: url('../../../assets/svg/Exclamation.svg') center/contain no-repeat;
+}
+
+.textbook-card-learned::after {
+  right: 10px;
+  top: 210px;
+  width: 40px;
+  height: 40px;
+  content: '';
+  display: block;
+  position: absolute;
+  background: url('../../../assets/svg/Checkmark.svg') center/contain no-repeat;
+}
+
+.textbook-game-res {
+  text-transform: uppercase;
+  border-radius: 20px;
+  font-size: 14px;
+  padding: 5px 10px;
+  width: fit-content;
+  margin-top: 10px;
+}
+
+.button-diff-words,
+.button-learned-words {
+  font-weight: bold;
+  color: #000;
+  line-height: 24px;
+  padding-right: 50px;
+  i {
+    color: #fab117;
+    font-size: 30px;
+  }
+}
+
+.button-learned-words {
+  background: url('../../../assets/svg/Checkmark.svg') #f3f4f8 right 5px center / 40px no-repeat;
+}
+
+.button-diff-words {
+  background: url('../../../assets/svg/Exclamation.svg') #f3f4f8 right 5px center / 40px no-repeat;
+}
+
+.disabled-link {
+  pointer-events: none;
+  cursor: not-allowed;
+  color: gray;
+}
+
+.all-learned {
+  background: #34e89e; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #0f3443, #34e89e); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #0f3443,
+    #34e89e
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.all-difficult {
+  background: #eb5757; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #000000, #eb5757); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #000000,
+    #eb5757
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.all-learned-button {
+  box-shadow: 0 0px 15px #ff0;
+  filter: brightness(0.92);
+}
+
+.additional-counter {
+  color: #fff;
+  font-size: 40px;
+  background: #080f6d;
+  padding: 5px 20px;
+  border-radius: 30px;
+}
+
+.adv-search {
+  width: 240px;
+  margin: 10px auto;
+  display: block;
+  color: gray;
+  &:hover,
+  &:focus {
+    border: inherit;
+    outline: inherit;
+  }
+}
+.hidden-card {
+  display: none;
+}
 @media (max-width: 1200px) {
   .textbook-words-wrapper {
     grid-template-columns: repeat(2, 1fr);

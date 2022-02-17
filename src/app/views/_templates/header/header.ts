@@ -16,8 +16,7 @@ class Header extends Component {
         <a href="#${defaultRoutes.gameAudio.path}" class="menu-item">${defaultRoutes.gameAudio.name}</a>
         <a href="#${defaultRoutes.statistics.path}" class="menu-item">${defaultRoutes.statistics.name}</a>
         <a href="#${defaultRoutes.testpage.path}" class="menu-item">${defaultRoutes.testpage.name}</a>
-        <a href="#${defaultRoutes.authorization.path}" class="log-in">log-in</a>
-        <a href="#${defaultRoutes.authorization.path}" class="sign-out">sign out</a>
+        <a href="#${defaultRoutes.authorization.path}" class="log-in"><i class="fa-solid fa-user"></i> Account</a>
       </nav>`;
 
   elemWrapper = new Component('div', ['container']);

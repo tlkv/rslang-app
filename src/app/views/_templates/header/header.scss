@@ -48,22 +48,8 @@
   color: #ffffff;
   transition: 0.3s;
 
-  &:hover {
-    color: #7dcddb;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-}
-
-.sign-out {
-  display: none;
-  visibility: hidden;
-  font-size: 26px;
-  text-decoration: none;
-  color: #ffffff;
-  transition: 0.3s;
-
-  &:hover {
+  &:hover,
+  &:hover i {
     color: #7dcddb;
     cursor: pointer;
     transition: 0.3s;
