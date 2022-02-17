@@ -1,5 +1,6 @@
 .game-audio-block {
   min-height: calc(100vh - 100px);
+  background: linear-gradient(20deg, #425670 10%, #1e2733 45%);
 }
 
 .sprint-settings-page,
@@ -17,6 +18,14 @@
     margin: 0 auto;
 }
 
+.start-audio-btn {
+  width: 50%;
+  border: 2px solid #edd874;
+  height: 50px;
+  border-radius: 40px;
+  font-size: 28px;
+}
+
 .audio-word-player {
   margin: 100px 20px;
 }
@@ -28,6 +37,20 @@
   border-radius: 50%;
   padding: 20px;
   cursor: pointer;
+  animation: floating 5s infinite;
+}
+
+@keyframes floating {
+  0% {
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(1.2);
+    color: #edd874;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .audio-words {
@@ -41,7 +64,7 @@
 .audio-word-btn {
   width: 150px;
   outline: none;
-  border: 1px solid #00ff43;
+  border: 2px solid #edd874;
   border-radius: 30px;
   transition: background-color .5s ease;
 }
@@ -49,8 +72,9 @@
 .skip-btn {
   width: 150px;
   outline: none;
-  border: 1px solid #00ff43;
-  background-color: #00ff43;
+  border: 1px solid #edd874;
+  background-color: #edd874;
   border-radius: 30px;
   transition: background-color .5s ease;
+  color: #1e2733;
 }

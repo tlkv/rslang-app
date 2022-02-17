@@ -105,7 +105,10 @@ class GameAudioController {
         this.checkAnswer(e);
       });
       b.style.backgroundColor = 'transparent';
+      b.style.color = '#bebebe';
+      b.style.border = '2px solid #edd874';
     });
+    // remove image .dislay = 'none'
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
     skipBtn.innerHTML = 'Skip';
     // console.log(skipBtn);
@@ -119,16 +122,17 @@ class GameAudioController {
     this.isGameStarted = false;
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_MODAL;
     // do calculations
+    // use incorrect and correct arr.length to find how many right and wrong answers
+    // filter incorrect arr for skip or next
+    // dislay the words
   }
 
   skipQuestions(e: Event) {
-    // console.log('start skip q', this.isSkippedPressed);
     const btn = e.target as HTMLInputElement;
     // use if for next btn
     if (this.isSkippedPressed) {
       this.currentWordIndex += 1;
       this.isSkippedPressed = false;
-      // console.log('skipped inside if', this.isSkippedPressed);
       this.setWords();
       return;
     }
@@ -145,17 +149,26 @@ class GameAudioController {
     const matchBtn = answers[this.currentMatchIndex] as HTMLInputElement;
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
     if (matchBtn.innerHTML === answer) {
-      target.style.backgroundColor = 'green';
+      target.style.backgroundColor = '#497141';
+      target.style.color = '#1e2733';
+      target.style.border = '2px solid #497141';
       this.correctWords.push(answer);
     } else {
       console.log('wrong answer');
       if (answer !== 'Skip') {
-        target.style.backgroundColor = 'red';
+        target.style.backgroundColor = '#E9542F';
+        target.style.color = '#1e2733';
+        target.style.border = '2px solid #E9542F';
       }
-      matchBtn.style.backgroundColor = 'green';
+      matchBtn.style.backgroundColor = '#497141';
+      matchBtn.style.color = '#1e2733';
+      matchBtn.style.border = '2px solid #497141';
       this.incorrectWords.push(answer);
       // set matchBtn to green and set target to red
     }
+    // display image using audioWords[currentIndex].image
+    // set image to block
+    // in setWords reset image to none
     this.isSkippedPressed = true;
     skipBtn.innerHTML = 'Next';
   }
