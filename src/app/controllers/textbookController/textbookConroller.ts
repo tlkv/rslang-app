@@ -30,9 +30,11 @@ class TextbookController {
   }
 
   async handleWordsUpdate() {
-    if (this.model.textbookShowDifficult) {
+    console.log('this.model', this.model);
+
+    if (this.model.isAuth && this.model.textbookShowDifficult) {
       this.model.words = await filterDifficultWords();
-    } else if (this.model.textbookShowLearned) {
+    } else if (this.model.isAuth && this.model.textbookShowLearned) {
       this.model.words = await filterLearnedWords();
     } else {
       this.model.words = await getWordsTextbook(
