@@ -39,6 +39,7 @@ const FRONT_BLOCK_CONTENT_GAME = `<section class="audio-game">
 <div class="audio-container">
 <img id="word-img"/>
 <div id="audio-word-player" class="audio-word-player"><ion-icon name="volume-high-outline" class="audio-word-player-btn"></ion-icon></div>
+<div class="image-container"><img id="img" class="img"/></div>
 <div class="audio-words">
 <button class="audio-word-btn" ></button>
 <button class="audio-word-btn" ></button>

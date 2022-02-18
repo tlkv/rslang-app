@@ -101,6 +101,7 @@ class GameAudioController {
     btns.forEach((btn, i) => {
       const b = btn as HTMLInputElement;
       b.innerHTML = question.options[i];
+      b.disabled = false;
       b.addEventListener('click', (e) => {
         this.checkAnswer(e);
       });
@@ -108,6 +109,8 @@ class GameAudioController {
       b.style.color = '#bebebe';
       b.style.border = '2px solid #edd874';
     });
+    (document.getElementById('img') as HTMLImageElement).style.display = 'none';
+    (document.getElementById('audio-word-player') as HTMLElement).style.margin = '100px 20px';
     // remove image .dislay = 'none'
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
     skipBtn.innerHTML = 'Skip';
@@ -144,27 +147,39 @@ class GameAudioController {
 
   checkAnswer(e: Event) {
     const answers = Array.from((document.querySelectorAll('.audio-word-btn') as NodeList));
+    answers.forEach((el) => {
+      const btn = el as HTMLInputElement;
+      btn.disabled = true;
+    });
     const target = e.target as HTMLInputElement;
     const answer = target.innerHTML;
     const matchBtn = answers[this.currentMatchIndex] as HTMLInputElement;
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
+    const img = document.getElementById('img') as HTMLImageElement;
+    if (this.audioWords) {
+      console.log(this.audioWords[this.currentWordIndex].image);
+    }
     if (matchBtn.innerHTML === answer) {
       target.style.backgroundColor = '#497141';
       target.style.color = '#1e2733';
       target.style.border = '2px solid #497141';
       this.correctWords.push(answer);
     } else {
-      console.log('wrong answer');
       if (answer !== 'Skip') {
         target.style.backgroundColor = '#E9542F';
         target.style.color = '#1e2733';
         target.style.border = '2px solid #E9542F';
       }
+      // set matchBtn to green and set target to red
       matchBtn.style.backgroundColor = '#497141';
       matchBtn.style.color = '#1e2733';
       matchBtn.style.border = '2px solid #497141';
       this.incorrectWords.push(answer);
-      // set matchBtn to green and set target to red
+    }
+    if (this.audioWords) {
+      img.src = `${this.baseUrl}${this.audioWords[this.currentWordIndex].image}`;
+      img.style.display = 'block';
+      (document.getElementById('audio-word-player') as HTMLElement).style.margin = '0px 20px 50px';
     }
     // display image using audioWords[currentIndex].image
     // set image to block
@@ -227,6 +242,7 @@ class GameAudioController {
       usedWords = [];
     }
     // select 10 random words from arr
+    console.log(arr.sort(() => Math.random() - Math.random()).slice(0, 10));
     return arr.sort(() => Math.random() - Math.random()).slice(0, 10);
   }
 }

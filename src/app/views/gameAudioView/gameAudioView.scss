@@ -1,6 +1,6 @@
 .game-audio-block {
   min-height: calc(100vh - 100px);
-  background: linear-gradient(20deg, #425670 10%, #1e2733 45%);
+  // background: linear-gradient(20deg, #425670 10%, #1e2733 45%);
 }
 
 .sprint-settings-page,
@@ -51,6 +51,16 @@
   100% {
     transform: scale(1);
   }
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.image-container .img {
+  border-radius: 10%;
 }
 
 .audio-words {
