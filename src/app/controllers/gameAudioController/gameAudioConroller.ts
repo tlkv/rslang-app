@@ -91,14 +91,12 @@ class GameAudioController {
       return;
     }
     const question = this.audioWords[this.currentWordIndex];
-    // console.log(question, this.currentWordIndex);
     this.currentMatchIndex = question.matchIndex;
     this.audio.src = `${this.baseUrl}${question.audio}`;
-    // console.log(this.audio.src);
     (document.getElementById('audio-word-player') as HTMLElement).onclick = () => {
-      // console.log(this.audio.src, 'inside audio');
       this.audio.play();
     };
+    (document.getElementById('img') as HTMLImageElement).style.opacity = '0';
     const btns = (document.querySelectorAll('.audio-word-btn') as NodeList);
     btns.forEach((btn, i) => {
       const b = btn as HTMLInputElement;
@@ -111,13 +109,9 @@ class GameAudioController {
       b.style.color = '#bebebe';
       b.style.border = '2px solid #edd874';
     });
-    (document.getElementById('img') as HTMLImageElement).style.opacity = '0';
-    // remove image .dislay = 'none'
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
     skipBtn.innerHTML = 'Skip';
-    // console.log(skipBtn);
     this.isSkippedPressed = false;
-    // console.log('skipped', this.isSkippedPressed);
     skipBtn.onclick = this.skipQuestions.bind(this);
     this.audio.play();
   }
@@ -137,7 +131,8 @@ class GameAudioController {
     this.isGameStarted = false;
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_MODAL;
     // do calculations
-    // use incorrect and correct arr.length to find how many right and wrong answers
+    // filter incorrect arr for skip or next
+    // dislay the words
     const correctWordsNoRepeat = Array.from(new Set(this.correctWords));
     const incorrectWordsNoRepeat = Array.from(new Set(this.incorrectWords));
     this.correctWords = correctWordsNoRepeat;
@@ -147,13 +142,6 @@ class GameAudioController {
     (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
     (document.getElementById('correct-count') as HTMLElement).innerHTML = this.correctWords.length.toString();
     (document.getElementById('incorrect-count') as HTMLElement).innerHTML = this.incorrectWords.length.toString();
-    // console.log('correctWords', this.correctWords);
-    // console.log('incorrectWords', this.incorrectWords);
-
-    console.log('correctWords', correctWordsNoRepeat);
-    console.log('incorrectWords', incorrectWordsNoRepeat);
-    // filter incorrect arr for skip or next
-    // dislay the words
   }
 
   skipQuestions(e: Event) {
@@ -167,8 +155,6 @@ class GameAudioController {
     }
     // use check answer for skip btn
     this.checkAnswer(e);
-    // console.log(btn);
-    // console.log('skipped outside if', this.isSkippedPressed);
   }
 
   checkAnswer(e: Event) {
@@ -187,30 +173,37 @@ class GameAudioController {
       target.style.color = '#1e2733';
       target.style.border = '2px solid #497141';
       this.correctWords.push(answer);
+      this.audio.src = '../../../assets/correct-sound.mp3';
+      this.audio.play();
     } else {
       if (answer !== 'Skip') {
         target.style.backgroundColor = '#E9542F';
         target.style.color = '#1e2733';
         target.style.border = '2px solid #E9542F';
         this.incorrectWords.push(matchBtn.innerHTML);
+        this.audio.src = '../../../assets/incorrect-sound.mp3';
+        this.audio.play();
       } else if (answer === 'Skip') {
         this.incorrectWords.push(matchBtn.innerHTML);
+        this.audio.src = '../../../assets/incorrect-sound.mp3';
+        this.audio.play();
       }
       // set matchBtn to green and set target to red
       matchBtn.style.backgroundColor = '#497141';
       matchBtn.style.color = '#1e2733';
       matchBtn.style.border = '2px solid #497141';
-      // this.incorrectWords.push(answer);
     }
     if (this.audioWords) {
       img.src = `${this.baseUrl}${this.audioWords[this.currentWordIndex].image}`;
-      img.style.opacity = '1';
     }
     // display image using audioWords[currentIndex].image
     // set image to block
     // in setWords reset image to none
     this.isSkippedPressed = true;
     skipBtn.innerHTML = 'Next';
+    setTimeout(() => {
+      img.style.opacity = '1';
+    }, 200);
   }
 
   resetValues() {
