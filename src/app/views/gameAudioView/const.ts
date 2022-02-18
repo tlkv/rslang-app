@@ -73,7 +73,7 @@ const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 </div>
 </div>
 <div class="modal-lower-btns">
-<button class="module-lower-btn" id="restart-sprint-btn">Play again</button>
+<button class="module-lower-btn" id="restart-btn">Play again</button>
 <button class="module-lower-btn" id="to-text-book-btn"><a href="#textbook" class="module-lower-btn-ref">Go to the textbook</a></button>
 </div>
 </div>

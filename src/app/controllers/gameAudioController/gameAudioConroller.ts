@@ -54,7 +54,7 @@ class GameAudioController {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-audio-btn') as HTMLInputElement;
         const restartBtn = (e.target as HTMLElement).closest(
-          '#restart-audio-btn',
+          '#restart-btn',
         ) as HTMLInputElement;
         if (startBtn) {
           const checkedInput = document.querySelector(
@@ -70,6 +70,8 @@ class GameAudioController {
           this.audioWords = await this.getWords(this.level, this.pageStart);
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
           this.startGame();
+        } else if (restartBtn) {
+          this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_START;
         }
       }
     });
@@ -109,8 +111,7 @@ class GameAudioController {
       b.style.color = '#bebebe';
       b.style.border = '2px solid #edd874';
     });
-    (document.getElementById('img') as HTMLImageElement).style.display = 'none';
-    (document.getElementById('audio-word-player') as HTMLElement).style.margin = '100px 20px';
+    (document.getElementById('img') as HTMLImageElement).style.opacity = '0';
     // remove image .dislay = 'none'
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
     skipBtn.innerHTML = 'Skip';
@@ -121,11 +122,36 @@ class GameAudioController {
     this.audio.play();
   }
 
+  calculateResult() {
+    const allAnswers = this.correctWords.length + this.incorrectWords.length;
+    let percent: number;
+    if (allAnswers > 0) {
+      percent = (this.correctWords.length * 100) / allAnswers;
+    } else {
+      percent = 0;
+    }
+    return Math.round(percent);
+  }
+
   endGame() {
     this.isGameStarted = false;
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_MODAL;
     // do calculations
     // use incorrect and correct arr.length to find how many right and wrong answers
+    const correctWordsNoRepeat = Array.from(new Set(this.correctWords));
+    const incorrectWordsNoRepeat = Array.from(new Set(this.incorrectWords));
+    this.correctWords = correctWordsNoRepeat;
+    this.incorrectWords = incorrectWordsNoRepeat;
+    const percent = this.calculateResult();
+    (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (4.4 * (100 - percent)).toString();
+    (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
+    (document.getElementById('correct-count') as HTMLElement).innerHTML = this.correctWords.length.toString();
+    (document.getElementById('incorrect-count') as HTMLElement).innerHTML = this.incorrectWords.length.toString();
+    // console.log('correctWords', this.correctWords);
+    // console.log('incorrectWords', this.incorrectWords);
+
+    console.log('correctWords', correctWordsNoRepeat);
+    console.log('incorrectWords', incorrectWordsNoRepeat);
     // filter incorrect arr for skip or next
     // dislay the words
   }
@@ -156,9 +182,6 @@ class GameAudioController {
     const matchBtn = answers[this.currentMatchIndex] as HTMLInputElement;
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
     const img = document.getElementById('img') as HTMLImageElement;
-    if (this.audioWords) {
-      console.log(this.audioWords[this.currentWordIndex].image);
-    }
     if (matchBtn.innerHTML === answer) {
       target.style.backgroundColor = '#497141';
       target.style.color = '#1e2733';
@@ -169,17 +192,19 @@ class GameAudioController {
         target.style.backgroundColor = '#E9542F';
         target.style.color = '#1e2733';
         target.style.border = '2px solid #E9542F';
+        this.incorrectWords.push(matchBtn.innerHTML);
+      } else if (answer === 'Skip') {
+        this.incorrectWords.push(matchBtn.innerHTML);
       }
       // set matchBtn to green and set target to red
       matchBtn.style.backgroundColor = '#497141';
       matchBtn.style.color = '#1e2733';
       matchBtn.style.border = '2px solid #497141';
-      this.incorrectWords.push(answer);
+      // this.incorrectWords.push(answer);
     }
     if (this.audioWords) {
       img.src = `${this.baseUrl}${this.audioWords[this.currentWordIndex].image}`;
-      img.style.display = 'block';
-      (document.getElementById('audio-word-player') as HTMLElement).style.margin = '0px 20px 50px';
+      img.style.opacity = '1';
     }
     // display image using audioWords[currentIndex].image
     // set image to block
@@ -242,7 +267,6 @@ class GameAudioController {
       usedWords = [];
     }
     // select 10 random words from arr
-    console.log(arr.sort(() => Math.random() - Math.random()).slice(0, 10));
     return arr.sort(() => Math.random() - Math.random()).slice(0, 10);
   }
 }
