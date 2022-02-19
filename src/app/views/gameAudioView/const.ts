@@ -79,4 +79,22 @@ const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 </div>
 </section>`;
 
-export { FRONT_BLOCK_CONTENT_START, FRONT_BLOCK_CONTENT_GAME, FRONT_BLOCK_CONTENT_MODAL };
+const KEYBOARD_INSTRUCTIONS = `<div id="keyboard-layout">
+<div class="keyboard-row"><div class="keyboard-symbol">↑</div>
+<p class="keyboard-text">Play audio</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">←</div>
+<p class="keyboard-text">Move left</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">→</div>
+<p class="keyboard-text">Move right</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">ENTER</div>
+<p class="keyboard-text">Skip / Next / Continue</p>
+</div>
+</div>`;
+
+export {
+  FRONT_BLOCK_CONTENT_START, FRONT_BLOCK_CONTENT_GAME, FRONT_BLOCK_CONTENT_MODAL,
+  KEYBOARD_INSTRUCTIONS,
+};

@@ -19,3 +19,11 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
+.app-center-block {
+  position: relative;
+}
+
+.app-center-block:focus {
+  outline: none;
+}

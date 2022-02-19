@@ -5,6 +5,7 @@ import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
   FRONT_BLOCK_CONTENT_MODAL,
+  KEYBOARD_INSTRUCTIONS,
 } from '../../views/gameAudioView/const';
 import IAudioWord from '../../models/api/interfaces/IAudioWord';
 
@@ -46,6 +47,7 @@ class GameAudioController {
     this.incorrectWords = [];
     this.currentWordIndex = 0;
     this.currentMatchIndex = 0;
+    // this.view.frontBlock.container.innerHTML += KEYBOARD_INSTRUCTIONS;
     this.containerListener();
   }
 
@@ -71,6 +73,13 @@ class GameAudioController {
         case 'ArrowRight':
           this.moveArrow('right');
           break;
+        case 'ArrowUp': {
+          if (this.audioWords) {
+            const question = this.audioWords[this.currentWordIndex];
+            this.playAudio(`${this.baseUrl}${question.audio}`);
+          }
+          break;
+        }
         case 'Enter':
           this.enterPress(e);
           break;
@@ -95,6 +104,7 @@ class GameAudioController {
     this.level = +checkedInput.value;
     this.pageStart = 1;
     this.audioWords = await this.getWords(this.level, this.pageStart);
+    console.log(this.audioWords);
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
     this.startGame();
   }
@@ -143,8 +153,7 @@ class GameAudioController {
           }
         }
       } else {
-        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked =
-          true;
+        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked = true;
       }
     } else {
       // in game - controll game btns
@@ -187,9 +196,9 @@ class GameAudioController {
     this.currentMatchIndex = question.matchIndex;
 
     // Set word audio
-    this.audio.src = `${this.baseUrl}${question.audio}`;
+    // this.audio.src = `${this.baseUrl}${question.audio}`;
     (document.getElementById('audio-word-player') as HTMLElement).onclick = () => {
-      this.audio.play();
+      this.playAudio(`${this.baseUrl}${question.audio}`);
     };
     // Remove image opacity
     (document.getElementById('img') as HTMLImageElement).style.opacity = '0';
@@ -245,19 +254,15 @@ class GameAudioController {
     }
     const percent = this.calculateResult();
     (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (
-      4.4 *
-      (100 - percent)
+      4.4 * (100 - percent)
     ).toString();
     (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
-    (document.getElementById('correct-count') as HTMLElement).innerHTML =
-      this.correctWords.length.toString();
-    (document.getElementById('incorrect-count') as HTMLElement).innerHTML =
-      this.incorrectWords.length.toString();
+    (document.getElementById('correct-count') as HTMLElement).innerHTML = this.correctWords.length.toString();
+    (document.getElementById('incorrect-count') as HTMLElement).innerHTML = this.incorrectWords.length.toString();
   }
 
   skipQuestions(e: Event) {
-    const btn =
-      e.type === 'click' ? (e.target as HTMLInputElement) : document.getElementById('skip-btn');
+    const btn = e.type === 'click' ? (e.target as HTMLInputElement) : document.getElementById('skip-btn');
     // use if for next btn
     if (this.isSkippedPressed) {
       this.currentWordIndex += 1;
