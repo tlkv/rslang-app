@@ -212,9 +212,12 @@ class GameAudioController {
       b.addEventListener('click', (e) => {
         this.checkAnswer(e);
       });
-      b.style.backgroundColor = 'transparent';
-      b.style.color = '#bebebe';
-      b.style.border = '2px solid #edd874';
+      if (b.classList.contains('correct') || b.classList.contains('incorrect')) {
+        b.classList.value = 'audio-word-btn';
+      }
+      // b.style.backgroundColor = 'transparent';
+      // b.style.color = '#bebebe';
+      // b.style.border = '2px solid #edd874';
     });
 
     // Set skip btn
@@ -308,16 +311,18 @@ class GameAudioController {
     const answer = target.innerHTML;
     const img = document.getElementById('img') as HTMLImageElement;
     if (matchBtn.innerHTML === answer) {
-      target.style.backgroundColor = '#497141';
-      target.style.color = '#1e2733';
-      target.style.border = '2px solid #497141';
+      target.classList.add('correct');
+      // target.style.backgroundColor = '#497141';
+      // target.style.color = '#1e2733';
+      // target.style.border = '2px solid #497141';
       this.correctWords.push(answer);
       this.playAudio('../../../assets/correct-sound.mp3');
     } else {
       if (answer !== 'Skip') {
-        target.style.backgroundColor = '#E9542F';
-        target.style.color = '#1e2733';
-        target.style.border = '2px solid #E9542F';
+        target.classList.add('incorrect');
+        // target.style.backgroundColor = '#E9542F';
+        // target.style.color = '#1e2733';
+        // target.style.border = '2px solid #E9542F';
         this.incorrectWords.push(matchBtn.innerHTML);
         this.playAudio('../../../assets/incorrect-sound.mp3');
       } else if (answer === 'Skip') {
@@ -325,9 +330,10 @@ class GameAudioController {
         this.playAudio('../../../assets/incorrect-sound.mp3');
       }
       // set matchBtn to green and set target to red
-      matchBtn.style.backgroundColor = '#497141';
-      matchBtn.style.color = '#1e2733';
-      matchBtn.style.border = '2px solid #497141';
+      matchBtn.classList.add('correct');
+      // matchBtn.style.backgroundColor = '#497141';
+      // matchBtn.style.color = '#1e2733';
+      // matchBtn.style.border = '2px solid #497141';
     }
     if (this.audioWords) {
       img.src = `${this.baseUrl}${this.audioWords[this.currentWordIndex].image}`;

@@ -38,6 +38,8 @@ class GameSprintController {
 
   scoreMultiplier: number;
 
+  scoreCount: string;
+
   userId: string | null;
 
   constructor(root: HTMLElement) {
@@ -52,6 +54,7 @@ class GameSprintController {
     this.isGameStarted = false;
     this.threeInRowCounter = 0;
     this.scoreMultiplier = 10;
+    this.scoreCount = '';
     this.userId = localStorage.getItem('userId');
     this.containerListener();
   }
@@ -221,7 +224,7 @@ class GameSprintController {
     this.nextWord();
   }
 
-  updateLearnedWord(wordId: string, remove: boolean) {
+  async updateLearnedWord(wordId: string, remove: boolean) {
     if (this.userId) {
       if (remove) {
         // remove word from learned words
@@ -268,10 +271,16 @@ class GameSprintController {
     (document.getElementById('sprint-timer') as HTMLElement).innerHTML = `${this.totalTime}`;
     if (this.totalTime <= 0) {
       this.isGameStarted = false;
+      this.scoreCount = (document.getElementById('score-count') as HTMLElement).innerHTML;
       // calculates scores and paste it into the modal view
 
       // calls a modal view
       this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_MODAL;
+      const totalScore = document.getElementById('total-score') as HTMLElement;
+      totalScore.innerHTML = this.scoreCount;
+      if (+this.scoreCount === 0) {
+        (document.getElementById('result-message') as HTMLElement).innerHTML = 'Sorry! But you can do much better';
+      }
       const percent = this.calculateResult();
       (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (
         4.4 *
