@@ -1,6 +1,6 @@
 import GameAudioView from '../../views/gameAudioView/gameAudioView';
 import { State, state } from '../../models/api/state/state';
-import getWordsTextbook from '../../models/api/api/getWordsTextbook';
+import { getWordsTextbook } from '../../models/api/api/getWordsTextbook';
 import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
@@ -105,7 +105,7 @@ class GameAudioController {
       this.startPress();
     } else {
       // in game
-      const selectedOption = (document.querySelector('.audio-word-btn.active') as HTMLInputElement);
+      const selectedOption = document.querySelector('.audio-word-btn.active') as HTMLInputElement;
 
       if (selectedOption && !this.isSkippedPressed) {
         // use selected option
@@ -122,7 +122,9 @@ class GameAudioController {
       // in start menu - controll radio btns
 
       // get the checked radio btn
-      const selectedOption = document.querySelector('input[type="radio"]:checked') as HTMLInputElement;
+      const selectedOption = document.querySelector(
+        'input[type="radio"]:checked',
+      ) as HTMLInputElement;
 
       // check if it exists
       if (selectedOption) {
@@ -141,14 +143,15 @@ class GameAudioController {
           }
         }
       } else {
-        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked = true;
+        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked =
+          true;
       }
     } else {
       // in game - controll game btns
       // if skip has been pressed don't allow keypresses
       if (this.isSkippedPressed) return;
 
-      const selectedOption = (document.querySelector('.audio-word-btn.active') as HTMLInputElement);
+      const selectedOption = document.querySelector('.audio-word-btn.active') as HTMLInputElement;
       if (selectedOption) {
         if (direction === 'right') {
           if (selectedOption.nextElementSibling) {
@@ -192,7 +195,7 @@ class GameAudioController {
     (document.getElementById('img') as HTMLImageElement).style.opacity = '0';
 
     // Set all answer btns
-    const btns = (document.querySelectorAll('.audio-word-btn') as NodeList);
+    const btns = document.querySelectorAll('.audio-word-btn') as NodeList;
     btns.forEach((btn, i) => {
       const b = btn as HTMLInputElement;
       b.innerHTML = question.options[i];
@@ -236,19 +239,25 @@ class GameAudioController {
     this.correctWords = correctWordsNoRepeat;
     this.incorrectWords = incorrectWordsNoRepeat;
     if (this.correctWords.length === 10) {
-      (message.innerHTML = 'Splendid work! Just keep going');
+      message.innerHTML = 'Splendid work! Just keep going';
     } else if (this.correctWords.length === 0) {
-      (message.innerHTML = 'Sorry! But you can do much better');
+      message.innerHTML = 'Sorry! But you can do much better';
     }
     const percent = this.calculateResult();
-    (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (4.4 * (100 - percent)).toString();
+    (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (
+      4.4 *
+      (100 - percent)
+    ).toString();
     (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
-    (document.getElementById('correct-count') as HTMLElement).innerHTML = this.correctWords.length.toString();
-    (document.getElementById('incorrect-count') as HTMLElement).innerHTML = this.incorrectWords.length.toString();
+    (document.getElementById('correct-count') as HTMLElement).innerHTML =
+      this.correctWords.length.toString();
+    (document.getElementById('incorrect-count') as HTMLElement).innerHTML =
+      this.incorrectWords.length.toString();
   }
 
   skipQuestions(e: Event) {
-    const btn = e.type === 'click' ? e.target as HTMLInputElement : document.getElementById('skip-btn');
+    const btn =
+      e.type === 'click' ? (e.target as HTMLInputElement) : document.getElementById('skip-btn');
     // use if for next btn
     if (this.isSkippedPressed) {
       this.currentWordIndex += 1;
@@ -278,7 +287,7 @@ class GameAudioController {
   }
 
   checkAnswer(e: Event) {
-    const answers = Array.from((document.querySelectorAll('.audio-word-btn') as NodeList));
+    const answers = Array.from(document.querySelectorAll('.audio-word-btn') as NodeList);
     answers.forEach((el) => {
       const btn = el as HTMLInputElement;
       btn.disabled = true;
@@ -287,12 +296,12 @@ class GameAudioController {
     const matchBtn = answers[this.currentMatchIndex] as HTMLInputElement;
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
     let target;
-    const audioWordBtn = (document.querySelector('.audio-word-btn.active') as HTMLInputElement);
+    const audioWordBtn = document.querySelector('.audio-word-btn.active') as HTMLInputElement;
     if (audioWordBtn) {
       target = audioWordBtn;
       target.classList.remove('active');
     } else {
-      target = e.type === 'click' ? e.target as HTMLInputElement : skipBtn;
+      target = e.type === 'click' ? (e.target as HTMLInputElement) : skipBtn;
     }
 
     const answer = target.innerHTML;
@@ -355,7 +364,7 @@ class GameAudioController {
   }
 
   async getWords(level: number, pageStart: number) {
-    const words1 = await getWordsTextbook(level, pageStart);
+    const words1 = await getWordsTextbook(level, pageStart, this.model.isAuth);
     this.model.words = words1;
     const arr = [];
     let usedWords = [];
