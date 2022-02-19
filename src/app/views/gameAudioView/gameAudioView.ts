@@ -1,10 +1,10 @@
 import './gameAudioView.scss';
 import Component from '../_templates/component';
 import Header from '../_templates/header/header';
+import { FRONT_BLOCK_CONTENT_START, FRONT_BLOCK_CONTENT_GAME, FRONT_BLOCK_CONTENT_MODAL } from './const';
 
 class GameAudioView extends Component {
-  frontBlockContent = `Audio Game 
-  Page`;
+  frontBlockContent = FRONT_BLOCK_CONTENT_START;
 
   frontBlockWrapper = new Component('div', ['container']);
 
