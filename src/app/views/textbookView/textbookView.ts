@@ -34,7 +34,12 @@ class TextbookView extends Component {
     textbookShowDifficult: boolean,
     textbookShowLearned: boolean,
   ) {
-    const isAllLearned = words.every((item) => item?.userWord?.optional?.isLearned === 'learned');
+    const isAllLearned = words.every(
+      (item) =>
+        // eslint-disable-next-line operator-linebreak, implicit-arrow-linebreak
+        item?.userWord?.optional?.isLearned === 'learned' ||
+        item?.userWord?.difficulty === 'difficult',
+    );
     const isPagination = !textbookShowDifficult && !textbookShowLearned;
     const buttons = this.renderButtons(
       textbookGroup,
@@ -44,7 +49,7 @@ class TextbookView extends Component {
       isAllLearned,
     );
 
-    const pagination = TextbookView.renderPagination(textbookPage, textbookMaxPage);
+    const pagination = TextbookView.renderPagination(textbookPage, textbookMaxPage, isAllLearned);
 
     const wordCards = TextbookView.renderWordCards(
       words,
@@ -53,10 +58,10 @@ class TextbookView extends Component {
       textbookShowLearned,
     );
     let secTitile = `Textbook - Group ${textbookGroup + 1}`;
-    if (textbookShowDifficult) {
+    if (isAuth && textbookShowDifficult) {
       secTitile = `Difficult words - <span class="additional-counter">
       ${words.length}</span>`;
-    } else if (textbookShowLearned) {
+    } else if (isAuth && textbookShowLearned) {
       secTitile = `Learned words - <span class="additional-counter">
       ${words.length}</span>`;
     }
@@ -67,7 +72,7 @@ class TextbookView extends Component {
       this.frontBlock.container.classList.remove('all-learned');
     }
 
-    if (textbookShowDifficult) {
+    if (isAuth && textbookShowDifficult) {
       this.frontBlock.container.classList.add('all-difficult');
     } else {
       this.frontBlock.container.classList.remove('all-difficult');
@@ -102,7 +107,7 @@ class TextbookView extends Component {
     textbookShowLearned: boolean,
     isAllLearned: boolean,
   ) {
-    const disableGamesCond = isAllLearned || textbookShowDifficult || textbookShowLearned;
+    const disableGamesCond = (isAllLearned || textbookShowLearned) && !textbookShowDifficult;
     let categButtons = '';
     for (let i = 0; i < this.groupsAmount; i += 1) {
       let buttonActive = '';
@@ -147,7 +152,7 @@ class TextbookView extends Component {
     return buttonsContainer;
   }
 
-  static renderPagination(textbookPage: number, textbookMaxPage: number) {
+  static renderPagination(textbookPage: number, textbookMaxPage: number, isAllLearned: boolean) {
     const first = 'data-action="textbook-pagination" data-state="textbookPage" data-value="0"';
     const prev = `data-action="textbook-pagination" data-state="textbookPage"
     data-value="${textbookPage - 1}"`;
@@ -163,7 +168,8 @@ class TextbookView extends Component {
     <button class="textbook-pages-button pagination-prev"
       ${textbookPage !== 0 ? prev : ''}><i class="fa-solid fa-angle-left"></i>
     </button>
-    <button class="textbook-pages-button pagination-current">
+    <button class="textbook-pages-button pagination-current
+    ${isAllLearned ? ' pagination-learned-curr' : ''}">
       ${textbookPage + 1}/${textbookMaxPage + 1}
     </button>
     <button class="textbook-pages-button pagination-next"
@@ -184,30 +190,32 @@ class TextbookView extends Component {
   ) {
     console.log('words', words);
     const renderWordCard = (word: IDictWord) => {
-      const isDifficult = isAuth && word.userWord && word.userWord.difficulty === 'difficult';
-      const isLearnedData = isAuth && word.userWord && word.userWord.optional;
-      const isLearned = isLearnedData && word.userWord.optional.isLearned === 'learned';
-      const isAdditionalPage = textbookShowDifficult || textbookShowLearned;
+      const isDifficult = isAuth && word?.userWord?.difficulty === 'difficult';
+      const isLearned = isAuth && word?.userWord?.optional?.isLearned === 'learned';
       // eslint-disable-next-line no-underscore-dangle
       const wId = isAuth ? word._id : word.id;
-      const additionalButtons = `
+      const addDifficult = `
       <button class="textbook-diff-button button-card-color-${word.group + 1}"
       data-add-difficult="${wId}"
-      data-action="textbook-add-difficult">+ Add as difficult</button>
+      data-action="textbook-add-difficult">Add as difficult</button>`;
+
+      const addLearned = `
       <button class="textbook-learned-button button-card-color-${word.group + 1}"
       data-add-learned="${wId}"
-      data-action="textbook-add-learned">+ Add as learned</button>`;
+      data-action="textbook-add-learned">Add as learned</button>`;
       const removeDifficult = `
       <button class="textbook-diff-button button-card-color-${word.group + 1}"
       data-rem-difficult="${wId}"
-      data-action="textbook-rem-difficult">- Remove as difficult</button>`;
+      data-action="textbook-rem-difficult">Remove as difficult</button>`;
       const removeLearned = `
       <button class="textbook-learned-button button-card-color-${word.group + 1}"
       data-rem-learned="${wId}"
-      data-action="textbook-rem-learned">- Remove as learned</button>`;
-      const authButtons = `${!isAdditionalPage ? additionalButtons : ''}
-          ${isAuth && textbookShowDifficult ? removeDifficult : ''}
-          ${isAuth && textbookShowLearned ? removeLearned : ''}
+      data-action="textbook-rem-learned">Remove as learned</button>`;
+      const authButtons = `
+          ${isDifficult && !textbookShowLearned ? removeDifficult : ''}
+          ${!isDifficult && !textbookShowLearned ? addDifficult : ''}
+          ${isLearned && !textbookShowDifficult ? removeLearned : ''}
+          ${!isLearned && !textbookShowDifficult ? addLearned : ''}
           <h2 class="textbook-game-answers">
           <i class="fa-solid fa-trophy color-group-${word.group + 1}"></i> Game Answers</h2>
           <div class="textbook-game-res res-textbook-${word.group + 1}">Sprint Game - 0 of N</div>

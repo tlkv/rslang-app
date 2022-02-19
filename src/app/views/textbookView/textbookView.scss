@@ -324,7 +324,7 @@ button > i {
 
 .textbook-card-difficult::after {
   right: 0;
-  top: 55px;
+  top: 5px;
   width: 40px;
   height: 40px;
   content: '';
@@ -425,6 +425,9 @@ button > i {
 }
 .hidden-card {
   display: none;
+}
+.pagination-learned-curr {
+  color: #34e89e;
 }
 @media (max-width: 1200px) {
   .textbook-words-wrapper {

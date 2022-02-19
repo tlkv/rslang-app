@@ -5,7 +5,7 @@ import Footer from '../_templates/footer/footer';
 
 class AuthorizationView extends Component {
   authorizedUsersContent = `<div class="authorization">
-    <img src="/assets/userIcon.png" alt="authorization img" class="authorization-img">
+    <img src="./assets/userIcon.png" alt="authorization img" class="authorization-img">
     <p class='auth-info'>You are authorized as </br>${localStorage.getItem('email')}</p>
     <button class="log-out" id="log-out"><i class="fa-solid fa-arrow-right-from-bracket"></i>
     log-out</button>
@@ -13,7 +13,7 @@ class AuthorizationView extends Component {
 
   authorizationBlockContent = `<section class="authorization-box">
       <div class="err-description">OOPS! Incorrect e-mail or password</div>
-      <img src="/assets/authorization-img.png" alt="authorization img" class="authorization-img">
+      <img src="./assets/authorization-img.png" alt="authorization img" class="authorization-img">
       <div class="authorization">
         <p id="sign-in-link" class="view">Don't have an account yet? Register now!</p>
         <h2 class="authorization-title">Nice to see you again!</h2>
@@ -25,7 +25,7 @@ class AuthorizationView extends Component {
 
   registrationBlockContent = ` <section class="authorization-box">
       <div class="err-description">OOPS! Incorrect e-mail or password</div>
-      <img src="/assets/authorization-img.png" alt="authorization img" class="authorization-img">
+      <img src="./assets/authorization-img.png" alt="authorization img" class="authorization-img">
       <div class="authorization">
         <p id="register-link" class="view">Do you already have an account? Sign in!</p>
         <h2 class="authorization-title">Register and get access to additional features of the application</h2>
