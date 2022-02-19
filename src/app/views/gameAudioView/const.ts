@@ -59,7 +59,7 @@ const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 </div>
 <div class="modal-results">
 <div class="card">
-<p class="result-message">Great result. But you can do better!</p>
+<p class="result-message" id="result-message">Great result. But you can do better!</p>
 <p class="result-statistics"><span id="correct-count">11</span> words learned, <span id="incorrect-count">4</span> words on study</p>
   <div class="box"><div class="percent">
       <svg><circle cx="70" cy="70" r="70"></circle><circle id="percent-circle" cx="70" cy="70" r="70"></circle><svg>

@@ -227,6 +227,7 @@ class GameAudioController {
   endGame() {
     this.isGameStarted = false;
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_MODAL;
+    const message = document.getElementById('result-message') as HTMLElement;
     // do calculations
     // filter incorrect arr for skip or next
     // dislay the words
@@ -234,6 +235,11 @@ class GameAudioController {
     const incorrectWordsNoRepeat = Array.from(new Set(this.incorrectWords));
     this.correctWords = correctWordsNoRepeat;
     this.incorrectWords = incorrectWordsNoRepeat;
+    if (this.correctWords.length === 10) {
+      (message.innerHTML = 'Splendid work! Just keep going');
+    } else if (this.correctWords.length === 0) {
+      (message.innerHTML = 'Sorry! But you can do much better');
+    }
     const percent = this.calculateResult();
     (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (4.4 * (100 - percent)).toString();
     (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
