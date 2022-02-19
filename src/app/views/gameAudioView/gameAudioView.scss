@@ -26,6 +26,7 @@
   font-size: 28px;
 }
 
+
 .audio-word-player {
   margin: 100px 20px 50px;
 }
@@ -80,6 +81,10 @@
   border: 2px solid #edd874;
   border-radius: 30px;
   transition: background-color .5s ease;
+}
+
+.audio-word-btn.active {
+  background-color: aqua !important;
 }
 
 .skip-btn {

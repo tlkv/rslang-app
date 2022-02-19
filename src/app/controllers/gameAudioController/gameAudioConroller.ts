@@ -53,28 +53,116 @@ class GameAudioController {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-audio-btn') as HTMLInputElement;
-        const restartBtn = (e.target as HTMLElement).closest(
-          '#restart-btn',
-        ) as HTMLInputElement;
+        const restartBtn = (e.target as HTMLElement).closest('#restart-btn') as HTMLInputElement;
         if (startBtn) {
-          const checkedInput = document.querySelector(
-            'input[name="audio-level"]:checked',
-          ) as HTMLInputElement;
-          if (!checkedInput.value) {
-            alert('Please select a level');
-            return;
-          }
-          this.level = +checkedInput.value;
-          // console.log(this.level);
-          this.pageStart = 1;
-          this.audioWords = await this.getWords(this.level, this.pageStart);
-          this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
-          this.startGame();
+          this.startPress();
         } else if (restartBtn) {
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_START;
         }
       }
     });
+
+    // Keyboard controls
+    this.view.frontBlock.container.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'ArrowLeft':
+          this.moveArrow('left');
+          break;
+        case 'ArrowRight':
+          this.moveArrow('right');
+          break;
+        case 'Enter':
+          this.enterPress(e);
+          break;
+        default:
+          break;
+      }
+    });
+
+    this.view.frontBlock.container.setAttribute('tabindex', '0');
+  }
+
+  async startPress() {
+    const checkedInput = document.querySelector(
+      'input[name="audio-level"]:checked',
+    ) as HTMLInputElement;
+
+    if (!checkedInput) {
+      alert('Please select a level');
+      return;
+    }
+
+    this.level = +checkedInput.value;
+    this.pageStart = 1;
+    this.audioWords = await this.getWords(this.level, this.pageStart);
+    this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
+    this.startGame();
+  }
+
+  enterPress(e: Event) {
+    if (!this.isGameStarted) {
+      // in start menu
+      this.startPress();
+    } else {
+      // in game
+      const selectedOption = (document.querySelector('.audio-word-btn.active') as HTMLInputElement);
+
+      if (selectedOption && !this.isSkippedPressed) {
+        // use selected option
+        this.checkAnswer(e);
+      } else {
+        // skip
+        this.skipQuestions(e);
+      }
+    }
+  }
+
+  moveArrow(direction: string) {
+    if (!this.isGameStarted) {
+      // in start menu - controll radio btns
+
+      // get the checked radio btn
+      const selectedOption = document.querySelector('input[type="radio"]:checked') as HTMLInputElement;
+
+      // check if it exists
+      if (selectedOption) {
+        if (direction === 'right') {
+          const parent = selectedOption.parentElement as HTMLElement;
+          if (parent.nextElementSibling) {
+            const sibling = parent.nextElementSibling as HTMLElement;
+            (sibling.firstElementChild as HTMLInputElement).checked = true;
+          }
+        } else {
+          // else go left
+          const parent = selectedOption.parentElement as HTMLElement;
+          if (parent.previousElementSibling) {
+            const sibling = parent.previousElementSibling as HTMLElement;
+            (sibling.firstElementChild as HTMLInputElement).checked = true;
+          }
+        }
+      } else {
+        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked = true;
+      }
+    } else {
+      // in game - controll game btns
+      // if skip has been pressed don't allow keypresses
+      if (this.isSkippedPressed) return;
+
+      const selectedOption = (document.querySelector('.audio-word-btn.active') as HTMLInputElement);
+      if (selectedOption) {
+        if (direction === 'right') {
+          if (selectedOption.nextElementSibling) {
+            selectedOption.classList.remove('active');
+            (selectedOption.nextElementSibling as HTMLInputElement).classList.add('active');
+          }
+        } else if (selectedOption.previousElementSibling) {
+          selectedOption.classList.remove('active');
+          (selectedOption.previousElementSibling as HTMLInputElement).classList.add('active');
+        }
+      } else {
+        (document.querySelector('.audio-word-btn') as HTMLInputElement).classList.add('active');
+      }
+    }
   }
 
   async startGame() {
@@ -84,19 +172,26 @@ class GameAudioController {
   }
 
   setWords() {
-    // TODO check if currentWordIndex > audioWords.length -> end game
     if (!this.audioWords || this.isGameStarted === false) return;
+
+    // end game condition
     if (this.currentWordIndex >= this.audioWords.length) {
       this.endGame();
       return;
     }
+
     const question = this.audioWords[this.currentWordIndex];
     this.currentMatchIndex = question.matchIndex;
+
+    // Set word audio
     this.audio.src = `${this.baseUrl}${question.audio}`;
     (document.getElementById('audio-word-player') as HTMLElement).onclick = () => {
       this.audio.play();
     };
+    // Remove image opacity
     (document.getElementById('img') as HTMLImageElement).style.opacity = '0';
+
+    // Set all answer btns
     const btns = (document.querySelectorAll('.audio-word-btn') as NodeList);
     btns.forEach((btn, i) => {
       const b = btn as HTMLInputElement;
@@ -109,6 +204,8 @@ class GameAudioController {
       b.style.color = '#bebebe';
       b.style.border = '2px solid #edd874';
     });
+
+    // Set skip btn
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
     skipBtn.innerHTML = 'Skip';
     this.isSkippedPressed = false;
@@ -145,7 +242,7 @@ class GameAudioController {
   }
 
   skipQuestions(e: Event) {
-    const btn = e.target as HTMLInputElement;
+    const btn = e.type === 'click' ? e.target as HTMLInputElement : document.getElementById('skip-btn');
     // use if for next btn
     if (this.isSkippedPressed) {
       this.currentWordIndex += 1;
@@ -157,36 +254,59 @@ class GameAudioController {
     this.checkAnswer(e);
   }
 
+  playAudio(path: string) {
+    this.audio.src = path;
+    // this.audio.pause();
+    // this.audio.load();
+    // this.audio.play();
+    const playPromise = this.audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.audio.play();
+      });
+    } else {
+      this.audio.play();
+    }
+  }
+
   checkAnswer(e: Event) {
     const answers = Array.from((document.querySelectorAll('.audio-word-btn') as NodeList));
     answers.forEach((el) => {
       const btn = el as HTMLInputElement;
       btn.disabled = true;
     });
-    const target = e.target as HTMLInputElement;
-    const answer = target.innerHTML;
+
     const matchBtn = answers[this.currentMatchIndex] as HTMLInputElement;
     const skipBtn = document.getElementById('skip-btn') as HTMLInputElement;
+    let target;
+    const audioWordBtn = (document.querySelector('.audio-word-btn.active') as HTMLInputElement);
+    if (audioWordBtn) {
+      target = audioWordBtn;
+      target.classList.remove('active');
+    } else {
+      target = e.type === 'click' ? e.target as HTMLInputElement : skipBtn;
+    }
+
+    const answer = target.innerHTML;
     const img = document.getElementById('img') as HTMLImageElement;
     if (matchBtn.innerHTML === answer) {
       target.style.backgroundColor = '#497141';
       target.style.color = '#1e2733';
       target.style.border = '2px solid #497141';
       this.correctWords.push(answer);
-      this.audio.src = '../../../assets/correct-sound.mp3';
-      this.audio.play();
+      this.playAudio('../../../assets/correct-sound.mp3');
     } else {
       if (answer !== 'Skip') {
         target.style.backgroundColor = '#E9542F';
         target.style.color = '#1e2733';
         target.style.border = '2px solid #E9542F';
         this.incorrectWords.push(matchBtn.innerHTML);
-        this.audio.src = '../../../assets/incorrect-sound.mp3';
-        this.audio.play();
+        this.playAudio('../../../assets/incorrect-sound.mp3');
       } else if (answer === 'Skip') {
         this.incorrectWords.push(matchBtn.innerHTML);
-        this.audio.src = '../../../assets/incorrect-sound.mp3';
-        this.audio.play();
+        this.playAudio('../../../assets/incorrect-sound.mp3');
       }
       // set matchBtn to green and set target to red
       matchBtn.style.backgroundColor = '#497141';

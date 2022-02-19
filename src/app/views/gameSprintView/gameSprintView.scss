@@ -1,3 +1,8 @@
+.container:focus, 
+.game-sprint-block:focus {
+  outline: none;
+}
+
 .game-sprint-block {
   min-height: calc(100vh - 150px);
 }
@@ -8,7 +13,7 @@
   display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     max-width: 900px;
     width: 90%;
     text-align: center;
@@ -54,18 +59,19 @@
   font-size: 50px;
 }
 
-.start-sprint-btn {
+.start-btn {
   height: 60px;
   width: 220px;
   outline: none;
-  border: 1px solid #00ff43;
+  border: 1px solid #edd874;
   margin-top: 20px;
   border-radius: 30px;
   transition: background-color .5s ease;
 }
 
-.start-sprint-btn:hover {
-  background-color: #00ff43;
+.start-btn:hover {
+  background-color: #edd874;
+  color: #1e2733;
 }
 
 .level-btn {
@@ -104,13 +110,22 @@
 }
 
 input[type="radio"]:checked + .level-circle {
-  background-color: #00ff43;
+  background-color: #edd874;
+  color: #1e2733;
+  border: none;
 }
 
 .timer {
   display: flex;
   flex-direction: column;
-  font-size: 40px;
+  font-size: 60px;
+}
+
+.timer-icon {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 50px;
+  color: #edd874;
 }
 
 .en-word,
@@ -135,14 +150,19 @@ input[type="radio"]:checked + .level-circle {
   width: 90px;
   height: 50px;
   border-radius: 30px;
+  transition: box-shadow ease 0.3s;
 }
 
+.right-btn:hover, 
+.wrong-btn:hover {
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
 .right-btn {
-  background-color: green;
+  background-color: #609556;
 }
 
 .wrong-btn {
-  background-color: red;
+  background-color: #E9542F;
 }
 
 .sprint-game-modal-content {
@@ -173,12 +193,12 @@ input[type="radio"]:checked + .level-circle {
 
 .alert-right {
   opacity: 0;
-  color: green;
+  color: #609556;
 }
 
 .alert-wrong {
   opacity: 0;
-  color: red;
+  color: #E9542F;
 }
 
 .fade-out {
@@ -218,19 +238,20 @@ input[type="radio"]:checked + .level-circle {
   background-color: #fff;
 }
 
-.to-results-btn {
+.to-go-btn {
   position: relative;
   width: 190px;
   border: none;
   background-color: transparent;
   transition: all 1s ease-out;
+  color: #1e2733;
 }
 
-.to-results-btn:hover {
-  color: #00ff43;
+.to-go-btn:hover {
+  color: #edd874;
 }
 
-.to-results-btn:after {
+.to-go-btn:after {
   content: '';
   display: block;
   position: absolute;
@@ -242,37 +263,9 @@ input[type="radio"]:checked + .level-circle {
   transition: all .5s ease;
 }
 
-.to-results-btn:hover::after {
-  background-color: #00ff43;
-  color: #00ff43;
-}
-
-.to-see-words-btn {
-  position: relative;
-  width: 190px;
-  border: none;
-  background-color: transparent;
-  transition: all 1s ease-out;
-}
-
-.to-see-words-btn:hover {
-  color: #00ff43;
-}
-
-.to-see-words-btn:after {
-  content: '';
-  display: block;
-  position: absolute;
-  right: 0; 
-  bottom: -1px; 
-  left: -5px;
-  width: 205px;
-  height: 1px;
-  transition: all .5s ease;
-}
-
-.to-see-words-btn:hover::after {
-  background-color: #00ff43;
+.to-go-btn:hover::after {
+  background-color: #edd874;
+  color: #edd874;
 }
 
 .card {
@@ -299,6 +292,7 @@ input[type="radio"]:checked + .level-circle {
 .result-statistics,
 .result-statistics span {
   background-color: #fff;
+  color: #1e2733;
 }
 
 .box {
@@ -387,7 +381,7 @@ svg circle:nth-child(2) {
 
 .card:nth-child(1) svg circle:nth-child(2) {
   stroke-dashoffset:calc(440 - (440 * 90) / 100);
-  stroke:#00ff43;
+  stroke:#edd874;
 }
 
 .modal-lower-btns {
@@ -401,14 +395,28 @@ svg circle:nth-child(2) {
 
 .module-lower-btn {
   width: 130px;
-  border: solid 1px #00ff43;
+  border: solid 1px #edd874;
   background-color: transparent;
   border-radius: 5px;
   font-size: 16px;
+  color: #1e2733;
+  transition: background-color ease .3s;
+}
+
+.module-lower-btn:hover {
+  background-color: #edd874;
+
 }
 
 .module-lower-btn-ref {
   background-color: #fff;
   text-decoration: none;
   font-size: 16px;
+  color: #1e2733;
+  transition: background-color ease .3s;
+}
+
+.module-lower-btn:hover .module-lower-btn-ref{
+  background-color: #edd874;
+
 }
