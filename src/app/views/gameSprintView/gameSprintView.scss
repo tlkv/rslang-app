@@ -420,3 +420,36 @@ svg circle:nth-child(2) {
   background-color: #edd874;
 
 }
+
+#keyboard-layout {
+  position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    background: #0000003b;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 10px;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 10px;
+}
+
+.keyboard-text {
+  font-size: 14px;
+  align-self: center;
+  flex: 2;
+}
+
+.keyboard-symbol {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 5px;
+}

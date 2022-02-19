@@ -34,6 +34,10 @@ class GameSprintController {
 
   pageStart: number;
 
+  threeInRowCounter: number;
+
+  scoreMultiplier: number;
+
   constructor(root: HTMLElement) {
     this.view = new GameStartSprintView(root);
     this.model = state;
@@ -44,6 +48,8 @@ class GameSprintController {
     this.level = 0;
     this.pageStart = 1;
     this.isGameStarted = false;
+    this.threeInRowCounter = 0;
+    this.scoreMultiplier = 10;
     this.containerListener();
   }
 
@@ -52,6 +58,8 @@ class GameSprintController {
     this.currentWordIndex = 0;
     this.correctCount = 0;
     this.incorrectCount = 0;
+    this.threeInRowCounter = 0;
+    this.scoreMultiplier = 10;
     this.isGameStarted = false;
   }
 
@@ -85,19 +93,105 @@ class GameSprintController {
         }
       }
     });
+
+    // Keyboard controls
+    this.view.frontBlock.container.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'ArrowLeft':
+          this.moveArrow('left');
+          break;
+        case 'ArrowRight':
+          this.moveArrow('right');
+          break;
+        case 'Enter':
+          this.enterPress(e);
+          break;
+        default:
+          break;
+      }
+    });
+
+    this.view.frontBlock.container.setAttribute('tabindex', '0');
+  }
+
+  async startPress() {
+    const checkedInput = document.querySelector(
+      'input[name="sprint-level"]:checked',
+    ) as HTMLInputElement;
+
+    if (!checkedInput) {
+      alert('Please select a level');
+      return;
+    }
+    this.level = +checkedInput.value;
+    this.pageStart = 1;
+    this.matchingWords = await this.getWords(this.level, this.pageStart);
+    this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
+    this.startGame();
+  }
+
+  enterPress(e: Event) {
+    if (!this.isGameStarted) {
+      // in start menu
+      this.startPress();
+    }
+  }
+
+  moveArrow(direction: string) {
+    if (!this.isGameStarted) {
+      // in start menu - controll radio btns
+      // get the checked radio btn
+      const selectedOption = document.querySelector(
+        'input[type="radio"]:checked',
+      ) as HTMLInputElement;
+
+      // check if it exists
+      if (selectedOption) {
+        if (direction === 'right') {
+          const parent = selectedOption.parentElement as HTMLElement;
+          if (parent.nextElementSibling) {
+            const sibling = parent.nextElementSibling as HTMLElement;
+            (sibling.firstElementChild as HTMLInputElement).checked = true;
+          }
+        } else {
+          // else go left
+          const parent = selectedOption.parentElement as HTMLElement;
+          if (parent.previousElementSibling) {
+            const sibling = parent.previousElementSibling as HTMLElement;
+            (sibling.firstElementChild as HTMLInputElement).checked = true;
+          }
+        }
+      } else {
+        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked = true;
+      }
+    } else if (this.isGameStarted) {
+      if (direction === 'right') {
+        this.checkAnswer(true);
+      } else {
+        this.checkAnswer(false);
+      }
+    }
   }
 
   checkAnswer(answer: boolean) {
     if (!this.matchingWords || this.totalTime <= 0) return;
     const word = this.matchingWords[this.currentWordIndex];
     const countDiv = document.getElementById('score-count') as HTMLElement;
+    const pointsDiv = document.getElementById('score-info') as HTMLElement;
     const alertRight = document.querySelector('.alert-right') as HTMLElement;
     const alertWrong = document.querySelector('.alert-wrong') as HTMLElement;
     if (word.match === answer) {
       this.audio.src = '../../../assets/correct-sound.mp3';
       this.audio.play();
       this.correctCount += 1;
-      countDiv.innerHTML = `${+countDiv.innerHTML + 10}`;
+      this.threeInRowCounter += 1;
+      if (this.threeInRowCounter === 3) {
+        this.scoreMultiplier *= 2;
+        this.scoreMultiplier = this.scoreMultiplier > 80 ? 80 : this.scoreMultiplier;
+        this.threeInRowCounter = 0;
+      }
+      pointsDiv.innerHTML = `Points: x${this.scoreMultiplier}`;
+      countDiv.innerHTML = `${+countDiv.innerHTML + this.scoreMultiplier}`;
       // trigger correct animation
       if (alertRight.style.animationName === 'fadeOut1') {
         alertRight.style.animationName = 'fadeOut2';
@@ -108,6 +202,9 @@ class GameSprintController {
       this.audio.src = '../../../assets/incorrect-sound.mp3';
       this.audio.play();
       this.incorrectCount += 1;
+      this.threeInRowCounter = 0;
+      this.scoreMultiplier = 10;
+      pointsDiv.innerHTML = `Points: x${this.scoreMultiplier}`;
       countDiv.innerHTML = `${+countDiv.innerHTML - 10 < 0 ? 0 : +countDiv.innerHTML - 10}`;
       // trigger incorrect animation
       if (alertWrong.style.animationName === 'fadeOut1') {

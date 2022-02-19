@@ -262,7 +262,6 @@ class GameAudioController {
   }
 
   skipQuestions(e: Event) {
-    const btn = e.type === 'click' ? (e.target as HTMLInputElement) : document.getElementById('skip-btn');
     // use if for next btn
     if (this.isSkippedPressed) {
       this.currentWordIndex += 1;

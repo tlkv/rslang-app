@@ -37,7 +37,7 @@ const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
 
 const FRONT_BLOCK_CONTENT_GAME = `<section class="sprint-game">
 <div class="timer"> <span class="timer-icon"><ion-icon name="timer-outline"></ion-icon></span><span class="timer" id="sprint-timer">30</span></div>
-<div class="scores"><div id="score-info" class="score-info">Умножение: 10</div><div id="score-count" class="score-count">0</div>
+<div class="scores"><div id="score-info" class="score-info">Points: x10</div><div id="score-count" class="score-count">0</div>
 </div>
 <div class="score-alert">
 <ion-icon class="alert-right" name="checkmark-circle-outline"></ion-icon>
@@ -78,4 +78,21 @@ const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 </div>
 </section>`;
 
-export { FRONT_BLOCK_CONTENT_START, FRONT_BLOCK_CONTENT_GAME, FRONT_BLOCK_CONTENT_MODAL };
+const KEYBOARD_INSTRUCTIONS = `<div id="keyboard-layout">
+<div class="keyboard-row"><div class="keyboard-symbol">←</div>
+<p class="keyboard-text">Select yes</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">→</div>
+<p class="keyboard-text">Select no</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">ENTER</div>
+<p class="keyboard-text">Start game</p>
+</div>
+</div>`;
+
+export {
+  FRONT_BLOCK_CONTENT_START,
+  FRONT_BLOCK_CONTENT_GAME,
+  FRONT_BLOCK_CONTENT_MODAL,
+  KEYBOARD_INSTRUCTIONS,
+};
