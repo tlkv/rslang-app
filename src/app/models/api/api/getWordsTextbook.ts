@@ -7,14 +7,14 @@ export const baseUrl = 'https://rslang29.herokuapp.com';
 const userId = localStorage.getItem('userId');
 const token = localStorage.getItem('token');
 
-const argsDef = {
+const ARGS_DEF = {
   method: 'GET',
   headers: {
     Accept: 'application/json',
   },
 };
 
-const argsAuth = {
+const ARGS_AUTH = {
   method: 'GET',
   withCredentials: true,
   headers: {
@@ -23,7 +23,7 @@ const argsAuth = {
   },
 };
 
-const objHeaders = {
+const OBJ_HEADERS = {
   Authorization: `Bearer ${token}`,
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -34,8 +34,7 @@ export const getWordsTextbook = async (group: number, page: number, isAuth: bool
   if (isAuth) {
     url = `${baseUrl}/users/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=20`;
   }
-  const args = isAuth ? argsAuth : argsDef;
-
+  const args = isAuth ? ARGS_AUTH : ARGS_DEF;
   const rawResponse = await fetch(url, args);
   let content: IDictWord[] = [];
   if (isAuth && rawResponse.status === 200) {
@@ -54,24 +53,29 @@ export const createDifficultWord = async (wordId: string) => {
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
   let isUserWord = false;
-  let contentGetResp;
-  const getResponse = await fetch(url, argsAuth);
+  const contentGetResp: IWordOpt = {
+    difficulty: 'difficult',
+    optional: {
+      isLearned: 'no',
+    },
+  };
+  const getResponse = await fetch(url, ARGS_AUTH);
   if (getResponse.status === 200) {
-    contentGetResp = await getResponse.json();
+    const contentCurrentResp: IWordOpt = await getResponse.json();
     isUserWord = true;
+    if (contentCurrentResp.optional) {
+      Object.assign(contentGetResp.optional, contentCurrentResp.optional, {
+        isLearned: 'no',
+      });
+    }
   }
   console.log('get contentGetResp', contentGetResp);
-  const respBody = JSON.stringify({
-    ...contentGetResp,
-    difficulty: 'difficult',
-    optional: { isLearned: 'no' },
-  });
-  console.log('respBody', JSON.parse(respBody));
+  const respBody = JSON.stringify(contentGetResp);
   const currentMethod = isUserWord ? 'PUT' : 'POST';
   const requestParams = {
     method: currentMethod,
     withCredentials: true,
-    headers: objHeaders,
+    headers: OBJ_HEADERS,
     body: respBody,
   };
 
@@ -85,61 +89,38 @@ export const createDifficultWord = async (wordId: string) => {
 export const createLearnedWord = async (wordId: string) => {
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
-
   let isUserWord = false;
-  const getResponse = await fetch(url, argsAuth);
-  let contentGetResp;
+  const contentGetResp: IWordOpt = {
+    difficulty: 'easy',
+    optional: {
+      isLearned: 'learned',
+    },
+  };
+  const getResponse = await fetch(url, ARGS_AUTH);
   if (getResponse.status === 200) {
-    contentGetResp = await getResponse.json();
+    const contentCurrentResp: IWordOpt = await getResponse.json();
     isUserWord = true;
-    console.log('get contentGetResp', Object.keys(contentGetResp));
+    if (contentCurrentResp.optional) {
+      Object.assign(contentGetResp.optional, contentCurrentResp.optional, {
+        isLearned: 'learned',
+      });
+    }
   }
-
+  console.log('get contentGetResp', contentGetResp);
+  const respBody = JSON.stringify(contentGetResp);
   const currentMethod = isUserWord ? 'PUT' : 'POST';
   const requestParams = {
     method: currentMethod,
     withCredentials: true,
-    headers: objHeaders,
-    body: JSON.stringify({
-      difficulty: 'easy',
-      optional: {
-        isLearned: 'learned',
-      },
-    }),
+    headers: OBJ_HEADERS,
+    body: respBody,
   };
 
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log(content);
+    console.log('content', content);
   }
-};
-
-export const filterDifficultWords = async () => {
-  console.log('DIFF');
-  const url = `${baseUrl}/users/${userId}/aggregatedWords?wordsPerPage=3600&filter={"userWord.difficulty":"difficult"}`;
-
-  const rawResponse = await fetch(url, argsAuth);
-  let contentAuth: IDictAuth[] = [];
-  if (rawResponse.status === 200) {
-    contentAuth = await rawResponse.json();
-  }
-  const content = contentAuth[0].paginatedResults;
-  console.log('content', content);
-  return content;
-};
-
-export const filterLearnedWords = async () => {
-  const url = `${baseUrl}/users/${userId}/aggregatedWords?wordsPerPage=3600&filter={"userWord.optional.isLearned":"learned"}`;
-  let contentAuth: IDictAuth[] = [];
-
-  const rawResponse = await fetch(url, argsAuth);
-  if (rawResponse.status === 200) {
-    contentAuth = await rawResponse.json();
-  }
-  const content = contentAuth[0].paginatedResults;
-  console.log('content', content);
-  return content;
 };
 
 export const removeDifficultWord = async (wordId: string) => {
@@ -149,7 +130,7 @@ export const removeDifficultWord = async (wordId: string) => {
   const requestParams = {
     method: 'PUT',
     withCredentials: true,
-    headers: objHeaders,
+    headers: OBJ_HEADERS,
     body: JSON.stringify({
       difficulty: 'easy',
     }),
@@ -165,19 +146,57 @@ export const removeDifficultWord = async (wordId: string) => {
 export const removeLearnedWord = async (wordId: string) => {
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
-
+  const contentGetResp: IWordOpt = {
+    optional: {
+      isLearned: 'no',
+    },
+  };
+  const getResponse = await fetch(url, ARGS_AUTH);
+  if (getResponse.status === 200) {
+    const contentCurrentResp: IWordOpt = await getResponse.json();
+    if (contentCurrentResp.optional) {
+      Object.assign(contentGetResp.optional, contentCurrentResp.optional, {
+        isLearned: 'no',
+      });
+    }
+  }
+  console.log('get contentGetResp', contentGetResp);
+  const respBody = JSON.stringify(contentGetResp);
   const requestParams = {
     method: 'PUT',
     withCredentials: true,
-    headers: objHeaders,
-    body: JSON.stringify({
-      optional: {},
-    }),
+    headers: OBJ_HEADERS,
+    body: respBody,
   };
 
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log(content);
+    console.log('content', content);
   }
+};
+
+export const filterDifficultWords = async () => {
+  const url = `${baseUrl}/users/${userId}/aggregatedWords?wordsPerPage=3600&filter={"userWord.difficulty":"difficult"}`;
+  const rawResponse = await fetch(url, ARGS_AUTH);
+  let contentAuth: IDictAuth[] = [];
+  if (rawResponse.status === 200) {
+    contentAuth = await rawResponse.json();
+  }
+  const content = contentAuth[0].paginatedResults;
+  console.log('content', content);
+  return content;
+};
+
+export const filterLearnedWords = async () => {
+  const url = `${baseUrl}/users/${userId}/aggregatedWords?wordsPerPage=3600&filter={"userWord.optional.isLearned":"learned"}`;
+  let contentAuth: IDictAuth[] = [];
+
+  const rawResponse = await fetch(url, ARGS_AUTH);
+  if (rawResponse.status === 200) {
+    contentAuth = await rawResponse.json();
+  }
+  const content = contentAuth[0].paginatedResults;
+  console.log('content', content);
+  return content;
 };
