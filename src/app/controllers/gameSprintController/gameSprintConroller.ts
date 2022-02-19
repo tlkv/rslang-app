@@ -38,6 +38,8 @@ class GameSprintController {
 
   scoreMultiplier: number;
 
+  userId: string | null;
+
   constructor(root: HTMLElement) {
     this.view = new GameStartSprintView(root);
     this.model = state;
@@ -50,6 +52,7 @@ class GameSprintController {
     this.isGameStarted = false;
     this.threeInRowCounter = 0;
     this.scoreMultiplier = 10;
+    this.userId = localStorage.getItem('userId');
     this.containerListener();
   }
 
@@ -198,6 +201,7 @@ class GameSprintController {
       } else {
         alertRight.style.animationName = 'fadeOut1';
       }
+      this.updateLearnedWord(word.id, false);
     } else {
       this.audio.src = '../../../assets/incorrect-sound.mp3';
       this.audio.play();
@@ -212,8 +216,21 @@ class GameSprintController {
       } else {
         alertWrong.style.animationName = 'fadeOut1';
       }
+      this.updateLearnedWord(word.id, true);
     }
     this.nextWord();
+  }
+
+  updateLearnedWord(wordId: string, remove: boolean) {
+    if (this.userId) {
+      if (remove) {
+        // remove word from learned words
+      } else {
+        // get user word from the server using userId and wordId
+      // if response 201 - not found -> post the word using api with userId and wordId
+        // add word to learned words
+      }
+    }
   }
 
   async nextWord() {
@@ -300,9 +317,11 @@ class GameSprintController {
     const words1 = await getWordsTextbook(level, pageStart, this.model.isAuth);
     const words2 = await getWordsTextbook(level, pageStart + 1, this.model.isAuth);
     this.model.words = words1.concat(words2);
+    console.log(this.model.words);
     const arr = this.model.words.map((w) => {
       const obj = Object.create(null);
-      Object.assign(obj, { eng: w.word }, { ru: w.wordTranslate }, { match: true });
+      // eslint-disable-next-line no-underscore-dangle
+      Object.assign(obj, { eng: w.word }, { ru: w.wordTranslate }, { match: true }, { id: w._id });
       return obj;
     });
     const shuffledArr = GameSprintController.shuffle(arr);

@@ -222,7 +222,7 @@ class GameAudioController {
     skipBtn.innerHTML = 'Skip';
     this.isSkippedPressed = false;
     skipBtn.onclick = this.skipQuestions.bind(this);
-    this.audio.play();
+    this.playAudio(`${this.baseUrl}${question.audio}`);
   }
 
   calculateResult() {
@@ -275,9 +275,6 @@ class GameAudioController {
 
   playAudio(path: string) {
     this.audio.src = path;
-    // this.audio.pause();
-    // this.audio.load();
-    // this.audio.play();
     const playPromise = this.audio.play();
     if (playPromise !== undefined) {
       playPromise.then(() => {
