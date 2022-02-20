@@ -297,7 +297,7 @@ class GameSprintController {
       } else {
         alertRight.style.animationName = 'fadeOut1';
       }
-      this.updateLearnedWord(word.id, false);
+      this.updateLearnedWord(word.id, word.level, false);
     } else {
       this.audio.src = '../../../assets/incorrect-sound.mp3';
       this.audio.play();
@@ -313,16 +313,18 @@ class GameSprintController {
       } else {
         alertWrong.style.animationName = 'fadeOut1';
       }
-      this.updateLearnedWord(word.id, true);
+      this.updateLearnedWord(word.id, word.level, true);
     }
     this.nextWord();
   }
 
-  async updateLearnedWord(wordId: string, remove: boolean) {
+  async updateLearnedWord(wordId: string, level: string, remove: boolean) {
     if (this.userId) {
       if (remove) {
         // remove word from learned words
       } else {
+        // const result = await getUserWord(wordId);
+        // const result = await createUserWord(wordId, level);
         // get user word from the server using userId and wordId
       // if response 201 - not found -> post the word using api with userId and wordId
         // add word to learned words
@@ -433,6 +435,7 @@ class GameSprintController {
         // eslint-disable-next-line no-underscore-dangle
         { id: w._id },
         { audio: w.audio },
+        { level: w.userWord.difficulty },
       );
       return obj;
     });

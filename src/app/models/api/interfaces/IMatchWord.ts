@@ -4,6 +4,7 @@ interface IMatchWord {
   match: boolean;
   audio: string;
   id: string;
+  level: string;
 }
 
 export default IMatchWord;

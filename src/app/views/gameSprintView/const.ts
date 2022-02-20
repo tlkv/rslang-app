@@ -1,7 +1,7 @@
 const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
 <div class="sprint-settings-container wide">
 <p class="sprint-settings-title">Sprint</p>
-<p class="sprint-settings-description">Sprint is a speed training game. Try to guess as many words as you can in 30 seconds</p>
+<p class="sprint-settings-description">Sprint is a speed training game. Try to guess as many words as you can in 60 seconds</p>
 </div>
 <div class="sprint-settings-container">
 <p class="sprint-settings-title-levels">Choose the level:</p>
@@ -36,7 +36,7 @@ const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
 </section>`;
 
 const FRONT_BLOCK_CONTENT_GAME = `<section class="sprint-game">
-<div class="timer"> <span><ion-icon class="timer-icon" name="timer-outline"></ion-icon></span><span class="timer" id="sprint-timer">30</span></div>
+<div class="timer"> <span><ion-icon class="timer-icon" name="timer-outline"></ion-icon></span><span class="timer" id="sprint-timer">60</span></div>
 <div class="scores"><div id="score-info" class="score-info">Points: x10</div><p class="score-text">Total score: </p><p id="score-count" class="score-count">0</p>
 </div>
 <div class="score-alert">
