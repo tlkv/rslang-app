@@ -326,7 +326,6 @@ class GameSprintController {
     const words1 = await getWordsTextbook(level, pageStart, this.model.isAuth);
     const words2 = await getWordsTextbook(level, pageStart + 1, this.model.isAuth);
     this.model.words = words1.concat(words2);
-    console.log(this.model.words);
     const arr = this.model.words.map((w) => {
       const obj = Object.create(null);
       // eslint-disable-next-line no-underscore-dangle

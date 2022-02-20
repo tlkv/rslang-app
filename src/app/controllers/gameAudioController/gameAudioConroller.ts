@@ -47,7 +47,6 @@ class GameAudioController {
     this.incorrectWords = [];
     this.currentWordIndex = 0;
     this.currentMatchIndex = 0;
-    // this.view.frontBlock.container.innerHTML += KEYBOARD_INSTRUCTIONS;
     this.containerListener();
   }
 
@@ -104,7 +103,6 @@ class GameAudioController {
     this.level = +checkedInput.value;
     this.pageStart = 1;
     this.audioWords = await this.getWords(this.level, this.pageStart);
-    console.log(this.audioWords);
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
     this.startGame();
   }
@@ -196,7 +194,6 @@ class GameAudioController {
     this.currentMatchIndex = question.matchIndex;
 
     // Set word audio
-    // this.audio.src = `${this.baseUrl}${question.audio}`;
     (document.getElementById('audio-word-player') as HTMLElement).onclick = () => {
       this.playAudio(`${this.baseUrl}${question.audio}`);
     };
@@ -209,15 +206,12 @@ class GameAudioController {
       const b = btn as HTMLInputElement;
       b.innerHTML = question.options[i];
       b.disabled = false;
-      b.addEventListener('click', (e) => {
+      b.onclick = (e) => {
         this.checkAnswer(e);
-      });
+      };
       if (b.classList.contains('correct') || b.classList.contains('incorrect')) {
         b.classList.value = 'audio-word-btn';
       }
-      // b.style.backgroundColor = 'transparent';
-      // b.style.color = '#bebebe';
-      // b.style.border = '2px solid #edd874';
     });
 
     // Set skip btn
@@ -312,17 +306,11 @@ class GameAudioController {
     const img = document.getElementById('img') as HTMLImageElement;
     if (matchBtn.innerHTML === answer) {
       target.classList.add('correct');
-      // target.style.backgroundColor = '#497141';
-      // target.style.color = '#1e2733';
-      // target.style.border = '2px solid #497141';
       this.correctWords.push(answer);
       this.playAudio('../../../assets/correct-sound.mp3');
     } else {
       if (answer !== 'Skip') {
         target.classList.add('incorrect');
-        // target.style.backgroundColor = '#E9542F';
-        // target.style.color = '#1e2733';
-        // target.style.border = '2px solid #E9542F';
         this.incorrectWords.push(matchBtn.innerHTML);
         this.playAudio('../../../assets/incorrect-sound.mp3');
       } else if (answer === 'Skip') {
@@ -331,9 +319,6 @@ class GameAudioController {
       }
       // set matchBtn to green and set target to red
       matchBtn.classList.add('correct');
-      // matchBtn.style.backgroundColor = '#497141';
-      // matchBtn.style.color = '#1e2733';
-      // matchBtn.style.border = '2px solid #497141';
     }
     if (this.audioWords) {
       img.src = `${this.baseUrl}${this.audioWords[this.currentWordIndex].image}`;
