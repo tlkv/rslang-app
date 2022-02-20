@@ -35,10 +35,18 @@ class TestView extends Component {
       wordsAmount: stats.optional?.wordList?.stat?.filter((i) => i.wDate === elem).length,
     }));
 
-    console.log(graphData);
+    const todayDateKey = new Date().toLocaleDateString('ru-RU');
+    const todayData = graphData.filter((i) => i.dateGraph === todayDateKey);
+
+    let learnedToday = 0;
+
+    if (todayData.length !== 0 && todayData[0].wordsAmount) {
+      learnedToday = todayData[0].wordsAmount;
+    }
 
     const elemContent = `${JSON.stringify(graphData)}
-    <button class="reset-stats-button">Reset Stats</button>`;
+    <button class="reset-stats-button">Reset Stats</button>
+    <h2>Learned Today ${learnedToday}</h2>`;
     this.frontBlockWrapper.container.innerHTML = elemContent;
   }
 }

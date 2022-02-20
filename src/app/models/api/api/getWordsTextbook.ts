@@ -88,18 +88,33 @@ export const createDifficultWord = async (wordId: string) => {
 };
 
 export const resetStatistics = async () => {
-  const url = `${baseUrl}/users/${userId}/statistics`;
+  console.log('reset stats');
+  const userIdLoc = localStorage.getItem('userId');
+  const tokenLoc = localStorage.getItem('token');
+  const OBJ_HEADERS_RESET = {
+    Authorization: `Bearer ${tokenLoc}`,
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  };
+  const url = `${baseUrl}/users/${userIdLoc}/statistics`;
   const defContent: IStats = {
     learnedWords: 0,
-    optional: {},
+    optional: {
+      wordList: {
+        stat: [],
+      },
+    },
   };
   const requestParams = {
     method: 'PUT',
     withCredentials: true,
-    headers: OBJ_HEADERS,
+    headers: OBJ_HEADERS_RESET,
     body: JSON.stringify(defContent),
   };
-  await fetch(url, requestParams);
+  const resp = await fetch(url, requestParams);
+  if (resp.status === 200) {
+    console.log('reset stats success');
+  }
 };
 
 export const getStatistics = async () => {
@@ -115,7 +130,7 @@ export const getStatistics = async () => {
   return content;
 };
 
-export const updateLearnedStats = async (wordId: string) => {
+export const addLearnedStats = async (wordId: string) => {
   const url = `${baseUrl}/users/${userId}/statistics`;
   if (!userId || !token) return;
   let learnedBefore = false;
@@ -167,6 +182,48 @@ export const updateLearnedStats = async (wordId: string) => {
   }
 };
 
+export const removeLearnedStats = async (wordId: string) => {
+  const url = `${baseUrl}/users/${userId}/statistics`;
+  if (!userId || !token) return;
+  let learnedBefore = false;
+  let statsExist = false;
+
+  const currentStats = await getStatistics();
+  console.log('delete currentStats', currentStats, 'wordId', wordId);
+  if (currentStats?.learnedWords && currentStats.optional?.wordList) {
+    statsExist = true;
+    delete currentStats.id;
+    if (currentStats.optional.wordList?.stat?.find((item) => item.wId === wordId)) {
+      learnedBefore = true;
+    }
+
+    console.log('LEARNED BEFORE', learnedBefore);
+
+    if (learnedBefore) {
+      currentStats.learnedWords -= 1;
+      currentStats.optional.wordList.stat = currentStats.optional.wordList.stat?.filter(
+        (i) => i.wId !== wordId,
+      );
+      console.log(' delete currStat Before JSON', currentStats);
+
+      const respBody = JSON.stringify(currentStats);
+      console.log('delete respBody', respBody);
+      const requestParams = {
+        method: 'PUT',
+        withCredentials: true,
+        headers: OBJ_HEADERS,
+        body: respBody,
+      };
+
+      const rawResponse = await fetch(url, requestParams);
+      if (rawResponse.status === 200) {
+        const content = await rawResponse.json();
+        console.log('delete stats XXX', content);
+      }
+    }
+  }
+};
+
 export const createLearnedWord = async (wordId: string) => {
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
@@ -202,7 +259,7 @@ export const createLearnedWord = async (wordId: string) => {
     const content = await rawResponse.json();
     console.log('content', content);
   }
-  await updateLearnedStats(wordId);
+  await addLearnedStats(wordId);
 };
 
 export const removeDifficultWord = async (wordId: string) => {
@@ -256,6 +313,7 @@ export const removeLearnedWord = async (wordId: string) => {
     const content = await rawResponse.json();
     console.log('content', content);
   }
+  await removeLearnedStats(wordId);
 };
 
 export const filterDifficultWords = async () => {
