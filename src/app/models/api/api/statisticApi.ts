@@ -1,3 +1,5 @@
+import IGraphData from '../interfaces/IGraphData';
+
 export const statisticdataTest = {
   sprint: {
     NewWords: '43',
@@ -28,16 +30,22 @@ export const statisticdataTest = {
   },
 };
 
-export const learnedData = {
-  labels: ['date1', 'date2', 'date3'],
+export const learnedData: IGraphData = {
+  labels: [],
   datasets: [
     {
       label: 'learned',
-      data: [
-        statisticdataTest.date1.learned,
-        statisticdataTest.date3.learned,
-        statisticdataTest.date2.learned,
-      ],
+      data: [],
+    },
+  ],
+};
+
+export const progressData: IGraphData = {
+  labels: [],
+  datasets: [
+    {
+      label: 'progress',
+      data: [],
     },
   ],
 };

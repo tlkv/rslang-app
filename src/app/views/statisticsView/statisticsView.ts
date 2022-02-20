@@ -3,6 +3,7 @@ import Component from '../_templates/component';
 import Header from '../_templates/header/header';
 import Footer from '../_templates/footer/footer';
 import { state, State } from '../../models/api/state/state';
+import defaultRoutes from '../../models/router/defaultRoutes';
 
 class StatisticsView extends Component {
   frontBlockWrapper = new Component('div', ['container']);
@@ -134,7 +135,8 @@ class StatisticsView extends Component {
     </div>
   </section> `;
 
-    this.NotAuthStatisticBlockContent = `<div class="warning">Sorry, you can't come here! Register and come back :)</div>`;
+    this.NotAuthStatisticBlockContent = `<div class="warning">Sorry, you can't come here! 
+  <a href="#${defaultRoutes.authorization.path}"> Register</a> and come back :)</div>`;
 
     if (this.model.isAuth) {
       this.statisticBlockContent = this.AuthStatisticBlockContent;
