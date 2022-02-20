@@ -3,6 +3,11 @@ interface IStats {
   id?: string;
   optional?: {
     wordList?: {
+      // learned
+      stat?: { wId: string; wDate: string }[];
+    };
+    newWords?: {
+      // new
       stat?: { wId: string; wDate: string }[];
     };
   };
