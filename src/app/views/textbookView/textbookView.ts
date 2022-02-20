@@ -59,10 +59,10 @@ class TextbookView extends Component {
     );
     let secTitile = `Textbook - Group ${textbookGroup + 1}`;
     if (isAuth && textbookShowDifficult) {
-      secTitile = `Difficult words - <span class="additional-counter">
+      secTitile = `Difficult (current) - <span class="additional-counter">
       ${words.length}</span>`;
     } else if (isAuth && textbookShowLearned) {
-      secTitile = `Learned words - <span class="additional-counter">
+      secTitile = `Learned (current) - <span class="additional-counter">
       ${words.length}</span>`;
     }
 
