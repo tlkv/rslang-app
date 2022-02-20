@@ -1,5 +1,6 @@
 import IDictWord from '../interfaces/IDictWord';
 import IDictAuth from '../interfaces/IDictAuth';
+import IStats from '../interfaces/IStats';
 
 export class State {
   textbookGroup: number;
@@ -18,6 +19,8 @@ export class State {
 
   isAuth = true;
 
+  stats: IStats;
+
   constructor() {
     this.textbookGroup = 0;
     this.textbookPage = 0;
@@ -28,6 +31,9 @@ export class State {
     this.authWords = {
       paginatedResults: [],
       totalCount: [],
+    };
+    this.stats = {
+      learnedWords: 0,
     };
   }
 

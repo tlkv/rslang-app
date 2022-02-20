@@ -33,6 +33,7 @@ class AuthorizationController {
         await this.api.registerUser(name.value, email.value, password.value).then((response) => {
           if (response.isSucceeded) {
             this.model.isAuth = true;
+            this.authReset();
             window.location.reload();
           } else {
             AuthorizationController.throwErrDescription(
@@ -58,6 +59,7 @@ class AuthorizationController {
       await this.api.signInUser(email.value, password.value).then((response) => {
         if (response.isSucceeded) {
           this.model.isAuth = true;
+          this.authReset();
           window.location.reload();
         } else {
           AuthorizationController.throwErrDescription(
@@ -102,8 +104,16 @@ class AuthorizationController {
       localStorage.removeItem('token');
       localStorage.removeItem('refreshToken');
       this.model.isAuth = false;
+      this.authReset();
       window.location.reload();
     });
+  }
+
+  authReset() {
+    this.model.textbookGroup = 0;
+    this.model.textbookPage = 0;
+    this.model.textbookShowDifficult = false;
+    this.model.textbookShowLearned = false;
   }
 
   static throwErrDescription(errDescription: HTMLElement) {

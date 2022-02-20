@@ -7,6 +7,9 @@
   font-family: 'Neucha';
   color: #bebebe;
   margin: 0px;
+}
+
+body {
   background: #1e2733;
 }
 
@@ -15,4 +18,12 @@
   max-width: 1300px;
   height: 100%;
   overflow: hidden;
+}
+
+.app-center-block {
+  position: relative;
+}
+
+.app-center-block:focus {
+  outline: none;
 }
