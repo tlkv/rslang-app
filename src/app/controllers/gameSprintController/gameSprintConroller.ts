@@ -172,9 +172,9 @@ class GameSprintController {
       }
     } else if (this.isGameStarted) {
       if (direction === 'right') {
-        this.checkAnswer(true);
-      } else {
         this.checkAnswer(false);
+      } else {
+        this.checkAnswer(true);
       }
     }
   }
@@ -182,10 +182,12 @@ class GameSprintController {
   checkAnswer(answer: boolean) {
     if (!this.matchingWords || this.totalTime <= 0) return;
     const word = this.matchingWords[this.currentWordIndex];
+    console.log(word);
     const countDiv = document.getElementById('score-count') as HTMLElement;
     const pointsDiv = document.getElementById('score-info') as HTMLElement;
     const alertRight = document.querySelector('.alert-right') as HTMLElement;
     const alertWrong = document.querySelector('.alert-wrong') as HTMLElement;
+    console.log(word.match);
     if (word.match === answer) {
       this.audio.src = '../../../assets/correct-sound.mp3';
       this.audio.play();
