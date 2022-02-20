@@ -7,7 +7,6 @@ import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
   FRONT_BLOCK_CONTENT_MODAL,
-  FRONT_BLOCK_CONTENT_WORDS,
   createWordItem,
 } from '../../views/gameSprintView/const';
 
@@ -53,7 +52,7 @@ class GameSprintController {
   constructor(root: HTMLElement) {
     this.view = new GameStartSprintView(root);
     this.model = state;
-    this.totalTime = 30;
+    this.totalTime = 60;
     this.currentWordIndex = 0;
     this.correctCount = 0;
     this.incorrectCount = 0;
@@ -70,7 +69,7 @@ class GameSprintController {
   }
 
   resetValues() {
-    this.totalTime = 30;
+    this.totalTime = 60;
     this.currentWordIndex = 0;
     this.correctCount = 0;
     this.incorrectCount = 0;
@@ -86,6 +85,7 @@ class GameSprintController {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-sprint-btn') as HTMLInputElement;
         const toWordsBtn = (e.target as HTMLElement).closest('#to-words-btn') as HTMLInputElement;
+        const toResultsBtn = (e.target as HTMLElement).closest('#to-results-btn') as HTMLInputElement;
         const restartBtn = (e.target as HTMLElement).closest(
           '#restart-sprint-btn',
         ) as HTMLInputElement;
@@ -101,7 +101,10 @@ class GameSprintController {
         } else if (restartBtn) {
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_START;
         } else if (toWordsBtn) {
-          this.showWords();
+          // aaa
+          GameSprintController.showSeeMyWords();
+        } else if (toResultsBtn) {
+          GameSprintController.showResults();
         }
       } else {
         const target = e.target as HTMLElement;
@@ -135,8 +138,22 @@ class GameSprintController {
     this.view.frontBlock.container.setAttribute('tabindex', '0');
   }
 
-  showWords() {
-    this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_WORDS;
+  static showResults() {
+    const resultsDiv = document.getElementById('modal-results') as HTMLElement;
+    const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    resultsDiv.style.display = 'block';
+    wordListDiv.style.display = 'none';
+  }
+
+  static showSeeMyWords() {
+    const resultsDiv = document.getElementById('modal-results') as HTMLElement;
+    const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    resultsDiv.style.display = 'none';
+    wordListDiv.style.display = 'block';
+  }
+
+  setSeeWords() {
+    // this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_WORDS;
     const wordListContainer = document.getElementById('word-list-container') as HTMLElement;
     const parser = new DOMParser();
     if (this.incorrectWords.length > 0) {
@@ -257,12 +274,10 @@ class GameSprintController {
   checkAnswer(answer: boolean) {
     if (!this.matchingWords || this.totalTime <= 0) return;
     const word = this.matchingWords[this.currentWordIndex];
-    console.log(word);
     const countDiv = document.getElementById('score-count') as HTMLElement;
     const pointsDiv = document.getElementById('score-info') as HTMLElement;
     const alertRight = document.querySelector('.alert-right') as HTMLElement;
     const alertWrong = document.querySelector('.alert-wrong') as HTMLElement;
-    console.log(word.match);
     if (word.match === answer) {
       this.audio.src = '../../../assets/correct-sound.mp3';
       this.audio.play();
@@ -370,6 +385,9 @@ class GameSprintController {
         this.correctCount.toString();
       (document.getElementById('incorrect-count') as HTMLElement).innerHTML =
         this.incorrectCount.toString();
+
+      // set see my words
+      this.setSeeWords();
       // select elements and insert innerHtml scores
       // restart btn has the same id as the start btn
     } else {

@@ -54,7 +54,7 @@ const FRONT_BLOCK_CONTENT_GAME = `<section class="audio-game">
 const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 <div class="sprint-game-modal-content">
 <div class="modal-upper-btns">
-<button class="to-go-btn">Result</button>
+<button class="to-go-btn" id="to-results-btn">Result</button>
 <button class="to-go-btn" id="to-words-btn">See my words</button>
 </div>
 <div class="modal-results">

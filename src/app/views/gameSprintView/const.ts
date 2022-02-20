@@ -53,11 +53,15 @@ const FRONT_BLOCK_CONTENT_GAME = `<section class="sprint-game">
 const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 <div class="sprint-game-modal-content">
 <div class="modal-upper-btns">
-<button class="to-go-btn">Result</button>
+<button class="to-go-btn" id="to-results-btn">Result</button>
 <button class="to-go-btn" id="to-words-btn">See my words</button>
 </div>
-<div class="modal-results">
+<div id="modal-main-content">
+<div class="modal-results" id="modal-results">
+
+
 <div class="card">
+
 <p class="result-message" id="result-message">Great result. But you can do better!</p>
 <p class="result-statistics"><span id="correct-count">11</span> words learned, <span id="incorrect-count">4</span> words on study</p>
   <div class="box"><div class="percent">
@@ -70,11 +74,17 @@ const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
         <p class="text">Your total score is</p><p class="total-score-text" id="total-score">340</p>
   </div>
 </div>
+
+</div> <!--modal-result-end -->
+
+<div class="word-list-container" id="word-list-container"> </div>
 </div>
+
 <div class="modal-lower-btns">
 <button class="module-lower-btn" id="restart-sprint-btn">Play again</button>
 <button class="module-lower-btn" id="to-text-book-btn"><a href="#textbook" class="module-lower-btn-ref">Go to the textbook</a></button>
 </div>
+
 </div>
 </section>`;
 
@@ -96,9 +106,11 @@ const FRONT_BLOCK_CONTENT_WORDS = `<section class="sprint-game-modal">
     <button class="to-go-btn">Result</button>
     <button class="to-go-btn" id="to-words-btn">See my words</button>
   </div>
+
   <div class="modal-results">
     <div class="word-list-container" id="word-list-container">
   </div>
+
   <div class="modal-lower-btns">
 <button class="module-lower-btn" id="restart-btn">Play again</button>
 <button class="module-lower-btn" id="to-text-book-btn"><a href="#textbook" class="module-lower-btn-ref">Go to the textbook</a></button>

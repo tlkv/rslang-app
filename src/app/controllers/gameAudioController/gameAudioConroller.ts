@@ -5,7 +5,6 @@ import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
   FRONT_BLOCK_CONTENT_MODAL,
-  KEYBOARD_INSTRUCTIONS,
   FRONT_BLOCK_CONTENT_WORDS,
   createWordItem,
 } from '../../views/gameAudioView/const';
