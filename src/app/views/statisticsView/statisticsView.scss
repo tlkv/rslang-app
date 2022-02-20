@@ -1,3 +1,265 @@
-.statistics-block {
-  min-height: calc(100vh - 200px);
+.statistic-page {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.statistic-title {
+  width: fit-content;
+  font-size: 62px;
+  font-weight: bold;
+  color: #7dcddb;
+  margin: 70px 0 20px 455px;
+}
+
+.daily-statistic {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statistic-wrapp {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 50px 0px;
+}
+
+.statistic-img {
+  margin-bottom: 50px;
+}
+
+.game-statistic {
+  width: 600px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.statistic-card {
+  width: 300px;
+  height: 300px;
+  background: #fff;
+}
+
+.left {
+  border-top-left-radius: 65px;
+  border-bottom-left-radius: 65px;
+  margin-right: 30px;
+}
+
+.right {
+  border-top-right-radius: 65px;
+  border-bottom-right-radius: 65px;
+  margin-left: 30px;
+}
+
+.game-title {
+  background: #ffe97d;
+  width: 270px;
+  height: 60px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #7dcddb;
+  overflow: hidden;
+  padding: 10px 60px;
+}
+
+.left-title {
+  border-top-left-radius: 70px;
+}
+
+.right-title {
+  border-top-right-radius: 70px;
+}
+
+.statistic-card > p {
+  background: #fff;
+  width: 230px;
+  color: #19212b;
+  overflow: hidden;
+  padding: 10px 10px;
+  margin-left: 10px;
+}
+
+.svgIcon {
+  background: #fff;
+  fill: #7dcddb;
+  width: 1em;
+  height: 1em;
+}
+
+.count {
+  background: none;
+  color: #19212b;
+}
+
+.general-statistics {
+  width: 700px;
+  display: flex;
+  justify-content: inherit;
+  align-items: center;
+}
+
+.general-learned-words {
+  margin: 0px 30px;
+}
+
+.general-learned-words > h5 {
+  font-size: 28px;
+}
+
+.general-count {
+  font-size: 92px;
+  font-weight: bold;
+  text-align: center;
+  color: #7dcddb;
+  margin: 30px 0px;
+}
+
+.long-term-statistics {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.long-term-statistic-title {
+  width: fit-content;
+  font-size: 62px;
+  font-weight: bold;
+  color: #7dcddb;
+  margin: 70px 0 50px 0;
+}
+
+.schedule-line,
+.schedule-bar {
+  width: 1000px;
+  margin: 20px 0px;
+  background: #fff;
+}
+
+.schedule-hide {
+  display: none !important;
+  visibility: hidden;
+}
+
+/* ---------- SWITCH ---------- */
+
+input {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: normal;
+  margin: 0;
+}
+
+input[type='radio'] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.container-switch {
+  height: 64px;
+  margin: 0 auto;
+  width: 400px;
+  position: relative;
+}
+
+.switch {
+  background: #7dcddb;
+  border-radius: 32px;
+  display: inline-block;
+  height: 30px;
+  position: relative;
+  width: 60px;
+  left: 200px;
+}
+
+.switch label {
+  color: rgb(55, 59, 66);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 64px;
+  text-transform: uppercase;
+  -webkit-transition: color 0.2s ease;
+  -moz-transition: color 0.2s ease;
+  -ms-transition: color 0.2s ease;
+  -o-transition: color 0.2s ease;
+  transition: color 0.2s ease;
+  width: 100px;
+  bottom: -17px;
+}
+
+.switch label:nth-of-type(1) {
+  right: 115%;
+  position: absolute;
+  width: 120px;
+}
+
+.switch label:nth-of-type(2) {
+  position: absolute;
+  left: 115%;
+  text-align: right;
+  width: fit-content;
+}
+
+.switch input {
+  height: 30px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 60px;
+  z-index: 2;
+}
+
+.switch input:checked ~ label:nth-of-type(1) {
+  color: #ffffff;
+}
+.switch input:checked ~ label:nth-of-type(2) {
+  color: #bebebe;
+}
+
+.switch input ~ :checked ~ label:nth-of-type(1) {
+  color: #bebebe;
+}
+.switch input ~ :checked ~ label:nth-of-type(2) {
+  color: #ffffff;
+}
+
+.switch input:checked ~ .toggle {
+  left: 4px;
+}
+
+.switch input ~ :checked ~ .toggle {
+  left: 32px;
+}
+
+.switch input:checked {
+  z-index: 0;
+}
+
+.toggle {
+  background: #f1d64c;
+  border-radius: 50%;
+  height: 25px;
+  left: 0;
+  position: absolute;
+  top: 3px;
+  -webkit-transition: left 0.2s ease;
+  -moz-transition: left 0.2s ease;
+  -ms-transition: left 0.2s ease;
+  -o-transition: left 0.2s ease;
+  transition: left 0.2s ease;
+  width: 25px;
+  z-index: 1;
+}
+
+.warning {
+  height: 80vh;
+  padding: 398px 0;
+  font-size: 36px;
+  text-align: center;
+  color: #7dcddb;
 }
