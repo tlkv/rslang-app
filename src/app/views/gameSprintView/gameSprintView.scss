@@ -8,8 +8,7 @@
 }
 
 .sprint-settings-page,
-.sprint-game,
-.sprint-game-modal {
+.sprint-game {
   display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,9 +16,20 @@
     max-width: 900px;
     width: 90%;
     text-align: center;
-    height: 80vh;
     padding: 100px 0;
     margin: 0 auto;
+}
+
+.sprint-game-modal-content {
+  overflow: scroll;
+  max-width: 500px;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px 5px rgb(13 13 13 / 4%);
 }
 
 .sprint-settings-container {
@@ -171,19 +181,6 @@ input[type="radio"]:checked + .level-circle {
 
 .wrong-btn {
   background-color: #E9542F;
-}
-
-.sprint-game-modal-content {
-  max-width: 500px;
-  width: 90%;
-  // height: 550px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0px 2px 10px 5px rgb(13 13 13 / 4%);
 }
 
 .score-alert {
@@ -421,7 +418,6 @@ svg circle:nth-child(2) {
 
 .module-lower-btn:hover {
   background-color: #edd874;
-
 }
 
 .module-lower-btn-ref {
@@ -434,7 +430,6 @@ svg circle:nth-child(2) {
 
 .module-lower-btn:hover .module-lower-btn-ref{
   background-color: #edd874;
-
 }
 
 #keyboard-layout {

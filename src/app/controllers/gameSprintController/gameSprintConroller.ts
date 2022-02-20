@@ -7,6 +7,8 @@ import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
   FRONT_BLOCK_CONTENT_MODAL,
+  FRONT_BLOCK_CONTENT_WORDS,
+  createWordItem,
 } from '../../views/gameSprintView/const';
 
 class GameSprintController {
@@ -15,6 +17,8 @@ class GameSprintController {
   model: State;
 
   audio = new Audio();
+
+  baseUrl = 'https://react-learnwords-example.herokuapp.com/';
 
   matchingWords: IMatchWord[] | undefined;
 
@@ -29,6 +33,10 @@ class GameSprintController {
   correctCount: number;
 
   incorrectCount: number;
+
+  correctWords: IMatchWord[];
+
+  incorrectWords: IMatchWord[];
 
   level: number;
 
@@ -55,6 +63,8 @@ class GameSprintController {
     this.threeInRowCounter = 0;
     this.scoreMultiplier = 10;
     this.scoreCount = '';
+    this.correctWords = [];
+    this.incorrectWords = [];
     this.userId = localStorage.getItem('userId');
     this.containerListener();
   }
@@ -66,6 +76,8 @@ class GameSprintController {
     this.incorrectCount = 0;
     this.threeInRowCounter = 0;
     this.scoreMultiplier = 10;
+    this.correctWords = [];
+    this.incorrectWords = [];
     this.isGameStarted = false;
   }
 
@@ -73,6 +85,7 @@ class GameSprintController {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-sprint-btn') as HTMLInputElement;
+        const toWordsBtn = (e.target as HTMLElement).closest('#to-words-btn') as HTMLInputElement;
         const restartBtn = (e.target as HTMLElement).closest(
           '#restart-sprint-btn',
         ) as HTMLInputElement;
@@ -87,6 +100,8 @@ class GameSprintController {
           this.startGame();
         } else if (restartBtn) {
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_START;
+        } else if (toWordsBtn) {
+          this.showWords();
         }
       } else {
         const target = e.target as HTMLElement;
@@ -118,6 +133,66 @@ class GameSprintController {
     });
 
     this.view.frontBlock.container.setAttribute('tabindex', '0');
+  }
+
+  showWords() {
+    this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_WORDS;
+    const wordListContainer = document.getElementById('word-list-container') as HTMLElement;
+    const parser = new DOMParser();
+    if (this.incorrectWords.length > 0) {
+      const incorrectAnswersTitle = document.createElement('div');
+      incorrectAnswersTitle.classList.add('word-list-title');
+      incorrectAnswersTitle.innerHTML = 'Incorrect answers';
+      wordListContainer.appendChild(incorrectAnswersTitle);
+      const incorrectWordsContainer = document.createElement('div');
+      incorrectWordsContainer.classList.add('word-list-wrong');
+      wordListContainer.appendChild(incorrectWordsContainer);
+      this.incorrectWords.forEach((el) => {
+        const wordItem = parser.parseFromString(createWordItem(el.eng, el.ru), 'text/html');
+        const wordItemSound = wordItem.getElementById('word-sound') as HTMLElement;
+        wordItemSound.onclick = () => {
+          this.playAudio(`${this.baseUrl}${el.audio}`);
+        };
+        const child = wordItem.body.firstElementChild;
+        if (child) {
+          incorrectWordsContainer.appendChild(child);
+        }
+      });
+    }
+    if (this.correctWords.length > 0) {
+      const correctAnswersTitle = document.createElement('div');
+      correctAnswersTitle.classList.add('word-list-title');
+      correctAnswersTitle.innerHTML = 'Correct answers';
+      wordListContainer.appendChild(correctAnswersTitle);
+      const correctWordsContainer = document.createElement('div');
+      correctWordsContainer.classList.add('word-list-right');
+      wordListContainer.appendChild(correctWordsContainer);
+      this.correctWords.forEach((el) => {
+        const wordItem = parser.parseFromString(createWordItem(el.eng, el.ru), 'text/html');
+        const wordItemSound = wordItem.getElementById('word-sound') as HTMLElement;
+        wordItemSound.onclick = () => {
+          this.playAudio(`${this.baseUrl}${el.audio}`);
+        };
+        const child = wordItem.body.firstElementChild;
+        if (child) {
+          correctWordsContainer.appendChild(child);
+        }
+      });
+    }
+  }
+
+  async playAudio(path: string) {
+    this.audio.src = path;
+    const playPromise = this.audio.play();
+    if (playPromise !== undefined) {
+      await playPromise.then(() => {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.audio.play();
+      });
+    } else {
+      this.audio.play();
+    }
   }
 
   async startPress() {
@@ -193,6 +268,7 @@ class GameSprintController {
       this.audio.play();
       this.correctCount += 1;
       this.threeInRowCounter += 1;
+      this.correctWords.push(word);
       if (this.threeInRowCounter === 3) {
         this.scoreMultiplier *= 2;
         this.scoreMultiplier = this.scoreMultiplier > 80 ? 80 : this.scoreMultiplier;
@@ -212,6 +288,7 @@ class GameSprintController {
       this.audio.play();
       this.incorrectCount += 1;
       this.threeInRowCounter = 0;
+      this.incorrectWords.push(word);
       this.scoreMultiplier = 10;
       pointsDiv.innerHTML = `Points: x${this.scoreMultiplier}`;
       countDiv.innerHTML = `${+countDiv.innerHTML - 10 < 0 ? 0 : +countDiv.innerHTML - 10}`;
@@ -330,8 +407,15 @@ class GameSprintController {
     this.model.words = words1.concat(words2);
     const arr = this.model.words.map((w) => {
       const obj = Object.create(null);
-      // eslint-disable-next-line no-underscore-dangle
-      Object.assign(obj, { eng: w.word }, { ru: w.wordTranslate }, { match: true }, { id: w._id });
+      Object.assign(
+        obj,
+        { eng: w.word },
+        { ru: w.wordTranslate },
+        { match: true },
+        // eslint-disable-next-line no-underscore-dangle
+        { id: w._id },
+        { audio: w.audio },
+      );
       return obj;
     });
     const shuffledArr = GameSprintController.shuffle(arr);

@@ -54,7 +54,7 @@ const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 <div class="sprint-game-modal-content">
 <div class="modal-upper-btns">
 <button class="to-go-btn">Result</button>
-<button class="to-go-btn">See my words</button>
+<button class="to-go-btn" id="to-words-btn">See my words</button>
 </div>
 <div class="modal-results">
 <div class="card">
@@ -90,9 +90,33 @@ const KEYBOARD_INSTRUCTIONS = `<div id="keyboard-layout">
 </div>
 </div>`;
 
+const FRONT_BLOCK_CONTENT_WORDS = `<section class="sprint-game-modal">
+<div class="sprint-game-modal-content">
+  <div class="modal-upper-btns">
+    <button class="to-go-btn">Result</button>
+    <button class="to-go-btn" id="to-words-btn">See my words</button>
+  </div>
+  <div class="modal-results">
+    <div class="word-list-container" id="word-list-container">
+  </div>
+  <div class="modal-lower-btns">
+<button class="module-lower-btn" id="restart-btn">Play again</button>
+<button class="module-lower-btn" id="to-text-book-btn"><a href="#textbook" class="module-lower-btn-ref">Go to the textbook</a></button>
+</div>
+</div>
+</section>`;
+
+const createWordItem = (en: string, ru: string) => `<div class="word-item">
+  <span class="word-item-sound" id="word-sound"></span>
+  <span class="word-item-en">${en}</span>
+  <span class="word-item-ru">- ${ru}</span>
+</div> `;
+
 export {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
   FRONT_BLOCK_CONTENT_MODAL,
   KEYBOARD_INSTRUCTIONS,
+  FRONT_BLOCK_CONTENT_WORDS,
+  createWordItem,
 };
