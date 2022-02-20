@@ -1,7 +1,7 @@
 const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
 <div class="sprint-settings-container wide">
-<p class="sprint-settings-title">Audiocall</p>
-<p class="sprint-settings-description">Audiocall training improves your listening comprehension.</p>
+<p class="sprint-settings-title">Audio</p>
+<p class="sprint-settings-description">Audio is a training that improves your listening comprehension</p>
 </div>
 <div class="sprint-settings-container">
 <p class="sprint-settings-title-levels">Choose the level:</p>
@@ -32,7 +32,7 @@ const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
   </label>
 </form>
 </div>
-<button class="start-audio-btn" id="start-audio-btn">Start</button>
+<button class="start-btn" id="start-audio-btn">Start</button>
 </section>`;
 
 const FRONT_BLOCK_CONTENT_GAME = `<section class="audio-game">
@@ -79,4 +79,22 @@ const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 </div>
 </section>`;
 
-export { FRONT_BLOCK_CONTENT_START, FRONT_BLOCK_CONTENT_GAME, FRONT_BLOCK_CONTENT_MODAL };
+const KEYBOARD_INSTRUCTIONS = `<div id="keyboard-layout">
+<div class="keyboard-row"><div class="keyboard-symbol">↑</div>
+<p class="keyboard-text">Play audio</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">←</div>
+<p class="keyboard-text">Move left</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">→</div>
+<p class="keyboard-text">Move right</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">ENTER</div>
+<p class="keyboard-text">Skip / Next / Continue</p>
+</div>
+</div>`;
+
+export {
+  FRONT_BLOCK_CONTENT_START, FRONT_BLOCK_CONTENT_GAME, FRONT_BLOCK_CONTENT_MODAL,
+  KEYBOARD_INSTRUCTIONS,
+};

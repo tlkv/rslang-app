@@ -1,10 +1,10 @@
 const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
 <div class="sprint-settings-container wide">
-<p class="sprint-settings-title">Спринт</p>
-<p class="sprint-settings-description">Спринт - тренировка на скорость. Попробуй угадать как можно больше слов за 30 секунд.</p>
+<p class="sprint-settings-title">Sprint</p>
+<p class="sprint-settings-description">Sprint is a speed training game. Try to guess as many words as you can in 30 seconds</p>
 </div>
 <div class="sprint-settings-container">
-<p class="sprint-settings-title-levels">Выберите уровень:</p>
+<p class="sprint-settings-title-levels">Choose the level:</p>
 <form name="form1" id="sprint-levels" class="sprint-settings-levels-btns">
 <label>
   <input type="radio" name="sprint-level" value="0" class="level-btn"></input>
@@ -32,50 +32,67 @@ const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
   </label>
 </form>
 </div>
-<button class="start-sprint-btn" id="start-sprint-btn">Начать</button>
+<button class="start-btn" id="start-sprint-btn">Start</button>
 </section>`;
 
 const FRONT_BLOCK_CONTENT_GAME = `<section class="sprint-game">
-<div class="timer"> <span class="timer-icon"><ion-icon name="timer-outline"></ion-icon></span><span class="timer" id="sprint-timer">30</span></div>
-<div class="scores"><div id="score-info" class="score-info">Умножение: 10</div><div id="score-count" class="score-count">0</div>
+<div class="timer"> <span><ion-icon class="timer-icon" name="timer-outline"></ion-icon></span><span class="timer" id="sprint-timer">30</span></div>
+<div class="scores"><div id="score-info" class="score-info">Points: x10</div><p class="score-text">Total score: </p><p id="score-count" class="score-count">0</p>
 </div>
 <div class="score-alert">
 <ion-icon class="alert-right" name="checkmark-circle-outline"></ion-icon>
 <ion-icon class="alert-wrong" name="close-circle-outline"></ion-icon>
 </div> 
-<div class="words-combinations"><span class="en-word" id="en-word">totally</span><span class="middle-word">это</span><span class="ru-word" id="ru-word">кошка</span></div>
+<div class="words-combinations"><span class="en-word" id="en-word">totally</span><span class="middle-word">is</span><span class="ru-word" id="ru-word">кошка</span></div>
 <div class="answer-btns">
-<button class="right-btn" id="sprint-right-btn">верно</button>
-<button class="wrong-btn" id="sprint-wrong-btn">неверно</button>
+<button class="right-btn" id="sprint-right-btn">Yes</button>
+<button class="wrong-btn" id="sprint-wrong-btn">No</button>
 </div>
 </section>`;
 
 const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 <div class="sprint-game-modal-content">
 <div class="modal-upper-btns">
-<button class="to-results-btn">результат</button>
-<button class="to-see-words-btn">посмотреть мои слова</button>
+<button class="to-go-btn">Result</button>
+<button class="to-go-btn">See my words</button>
 </div>
 <div class="modal-results">
 <div class="card">
-<p class="result-message">Хороший результат! Но ты можешь лучше</p>
-<p class="result-statistics"><span id="correct-count">11</span> слов изучено, <span id="incorrect-count">4</span> слова на изучении</p>
+<p class="result-message" id="result-message">Great result. But you can do better!</p>
+<p class="result-statistics"><span id="correct-count">11</span> words learned, <span id="incorrect-count">4</span> words on study</p>
   <div class="box"><div class="percent">
       <svg><circle cx="70" cy="70" r="70"></circle><circle id="percent-circle" cx="70" cy="70" r="70"></circle><svg>
           <div class="num">
             <p class="percentage"><span id="percentage-amount">90</span>%</p>
-            <p class="learned-words">изученных слов</p>
+            <p class="learned-words">learned words</p>
           </div>
     </div>
-        <p class="text"></p>
+        <p class="text">Your total score is</p><p class="total-score-text" id="total-score">340</p>
   </div>
 </div>
 </div>
 <div class="modal-lower-btns">
-<button class="module-lower-btn" id="restart-sprint-btn">сыграть еще раз</button>
-<button class="module-lower-btn" id="to-text-book-btn"><a href="#textbook" class="module-lower-btn-ref">перейти в учебник</a></button>
+<button class="module-lower-btn" id="restart-sprint-btn">Play again</button>
+<button class="module-lower-btn" id="to-text-book-btn"><a href="#textbook" class="module-lower-btn-ref">Go to the textbook</a></button>
 </div>
 </div>
 </section>`;
 
-export { FRONT_BLOCK_CONTENT_START, FRONT_BLOCK_CONTENT_GAME, FRONT_BLOCK_CONTENT_MODAL };
+const KEYBOARD_INSTRUCTIONS = `<div id="keyboard-layout">
+<div class="keyboard-row"><div class="keyboard-symbol">←</div>
+<p class="keyboard-text">Select yes</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">→</div>
+<p class="keyboard-text">Select no</p>
+</div>
+<div class="keyboard-row"><div class="keyboard-symbol">ENTER</div>
+<p class="keyboard-text">Start game</p>
+</div>
+</div>`;
+
+export {
+  FRONT_BLOCK_CONTENT_START,
+  FRONT_BLOCK_CONTENT_GAME,
+  FRONT_BLOCK_CONTENT_MODAL,
+  KEYBOARD_INSTRUCTIONS,
+};

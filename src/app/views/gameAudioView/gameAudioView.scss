@@ -1,3 +1,5 @@
+
+
 .game-audio-block {
   min-height: calc(100vh - 100px);
   // background: linear-gradient(20deg, #425670 10%, #1e2733 45%);
@@ -13,22 +15,29 @@
     max-width: 900px;
     width: 90%;
     text-align: center;
-    // height: 80vh;
     padding: 100px 0;
     margin: 0 auto;
 }
 
-.start-audio-btn {
+.start-btn {
   width: 50%;
-  border: 2px solid #edd874;
+  border: none;
   height: 50px;
   border-radius: 40px;
+  margin-top: 50px;
   font-size: 28px;
+  transition: background-color .5s ease;
+  color: #1e2733;
+  outline: none;
+}
+
+.start-btn:hover {
+  background-color: #edd874;
 }
 
 
 .audio-word-player {
-  margin: 100px 20px 50px;
+  margin: 50px 20px 50px;
 }
 
 .audio-word-player-btn {
@@ -79,20 +88,111 @@
   width: 150px;
   outline: none;
   border: 2px solid #edd874;
+  background-color: #1e2733;
   border-radius: 30px;
   transition: background-color .5s ease;
 }
 
+.audio-word-btn.correct {
+  background-color: rgb(73, 113, 65);
+  color: rgb(30, 39, 51);
+  border: 2px solid rgb(73, 113, 65);
+  box-shadow: rgb(0 0 0 / 17%) 0px -23px 25px 0px inset, rgb(0 0 0 / 15%) 0px -36px 30px 0px inset, rgb(0 0 0 / 10%) 0px -79px 40px 0px inset, rgb(0 0 0 / 6%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 4px 2px, rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px, rgb(0 0 0 / 9%) 0px 32px 16px;
+}
+
+.audio-word-btn.incorrect {
+  background-color: rgb(233, 84, 47);
+  color: rgb(30, 39, 51);
+  border: 2px solid rgb(233, 84, 47);
+  box-shadow: rgb(0 0 0 / 17%) 0px -23px 25px 0px inset, rgb(0 0 0 / 15%) 0px -36px 30px 0px inset, rgb(0 0 0 / 10%) 0px -79px 40px 0px inset, rgb(0 0 0 / 6%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 4px 2px, rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px, rgb(0 0 0 / 9%) 0px 32px 16px;
+}
+
+
 .audio-word-btn.active {
-  background-color: aqua !important;
+  background-color: #ffffff52 !important;
 }
 
 .skip-btn {
   width: 150px;
+  height: 50px;
   outline: none;
   border: 1px solid #edd874;
   background-color: #edd874;
   border-radius: 30px;
   transition: background-color .5s ease;
   color: #1e2733;
+}
+
+.modal-upper-btns {
+  background-color: #fff;
+  display: flex;
+  width: 100%;
+  height: 50px;
+  justify-content: space-around;
+  border-bottom: 1px solid;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.to-go-btn {
+  position: relative;
+  width: 190px;
+  border: none;
+  background-color: transparent;
+  transition: all 1s ease-out;
+  color: #1e2733;
+}
+
+.to-go-btn:hover {
+  color: #edd874;
+}
+
+.to-go-btn:after {
+  content: '';
+  display: block;
+  position: absolute;
+  right: 0; 
+  bottom: -1px; 
+  left: 25px;
+  width: 127px;
+  height: 1px;
+  transition: all .5s ease;
+}
+
+.to-go-btn:hover::after {
+  background-color: #edd874;
+  color: #edd874;
+}
+
+#keyboard-layout {
+  position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    background: #0000003b;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 10px;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 10px;
+}
+
+.keyboard-text {
+  font-size: 14px;
+  align-self: center;
+  flex: 2;
+}
+
+.keyboard-symbol {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  border: 1px solid white;
+  padding: 5px;
+  border-radius: 5px;
 }

@@ -5,6 +5,7 @@ import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
   FRONT_BLOCK_CONTENT_MODAL,
+  KEYBOARD_INSTRUCTIONS,
 } from '../../views/gameAudioView/const';
 import IAudioWord from '../../models/api/interfaces/IAudioWord';
 
@@ -46,6 +47,7 @@ class GameAudioController {
     this.incorrectWords = [];
     this.currentWordIndex = 0;
     this.currentMatchIndex = 0;
+    // this.view.frontBlock.container.innerHTML += KEYBOARD_INSTRUCTIONS;
     this.containerListener();
   }
 
@@ -71,6 +73,13 @@ class GameAudioController {
         case 'ArrowRight':
           this.moveArrow('right');
           break;
+        case 'ArrowUp': {
+          if (this.audioWords) {
+            const question = this.audioWords[this.currentWordIndex];
+            this.playAudio(`${this.baseUrl}${question.audio}`);
+          }
+          break;
+        }
         case 'Enter':
           this.enterPress(e);
           break;
@@ -95,6 +104,7 @@ class GameAudioController {
     this.level = +checkedInput.value;
     this.pageStart = 1;
     this.audioWords = await this.getWords(this.level, this.pageStart);
+    console.log(this.audioWords);
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
     this.startGame();
   }
@@ -143,8 +153,7 @@ class GameAudioController {
           }
         }
       } else {
-        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked =
-          true;
+        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked = true;
       }
     } else {
       // in game - controll game btns
@@ -187,9 +196,9 @@ class GameAudioController {
     this.currentMatchIndex = question.matchIndex;
 
     // Set word audio
-    this.audio.src = `${this.baseUrl}${question.audio}`;
+    // this.audio.src = `${this.baseUrl}${question.audio}`;
     (document.getElementById('audio-word-player') as HTMLElement).onclick = () => {
-      this.audio.play();
+      this.playAudio(`${this.baseUrl}${question.audio}`);
     };
     // Remove image opacity
     (document.getElementById('img') as HTMLImageElement).style.opacity = '0';
@@ -203,9 +212,12 @@ class GameAudioController {
       b.addEventListener('click', (e) => {
         this.checkAnswer(e);
       });
-      b.style.backgroundColor = 'transparent';
-      b.style.color = '#bebebe';
-      b.style.border = '2px solid #edd874';
+      if (b.classList.contains('correct') || b.classList.contains('incorrect')) {
+        b.classList.value = 'audio-word-btn';
+      }
+      // b.style.backgroundColor = 'transparent';
+      // b.style.color = '#bebebe';
+      // b.style.border = '2px solid #edd874';
     });
 
     // Set skip btn
@@ -213,7 +225,7 @@ class GameAudioController {
     skipBtn.innerHTML = 'Skip';
     this.isSkippedPressed = false;
     skipBtn.onclick = this.skipQuestions.bind(this);
-    this.audio.play();
+    this.playAudio(`${this.baseUrl}${question.audio}`);
   }
 
   calculateResult() {
@@ -245,19 +257,14 @@ class GameAudioController {
     }
     const percent = this.calculateResult();
     (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (
-      4.4 *
-      (100 - percent)
+      4.4 * (100 - percent)
     ).toString();
     (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
-    (document.getElementById('correct-count') as HTMLElement).innerHTML =
-      this.correctWords.length.toString();
-    (document.getElementById('incorrect-count') as HTMLElement).innerHTML =
-      this.incorrectWords.length.toString();
+    (document.getElementById('correct-count') as HTMLElement).innerHTML = this.correctWords.length.toString();
+    (document.getElementById('incorrect-count') as HTMLElement).innerHTML = this.incorrectWords.length.toString();
   }
 
   skipQuestions(e: Event) {
-    const btn =
-      e.type === 'click' ? (e.target as HTMLInputElement) : document.getElementById('skip-btn');
     // use if for next btn
     if (this.isSkippedPressed) {
       this.currentWordIndex += 1;
@@ -271,9 +278,6 @@ class GameAudioController {
 
   playAudio(path: string) {
     this.audio.src = path;
-    // this.audio.pause();
-    // this.audio.load();
-    // this.audio.play();
     const playPromise = this.audio.play();
     if (playPromise !== undefined) {
       playPromise.then(() => {
@@ -307,16 +311,18 @@ class GameAudioController {
     const answer = target.innerHTML;
     const img = document.getElementById('img') as HTMLImageElement;
     if (matchBtn.innerHTML === answer) {
-      target.style.backgroundColor = '#497141';
-      target.style.color = '#1e2733';
-      target.style.border = '2px solid #497141';
+      target.classList.add('correct');
+      // target.style.backgroundColor = '#497141';
+      // target.style.color = '#1e2733';
+      // target.style.border = '2px solid #497141';
       this.correctWords.push(answer);
       this.playAudio('../../../assets/correct-sound.mp3');
     } else {
       if (answer !== 'Skip') {
-        target.style.backgroundColor = '#E9542F';
-        target.style.color = '#1e2733';
-        target.style.border = '2px solid #E9542F';
+        target.classList.add('incorrect');
+        // target.style.backgroundColor = '#E9542F';
+        // target.style.color = '#1e2733';
+        // target.style.border = '2px solid #E9542F';
         this.incorrectWords.push(matchBtn.innerHTML);
         this.playAudio('../../../assets/incorrect-sound.mp3');
       } else if (answer === 'Skip') {
@@ -324,9 +330,10 @@ class GameAudioController {
         this.playAudio('../../../assets/incorrect-sound.mp3');
       }
       // set matchBtn to green and set target to red
-      matchBtn.style.backgroundColor = '#497141';
-      matchBtn.style.color = '#1e2733';
-      matchBtn.style.border = '2px solid #497141';
+      matchBtn.classList.add('correct');
+      // matchBtn.style.backgroundColor = '#497141';
+      // matchBtn.style.color = '#1e2733';
+      // matchBtn.style.border = '2px solid #497141';
     }
     if (this.audioWords) {
       img.src = `${this.baseUrl}${this.audioWords[this.currentWordIndex].image}`;
