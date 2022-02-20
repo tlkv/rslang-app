@@ -2,6 +2,7 @@ import './statisticsView.scss';
 import Component from '../_templates/component';
 import Header from '../_templates/header/header';
 import Footer from '../_templates/footer/footer';
+import { state, State } from '../../models/api/state/state';
 
 class StatisticsView extends Component {
   frontBlockWrapper = new Component('div', ['container']);
@@ -12,7 +13,13 @@ class StatisticsView extends Component {
 
   footer: Footer;
 
-  frontBlockContent: string;
+  statisticBlockContent: string;
+
+  AuthStatisticBlockContent: string;
+
+  NotAuthStatisticBlockContent: string;
+
+  model: State;
 
   constructor(root: HTMLElement) {
     super('div', ['statistics-view'], root);
@@ -22,8 +29,11 @@ class StatisticsView extends Component {
       ['statistics-block', 'app-center-block'],
       this.container,
     );
-    this.frontBlockContent = '';
+    this.statisticBlockContent = '';
+    this.AuthStatisticBlockContent = '';
+    this.NotAuthStatisticBlockContent = '';
     this.footer = new Footer(this.container);
+    this.model = state;
   }
 
   drawView(
@@ -37,7 +47,7 @@ class StatisticsView extends Component {
     generalNewWords: string,
     generalCurrentAnswers: string,
   ) {
-    this.frontBlockContent = `<section class="statistic-page">
+    this.AuthStatisticBlockContent = `<section class="statistic-page">
       <h2 class="statistic-title">Daily statistic</h2>
       <div class="daily-statistic">
         <img src="./assets/statistic.png" alt="statistic" class="statistic-img">
@@ -123,8 +133,17 @@ class StatisticsView extends Component {
       </div>
     </div>
   </section> `;
+
+    this.NotAuthStatisticBlockContent = `<div class="warning">Sorry, you can't come here! Register and come back :)</div>`;
+
+    if (this.model.isAuth) {
+      this.statisticBlockContent = this.AuthStatisticBlockContent;
+    } else {
+      this.statisticBlockContent = this.NotAuthStatisticBlockContent;
+    }
+
     this.frontBlock.container.append(this.frontBlockWrapper.container);
-    this.frontBlockWrapper.container.innerHTML = this.frontBlockContent;
+    this.frontBlockWrapper.container.innerHTML = this.statisticBlockContent;
   }
 }
 
