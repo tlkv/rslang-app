@@ -28,7 +28,7 @@ class TestController {
   }
 
   renderWordsStatsView(isAuth: boolean) {
-    console.log('stats TEST', this.model.stats);
+    console.log('stats TEST this.model.stats', this.model.stats);
     if (isAuth) {
       this.view.renderStats(this.model.stats, this.model.isAuth);
     } else {

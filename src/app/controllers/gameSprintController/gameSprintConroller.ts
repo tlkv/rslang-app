@@ -1,7 +1,7 @@
 /* eslint-disable operator-linebreak */
 import GameStartSprintView from '../../views/gameSprintView/GameStartSprintView';
 import { State, state } from '../../models/api/state/state';
-import { getWordsTextbook } from '../../models/api/api/getWordsTextbook';
+import { addNewWordsStats, getWordsTextbook } from '../../models/api/api/getWordsTextbook';
 import IMatchWord from '../../models/api/interfaces/IMatchWord';
 import {
   FRONT_BLOCK_CONTENT_START,
@@ -168,7 +168,8 @@ class GameSprintController {
           }
         }
       } else {
-        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked = true;
+        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked =
+          true;
       }
     } else if (this.isGameStarted) {
       if (direction === 'right') {
@@ -182,6 +183,7 @@ class GameSprintController {
   checkAnswer(answer: boolean) {
     if (!this.matchingWords || this.totalTime <= 0) return;
     const word = this.matchingWords[this.currentWordIndex];
+    addNewWordsStats(word.id);
     const countDiv = document.getElementById('score-count') as HTMLElement;
     const pointsDiv = document.getElementById('score-info') as HTMLElement;
     const alertRight = document.querySelector('.alert-right') as HTMLElement;
@@ -230,7 +232,7 @@ class GameSprintController {
         // remove word from learned words
       } else {
         // get user word from the server using userId and wordId
-      // if response 201 - not found -> post the word using api with userId and wordId
+        // if response 201 - not found -> post the word using api with userId and wordId
         // add word to learned words
       }
     }
@@ -279,7 +281,8 @@ class GameSprintController {
       const totalScore = document.getElementById('total-score') as HTMLElement;
       totalScore.innerHTML = this.scoreCount;
       if (+this.scoreCount === 0) {
-        (document.getElementById('result-message') as HTMLElement).innerHTML = 'Sorry! But you can do much better';
+        (document.getElementById('result-message') as HTMLElement).innerHTML =
+          'Sorry! But you can do much better';
       }
       const percent = this.calculateResult();
       (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (

@@ -1,3 +1,5 @@
+import { resetStatistics } from './getWordsTextbook';
+
 class Api {
   private base = 'https://rslang29.herokuapp.com/' as string;
 
@@ -36,6 +38,7 @@ class Api {
       const signInRes = await this.signInUser(data.email, password);
       if (signInRes.isSucceeded) {
         result = { isSucceeded: true, status: res.status, data };
+        await resetStatistics();
         return result;
       }
     }
