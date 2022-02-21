@@ -18,17 +18,6 @@ class StatisticsController {
 
   constructor(root: HTMLElement) {
     this.view = new StatisticsView(root);
-    this.view.drawView(
-      statisticdataTest.sprint.NewWords as string,
-      statisticdataTest.sprint.CurrentAnswers as string,
-      statisticdataTest.sprint.AnswerChains as string,
-      statisticdataTest.audio.NewWords as string,
-      statisticdataTest.audio.CurrentAnswers as string,
-      statisticdataTest.audio.AnswerChains as string,
-      statisticdataTest.general.LernedWords as string,
-      statisticdataTest.general.NewWords as string,
-      statisticdataTest.general.CurrentAnswers as string,
-    );
     this.model = state;
     this.drawBarGraphData = learnedData;
     this.drawLineGraphData = progressData;
@@ -104,23 +93,52 @@ class StatisticsController {
   }
 
   renderStats(stats: IStats) {
-    const uniqueKeys = Array.from(new Set(stats.optional?.wordList?.stat?.map((i) => i.wDate)));
-    const graphData = uniqueKeys.map((elem) => ({
+    const uniqueKeysLearned = Array.from(
+      new Set(stats.optional?.wordList?.stat?.map((i) => i.wDate)),
+    );
+    const uniqueKeysNewWords = Array.from(
+      new Set(stats.optional?.newWords?.stat?.map((i) => i.wDate)),
+    );
+
+    const graphDataLearned = uniqueKeysLearned.map((elem) => ({
       dateGraph: elem,
       wordsAmount: stats.optional?.wordList?.stat?.filter((i) => i.wDate === elem).length,
     }));
+
+    const graphDataNew = uniqueKeysNewWords.map((elem) => ({
+      dateGraph: elem,
+      wordsAmount: stats.optional?.newWords?.stat?.filter((i) => i.wDate === elem).length,
+    }));
+
+    // filter data for current date
+    const todayDateKey = new Date().toLocaleDateString('ru-RU');
+    const todayDataLearned = graphDataLearned.filter((i) => i.dateGraph === todayDateKey);
+    const todayDataNew = graphDataNew.filter((i) => i.dateGraph === todayDateKey);
+
+    let learnedToday = 0;
+
+    if (todayDataLearned.length !== 0 && todayDataLearned[0].wordsAmount) {
+      learnedToday = todayDataLearned[0].wordsAmount;
+    }
+
+    let newToday = 0;
+
+    if (todayDataNew.length !== 0 && todayDataNew[0].wordsAmount) {
+      newToday = todayDataNew[0].wordsAmount;
+    }
+
     const labels = [' '] as string[];
     const data = [0] as number[];
-    const dataLine = [] as number[];
+    const dataLine = [0] as number[];
 
-    graphData.forEach((elem) => {
+    graphDataNew.forEach((elem) => {
       labels.push(elem.dateGraph);
       data.push(elem.wordsAmount as number);
     });
 
-    if (graphData.length > 1) {
-      for (let i = 0; i < graphData.length; i++) {
-        const amount = graphData[i].wordsAmount as number;
+    if (graphDataLearned.length > 1) {
+      for (let i = 0; i < graphDataLearned.length; i++) {
+        const amount = graphDataLearned[i].wordsAmount as number;
         if (i - 1 >= 0) {
           const prevAmount = dataLine[i - 1] as number;
           dataLine.push(amount + prevAmount);
@@ -129,15 +147,27 @@ class StatisticsController {
         }
       }
     } else {
-      const amount = graphData[0].wordsAmount as number;
+      const amount = graphDataLearned[0].wordsAmount as number;
       dataLine.push(amount);
     }
+
     this.drawLineGraphData.labels = labels;
     this.drawLineGraphData.datasets[0].data = dataLine;
 
     this.drawBarGraphData.labels = labels;
     this.drawBarGraphData.datasets[0].data = data;
 
+    this.view.drawView(
+      statisticdataTest.sprint.NewWords as string,
+      statisticdataTest.sprint.CurrentAnswers as string,
+      statisticdataTest.sprint.AnswerChains as string,
+      statisticdataTest.audio.NewWords as string,
+      statisticdataTest.audio.CurrentAnswers as string,
+      statisticdataTest.audio.AnswerChains as string,
+      learnedToday as number,
+      newToday as number,
+      statisticdataTest.general.CurrentAnswers as string,
+    );
     this.chooseStatistic(this.drawLineGraphData as IGraphData, this.drawBarGraphData as IGraphData);
   }
 }

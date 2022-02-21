@@ -44,8 +44,8 @@ class StatisticsView extends Component {
     audioNewWords: string,
     audioCurrentAnswers: string,
     audiotAnswerChains: string,
-    generalLernedWords: string,
-    generalNewWords: string,
+    generalLernedWords: number,
+    generalNewWords: number,
     generalCurrentAnswers: string,
   ) {
     this.AuthStatisticBlockContent = `<section class="statistic-page">
