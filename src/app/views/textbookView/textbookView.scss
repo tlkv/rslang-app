@@ -434,3 +434,15 @@ button > i {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+@media (max-width: 1000px) {
+  .textbook-categories-button {
+    width: 30%;
+  }
+}
+
+@media (max-width: 600px) {
+  .textbook-categories-button {
+    width: 45%;
+  }
+}

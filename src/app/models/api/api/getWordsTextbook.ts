@@ -195,6 +195,42 @@ export const removeLearnedStats = async (wordId: string) => {
   }
 };
 
+export const removeLearnedWord = async (wordId: string) => {
+  const url = `${baseUrl}/users/${userId}/words/${wordId}`;
+  if (!userId || !token) return;
+  const contentGetResp: IWordOpt = {
+    optional: {
+      isLearned: 'no',
+    },
+  };
+  const getResponse = await fetch(url, ARGS_AUTH);
+  console.log('removeLearnedWord get', getResponse);
+  if (getResponse.status === 200) {
+    const contentCurrentResp: IWordOpt = await getResponse.json();
+    if (contentCurrentResp.optional) {
+      Object.assign(contentGetResp.optional, contentCurrentResp.optional, {
+        isLearned: 'no',
+      });
+    }
+  }
+  console.log('get contentGetResp', contentGetResp);
+  const respBody = JSON.stringify(contentGetResp);
+  const requestParams = {
+    method: 'PUT',
+    withCredentials: true,
+    headers: OBJ_HEADERS,
+    body: respBody,
+  };
+
+  const rawResponse = await fetch(url, requestParams);
+  console.log('removeLearnedWord raw', rawResponse);
+  if (rawResponse.status === 200) {
+    const content = await rawResponse.json();
+    console.log('content', content);
+  }
+  await removeLearnedStats(wordId);
+};
+
 export const createDifficultWord = async (wordId: string) => {
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
@@ -230,10 +266,11 @@ export const createDifficultWord = async (wordId: string) => {
     const content = await rawResponse.json();
     console.log('content ', content);
   }
-  await removeLearnedStats(wordId);
+  await removeLearnedWord(wordId); //test
 };
 
-export const handleGamesAnswers = async (wordId: string, gametype: string, answertype: string) => {
+/* export const handleGamesAnswers = async (wordId: string, gametype: 
+  string, answertype: string) => {
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
   const sptintDef: IWordOpt = {
@@ -283,9 +320,9 @@ export const handleGamesAnswers = async (wordId: string, gametype: string, answe
   }
 
   const respBody = JSON.stringify(contentGetResp);
-  const currentMethod = isUserWord ? 'PUT' : 'POST';
+  // const currentMethod = isUserWord ? 'PUT' : 'POST';
   const requestParams = {
-    method: currentMethod,
+    method: 'POST',
     withCredentials: true,
     headers: OBJ_HEADERS,
     body: respBody,
@@ -296,7 +333,19 @@ export const handleGamesAnswers = async (wordId: string, gametype: string, answe
     const content = await rawResponse.json();
     console.log('content upd game stats', content);
   }
-};
+  const requestParams2 = {
+    method: 'PUT',
+    withCredentials: true,
+    headers: OBJ_HEADERS,
+    body: respBody,
+  };
+
+  const rawResponse2 = await fetch(url, requestParams2);
+  if (rawResponse2.status === 200) {
+    const content = await rawResponse.json();
+    console.log('content upd game stats', content);
+  }
+}; */
 
 export const addNewWordsStats = async (wordId: string, gametype: string) => {
   console.log('START addNewWordsStats');
@@ -452,42 +501,6 @@ export const removeDifficultWord = async (wordId: string) => {
     const content = await rawResponse.json();
     console.log(content);
   }
-};
-
-export const removeLearnedWord = async (wordId: string) => {
-  const url = `${baseUrl}/users/${userId}/words/${wordId}`;
-  if (!userId || !token) return;
-  const contentGetResp: IWordOpt = {
-    optional: {
-      isLearned: 'no',
-    },
-  };
-  const getResponse = await fetch(url, ARGS_AUTH);
-  console.log('removeLearnedWord get', getResponse);
-  if (getResponse.status === 200) {
-    const contentCurrentResp: IWordOpt = await getResponse.json();
-    if (contentCurrentResp.optional) {
-      Object.assign(contentGetResp.optional, contentCurrentResp.optional, {
-        isLearned: 'no',
-      });
-    }
-  }
-  console.log('get contentGetResp', contentGetResp);
-  const respBody = JSON.stringify(contentGetResp);
-  const requestParams = {
-    method: 'PUT',
-    withCredentials: true,
-    headers: OBJ_HEADERS,
-    body: respBody,
-  };
-
-  const rawResponse = await fetch(url, requestParams);
-  console.log('removeLearnedWord raw', rawResponse);
-  if (rawResponse.status === 200) {
-    const content = await rawResponse.json();
-    console.log('content', content);
-  }
-  await removeLearnedStats(wordId);
 };
 
 export const filterDifficultWords = async () => {

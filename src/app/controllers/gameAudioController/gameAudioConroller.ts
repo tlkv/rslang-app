@@ -1,8 +1,11 @@
 import GameAudioView from '../../views/gameAudioView/gameAudioView';
 import { State, state } from '../../models/api/state/state';
 import {
+  addNewWordsStats,
   createLearnedWord,
   getWordsTextbook,
+  percentStats,
+  removeLearnedStats,
   removeLearnedWord,
 } from '../../models/api/api/getWordsTextbook';
 import {
@@ -333,7 +336,7 @@ class GameAudioController {
     return Math.round(percent);
   }
 
-  endGame() {
+  async endGame() {
     this.isGameStarted = false;
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_MODAL;
     const message = document.getElementById('result-message') as HTMLElement;
@@ -359,7 +362,7 @@ class GameAudioController {
       this.correctWords.length.toString();
     (document.getElementById('incorrect-count') as HTMLElement).innerHTML =
       this.incorrectWords.length.toString();
-
+    await percentStats(percent, 'audio');
     this.setSeeWords();
   }
 
@@ -391,9 +394,10 @@ class GameAudioController {
     }
   }
 
-  checkAnswer(e: Event) {
+  async checkAnswer(e: Event) {
     if (!this.audioWords) return;
     const word = this.audioWords[this.currentMatchIndex];
+    await addNewWordsStats(word.id, 'audio');
     const answers = Array.from(document.querySelectorAll('.audio-word-btn') as NodeList);
     answers.forEach((el) => {
       const btn = el as HTMLInputElement;
@@ -418,8 +422,10 @@ class GameAudioController {
       this.correctWords.push(answer);
       this.playAudio('../../../assets/correct-sound.mp3');
       this.updateLearnedWord(word.id, false);
+      // await handleGamesAnswers(word.id, 'audio', 'right');
     } else {
       if (answer !== 'Skip') {
+        await removeLearnedStats(word.id); // remove from learned if wrong
         target.classList.add('incorrect');
         this.incorrectWords.push(matchBtn.innerHTML);
         this.playAudio('../../../assets/incorrect-sound.mp3');
@@ -430,6 +436,7 @@ class GameAudioController {
       // set matchBtn to green and set target to red
       matchBtn.classList.add('correct');
       this.updateLearnedWord(word.id, true);
+      // await handleGamesAnswers(word.id, 'audio', 'wrong');
     }
     if (this.audioWords) {
       img.src = `${this.baseUrl}${this.audioWords[this.currentWordIndex].image}`;

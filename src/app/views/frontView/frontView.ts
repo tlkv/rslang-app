@@ -42,10 +42,12 @@ class FrontView extends Component {
             <img src="./assets/kristina.jpg" alt="kristina" class="teammate-img" >
             <div class="info-box">
               <a  href="https://github.com/kristykov" class="name">Kristina</a>
-              <span class="position">designer | developer</span>
-              <p class="contribution-description">Helped develop the structure of the project.
-               She had a hand in creating authorization. All games are her fine work!
-               The design has been improved many times.
+              <span class="position">teamlead</span>
+              <p class="contribution-description">Sprint Game
+              </p>
+              <p class="contribution-description">Audio Challenge Game
+              </p>
+              <p class="contribution-description">Visual Design
               </p>
               </div>
           </div>
@@ -54,9 +56,11 @@ class FrontView extends Component {
             <div class="info-box">
               <a href="https://github.com/tlkv"class="name">Andrey</a>
               <span class="position">developer</span>
-              <p class="contribution-description">Link of our team. Selflessly fought all git conflicts.
-               Project setup and structure, back-end, as well as routing,
-               tutorial and statistics collection - these are all his merits.
+              <p class="contribution-description">Textbook page
+              </p>
+              <p class="contribution-description">Collecting user statistics
+              </p>
+              <p class="contribution-description">Project Architecture
               </p>
             </div>  
           </div>
@@ -64,9 +68,12 @@ class FrontView extends Component {
             <img src="./assets/anastasiya.jpg" alt="anastasiya" class="teammate-img">
             <div class="info-box">
               <a href="https://github.com/AnastasiyaPoleshuk" class="name">Anastasiya</a>
-              <span class="position">designer | developer</span>
-              <p class="contribution-description">Long and hard was engaged in layout.
-               Made authorization and statistics page.
+              <span class="position">developer</span>
+              <p class="contribution-description">User authorisation
+              </p>
+              <p class="contribution-description">Statistics page
+              </p>
+              <p class="contribution-description">Front Page & Visual Design
               </p>
             </div>
           </div>
