@@ -1,7 +1,9 @@
 /* eslint-disable operator-linebreak */
 import GameStartSprintView from '../../views/gameSprintView/GameStartSprintView';
 import { State, state } from '../../models/api/state/state';
-import { addNewWordsStats, getWordsTextbook } from '../../models/api/api/getWordsTextbook';
+import {
+  addNewWordsStats, createLearnedWord, getWordsTextbook, removeLearnedWord,
+} from '../../models/api/api/getWordsTextbook';
 import IMatchWord from '../../models/api/interfaces/IMatchWord';
 import {
   FRONT_BLOCK_CONTENT_START,
@@ -299,7 +301,7 @@ class GameSprintController {
       } else {
         alertRight.style.animationName = 'fadeOut1';
       }
-      this.updateLearnedWord(word.id, word.level, false);
+      this.updateLearnedWord(word.id, false);
     } else {
       this.audio.src = '../../../assets/incorrect-sound.mp3';
       this.audio.play();
@@ -315,21 +317,17 @@ class GameSprintController {
       } else {
         alertWrong.style.animationName = 'fadeOut1';
       }
-      this.updateLearnedWord(word.id, word.level, true);
+      this.updateLearnedWord(word.id, true);
     }
     this.nextWord();
   }
 
-  async updateLearnedWord(wordId: string, level: string, remove: boolean) {
+  async updateLearnedWord(wordId: string, remove: boolean) {
     if (this.userId) {
       if (remove) {
-        // remove word from learned words
+        removeLearnedWord(wordId);
       } else {
-        // const result = await getUserWord(wordId);
-        // const result = await createUserWord(wordId, level);
-        // get user word from the server using userId and wordId
-        // if response 201 - not found -> post the word using api with userId and wordId
-        // add word to learned words
+        createLearnedWord(wordId);
       }
     }
   }

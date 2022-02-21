@@ -1,6 +1,6 @@
 import GameAudioView from '../../views/gameAudioView/gameAudioView';
 import { State, state } from '../../models/api/state/state';
-import { getWordsTextbook } from '../../models/api/api/getWordsTextbook';
+import { createLearnedWord, getWordsTextbook, removeLearnedWord } from '../../models/api/api/getWordsTextbook';
 import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
@@ -37,6 +37,8 @@ class GameAudioController {
 
   currentMatchIndex: number;
 
+  userId: string | null;
+
   constructor(root: HTMLElement) {
     this.view = new GameAudioView(root);
     this.model = state;
@@ -48,6 +50,7 @@ class GameAudioController {
     this.incorrectWords = [];
     this.currentWordIndex = 0;
     this.currentMatchIndex = 0;
+    this.userId = localStorage.getItem('userId');
     this.containerListener();
   }
 
@@ -361,6 +364,8 @@ class GameAudioController {
   }
 
   checkAnswer(e: Event) {
+    if (!this.audioWords) return;
+    const word = this.audioWords[this.currentMatchIndex];
     const answers = Array.from(document.querySelectorAll('.audio-word-btn') as NodeList);
     answers.forEach((el) => {
       const btn = el as HTMLInputElement;
@@ -384,6 +389,7 @@ class GameAudioController {
       target.classList.add('correct');
       this.correctWords.push(answer);
       this.playAudio('../../../assets/correct-sound.mp3');
+      this.updateLearnedWord(word.id, false);
     } else {
       if (answer !== 'Skip') {
         target.classList.add('incorrect');
@@ -395,6 +401,7 @@ class GameAudioController {
       }
       // set matchBtn to green and set target to red
       matchBtn.classList.add('correct');
+      this.updateLearnedWord(word.id, true);
     }
     if (this.audioWords) {
       img.src = `${this.baseUrl}${this.audioWords[this.currentWordIndex].image}`;
@@ -407,6 +414,16 @@ class GameAudioController {
     setTimeout(() => {
       img.style.opacity = '1';
     }, 200);
+  }
+
+  async updateLearnedWord(wordId: string, remove: boolean) {
+    if (this.userId) {
+      if (remove) {
+        removeLearnedWord(wordId);
+      } else {
+        createLearnedWord(wordId);
+      }
+    }
   }
 
   resetValues() {
