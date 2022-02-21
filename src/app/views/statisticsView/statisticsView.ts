@@ -40,8 +40,8 @@ class StatisticsView extends Component {
   drawView(
     sprintNewWords: number,
     sprintCurrentAnswers: number,
-    audioNewWords: string,
-    audioCurrentAnswers: string,
+    audioNewWords: number,
+    audioCurrentAnswers: number,
     generalLernedWords: number,
     generalNewWords: number,
     generalCurrentAnswers: number,
@@ -105,18 +105,10 @@ class StatisticsView extends Component {
     </div>
     <div class="long-term-statistics">
       <h2 class="long-term-statistic-title">Long term statistic</h2>
-      <div class="container-switch">
-        <div class="switch white">
-          <input type="radio" name="switch" data-action="switch-off">
-          <input type="radio" name="switch" data-action="switch-on" checked>
-          <label for="switch-off">learned words</label>
-          <label for="switch-on">Progress</label>
-          <span class="toggle"></span>
-        </div>
-      </div>
       <div class="canvas-box">
         <canvas class="schedule-line"></canvas>
-        <canvas class="schedule-bar schedule-hide"></canvas>
+        <canvas class="schedule-bar"></canvas>
+        <canvas class="schedule-line games-schedule"></canvas>
       </div>
     </div>
   </section> `;
