@@ -28,17 +28,53 @@ class TestView extends Component {
   }
 
   renderStats(stats: IStats, isAuth: boolean) {
-    const uniqueKeys = Array.from(new Set(stats.optional?.wordList?.stat?.map((i) => i.wDate)));
-    console.log(uniqueKeys);
-    const graphData = uniqueKeys.map((elem) => ({
+    const allTimeLEarned = stats.optional?.wordList?.stat?.length;
+    const allTimeLNew = stats.optional?.newWords?.stat?.length;
+    const uniqueKeysLearned = Array.from(
+      new Set(stats.optional?.wordList?.stat?.map((i) => i.wDate)),
+    );
+    const uniqueKeysNewWords = Array.from(
+      new Set(stats.optional?.newWords?.stat?.map((i) => i.wDate)),
+    );
+    console.log(uniqueKeysLearned); // unique keys by date
+
+    // group object by unique date keys
+    const graphDataLearned = uniqueKeysLearned.map((elem) => ({
       dateGraph: elem,
       wordsAmount: stats.optional?.wordList?.stat?.filter((i) => i.wDate === elem).length,
     }));
 
-    console.log(graphData);
+    const graphDataNew = uniqueKeysNewWords.map((elem) => ({
+      dateGraph: elem,
+      wordsAmount: stats.optional?.newWords?.stat?.filter((i) => i.wDate === elem).length,
+    }));
 
-    const elemContent = `${JSON.stringify(graphData)}
-    <button class="reset-stats-button">Reset Stats</button>`;
+    // filter data for current date
+    const todayDateKey = new Date().toLocaleDateString('ru-RU');
+    const todayDataLearned = graphDataLearned.filter((i) => i.dateGraph === todayDateKey);
+    const todayDataNew = graphDataNew.filter((i) => i.dateGraph === todayDateKey);
+
+    let learnedToday = 0;
+
+    if (todayDataLearned.length !== 0 && todayDataLearned[0].wordsAmount) {
+      learnedToday = todayDataLearned[0].wordsAmount;
+      // always 1 elem since we filter by date which is unique
+    }
+
+    let newToday = 0;
+
+    if (todayDataNew.length !== 0 && todayDataNew[0].wordsAmount) {
+      newToday = todayDataNew[0].wordsAmount;
+    }
+
+    const elemContent = `
+    <button class="reset-stats-button">Reset Stats</button>
+    <h2>Learned Today ${learnedToday}</h2>
+    <h2>All Learned - ${allTimeLEarned} - ${JSON.stringify(graphDataLearned)}</h2>
+    <h2>New Today ${newToday}</h2>
+    <h2>All New - ${allTimeLNew} - ${JSON.stringify(graphDataNew)}</h2>
+    <h4>RAW Data for debug - ${JSON.stringify(stats)}</h4>`;
+
     this.frontBlockWrapper.container.innerHTML = elemContent;
   }
 }
