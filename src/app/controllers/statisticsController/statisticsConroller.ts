@@ -205,7 +205,10 @@ class StatisticsController {
         }
       }
     } else {
-      const amount = graphDataLearned[0].wordsAmount as number;
+      let amount = 0;
+      if (graphDataLearned[0]) {
+        amount = graphDataLearned[0].wordsAmount as number;
+      }
       dataLine.push(amount);
     }
 

@@ -2,7 +2,10 @@
 import GameStartSprintView from '../../views/gameSprintView/GameStartSprintView';
 import { State, state } from '../../models/api/state/state';
 import {
-  addNewWordsStats, createLearnedWord, getWordsTextbook, removeLearnedWord,
+  addNewWordsStats,
+  createLearnedWord,
+  getWordsTextbook,
+  removeLearnedWord,
 } from '../../models/api/api/getWordsTextbook';
 import IMatchWord from '../../models/api/interfaces/IMatchWord';
 import {
@@ -87,7 +90,9 @@ class GameSprintController {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-sprint-btn') as HTMLInputElement;
         const toWordsBtn = (e.target as HTMLElement).closest('#to-words-btn') as HTMLInputElement;
-        const toResultsBtn = (e.target as HTMLElement).closest('#to-results-btn') as HTMLInputElement;
+        const toResultsBtn = (e.target as HTMLElement).closest(
+          '#to-results-btn',
+        ) as HTMLInputElement;
         const restartBtn = (e.target as HTMLElement).closest(
           '#restart-sprint-btn',
         ) as HTMLInputElement;
@@ -285,7 +290,7 @@ class GameSprintController {
   checkAnswer(answer: boolean) {
     if (!this.matchingWords || this.totalTime <= 0) return;
     const word = this.matchingWords[this.currentWordIndex];
-    addNewWordsStats(word.id);
+    addNewWordsStats(word.id, 'sprint');
     const countDiv = document.getElementById('score-count') as HTMLElement;
     const pointsDiv = document.getElementById('score-info') as HTMLElement;
     const alertRight = document.querySelector('.alert-right') as HTMLElement;
