@@ -3,6 +3,9 @@ interface IAudioWord {
   options: string[],
   matchIndex: number,
   image: string,
+  id: string,
+  word: string,
+  translation: string,
 }
 
 export default IAudioWord;

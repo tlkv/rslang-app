@@ -1,11 +1,12 @@
 import GameAudioView from '../../views/gameAudioView/gameAudioView';
 import { State, state } from '../../models/api/state/state';
-import { getWordsTextbook } from '../../models/api/api/getWordsTextbook';
+import { createLearnedWord, getWordsTextbook, removeLearnedWord } from '../../models/api/api/getWordsTextbook';
 import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
   FRONT_BLOCK_CONTENT_MODAL,
-  KEYBOARD_INSTRUCTIONS,
+  FRONT_BLOCK_CONTENT_WORDS,
+  createWordItem,
 } from '../../views/gameAudioView/const';
 import IAudioWord from '../../models/api/interfaces/IAudioWord';
 
@@ -36,6 +37,8 @@ class GameAudioController {
 
   currentMatchIndex: number;
 
+  userId: string | null;
+
   constructor(root: HTMLElement) {
     this.view = new GameAudioView(root);
     this.model = state;
@@ -47,7 +50,7 @@ class GameAudioController {
     this.incorrectWords = [];
     this.currentWordIndex = 0;
     this.currentMatchIndex = 0;
-    // this.view.frontBlock.container.innerHTML += KEYBOARD_INSTRUCTIONS;
+    this.userId = localStorage.getItem('userId');
     this.containerListener();
   }
 
@@ -55,11 +58,18 @@ class GameAudioController {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-audio-btn') as HTMLInputElement;
-        const restartBtn = (e.target as HTMLElement).closest('#restart-btn') as HTMLInputElement;
+        const restartBtn = (e.target as HTMLElement).closest('#restart-sprint-btn') as HTMLInputElement;
+        const toWordsBtn = (e.target as HTMLElement).closest('#to-words-btn') as HTMLInputElement;
+        const toResultsBtn = (e.target as HTMLElement).closest('#to-results-btn') as HTMLInputElement;
         if (startBtn) {
           this.startPress();
         } else if (restartBtn) {
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_START;
+        } else if (toWordsBtn) {
+          // this.showWords();
+          GameAudioController.showSeeMyWords();
+        } else if (toResultsBtn) {
+          GameAudioController.showResults();
         }
       }
     });
@@ -91,6 +101,80 @@ class GameAudioController {
     this.view.frontBlock.container.setAttribute('tabindex', '0');
   }
 
+  static showSeeMyWords() {
+    const resultsDiv = document.getElementById('modal-results') as HTMLElement;
+    const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    const seeMyWordsBtn = document.getElementById('to-words-btn') as HTMLInputElement;
+    const resultsBtn = document.getElementById('to-results-btn') as HTMLInputElement;
+    resultsDiv.style.display = 'none';
+    wordListDiv.style.display = 'block';
+    seeMyWordsBtn.classList.add('active');
+    resultsBtn.classList.remove('active');
+  }
+
+  static showResults() {
+    const resultsDiv = document.getElementById('modal-results') as HTMLElement;
+    const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    const seeMyWordsBtn = document.getElementById('to-words-btn') as HTMLInputElement;
+    const resultsBtn = document.getElementById('to-results-btn') as HTMLInputElement;
+    resultsDiv.style.display = 'block';
+    wordListDiv.style.display = 'none';
+    seeMyWordsBtn.classList.remove('active');
+    resultsBtn.classList.add('active');
+  }
+
+  setSeeWords() {
+    // this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_WORDS;
+    const wordListContainer = document.getElementById('word-list-container') as HTMLElement;
+    const parser = new DOMParser();
+    if (this.incorrectWords.length > 0) {
+      const incorrectAnswersTitle = document.createElement('div');
+      incorrectAnswersTitle.classList.add('word-list-title');
+      incorrectAnswersTitle.innerHTML = 'Incorrect answers';
+      wordListContainer.appendChild(incorrectAnswersTitle);
+      const incorrectWordsContainer = document.createElement('div');
+      incorrectWordsContainer.classList.add('word-list-wrong');
+      wordListContainer.appendChild(incorrectWordsContainer);
+      this.incorrectWords.forEach((el) => {
+        const incWord = this.audioWords?.find((w) => w.translation === el);
+        if (incWord) {
+          const wordItem = parser.parseFromString(createWordItem(incWord.word, incWord.translation), 'text/html');
+          const wordItemSound = wordItem.getElementById('word-sound') as HTMLElement;
+          wordItemSound.onclick = () => {
+            this.playAudio(`${this.baseUrl}${incWord.audio}`);
+          };
+          const child = wordItem.body.firstElementChild;
+          if (child) {
+            incorrectWordsContainer.appendChild(child);
+          }
+        }
+      });
+    }
+    if (this.correctWords.length > 0) {
+      const correctAnswersTitle = document.createElement('div');
+      correctAnswersTitle.classList.add('word-list-title');
+      correctAnswersTitle.innerHTML = 'Correct answers';
+      wordListContainer.appendChild(correctAnswersTitle);
+      const correctWordsContainer = document.createElement('div');
+      correctWordsContainer.classList.add('word-list-right');
+      wordListContainer.appendChild(correctWordsContainer);
+      this.correctWords.forEach((el) => {
+        const corWord = this.audioWords?.find((w) => w.translation === el);
+        if (corWord) {
+          const wordItem = parser.parseFromString(createWordItem(corWord.word, corWord.translation), 'text/html');
+          const wordItemSound = wordItem.getElementById('word-sound') as HTMLElement;
+          wordItemSound.onclick = () => {
+            this.playAudio(`${this.baseUrl}${corWord.audio}`);
+          };
+          const child = wordItem.body.firstElementChild;
+          if (child) {
+            correctWordsContainer.appendChild(child);
+          }
+        }
+      });
+    }
+  }
+
   async startPress() {
     const checkedInput = document.querySelector(
       'input[name="audio-level"]:checked',
@@ -104,7 +188,6 @@ class GameAudioController {
     this.level = +checkedInput.value;
     this.pageStart = 1;
     this.audioWords = await this.getWords(this.level, this.pageStart);
-    console.log(this.audioWords);
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
     this.startGame();
   }
@@ -196,7 +279,6 @@ class GameAudioController {
     this.currentMatchIndex = question.matchIndex;
 
     // Set word audio
-    // this.audio.src = `${this.baseUrl}${question.audio}`;
     (document.getElementById('audio-word-player') as HTMLElement).onclick = () => {
       this.playAudio(`${this.baseUrl}${question.audio}`);
     };
@@ -209,15 +291,12 @@ class GameAudioController {
       const b = btn as HTMLInputElement;
       b.innerHTML = question.options[i];
       b.disabled = false;
-      b.addEventListener('click', (e) => {
+      b.onclick = (e) => {
         this.checkAnswer(e);
-      });
+      };
       if (b.classList.contains('correct') || b.classList.contains('incorrect')) {
         b.classList.value = 'audio-word-btn';
       }
-      // b.style.backgroundColor = 'transparent';
-      // b.style.color = '#bebebe';
-      // b.style.border = '2px solid #edd874';
     });
 
     // Set skip btn
@@ -262,6 +341,8 @@ class GameAudioController {
     (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
     (document.getElementById('correct-count') as HTMLElement).innerHTML = this.correctWords.length.toString();
     (document.getElementById('incorrect-count') as HTMLElement).innerHTML = this.incorrectWords.length.toString();
+
+    this.setSeeWords();
   }
 
   skipQuestions(e: Event) {
@@ -276,21 +357,23 @@ class GameAudioController {
     this.checkAnswer(e);
   }
 
-  playAudio(path: string) {
+  async playAudio(path: string) {
     this.audio.src = path;
     const playPromise = this.audio.play();
     if (playPromise !== undefined) {
-      playPromise.then(() => {
+      await playPromise.then(() => {
         this.audio.pause();
         this.audio.currentTime = 0;
         this.audio.play();
-      });
+      }).catch((e) => console.log('Don\'t click or press so fast, please'));
     } else {
       this.audio.play();
     }
   }
 
   checkAnswer(e: Event) {
+    if (!this.audioWords) return;
+    const word = this.audioWords[this.currentMatchIndex];
     const answers = Array.from(document.querySelectorAll('.audio-word-btn') as NodeList);
     answers.forEach((el) => {
       const btn = el as HTMLInputElement;
@@ -312,17 +395,12 @@ class GameAudioController {
     const img = document.getElementById('img') as HTMLImageElement;
     if (matchBtn.innerHTML === answer) {
       target.classList.add('correct');
-      // target.style.backgroundColor = '#497141';
-      // target.style.color = '#1e2733';
-      // target.style.border = '2px solid #497141';
       this.correctWords.push(answer);
       this.playAudio('../../../assets/correct-sound.mp3');
+      this.updateLearnedWord(word.id, false);
     } else {
       if (answer !== 'Skip') {
         target.classList.add('incorrect');
-        // target.style.backgroundColor = '#E9542F';
-        // target.style.color = '#1e2733';
-        // target.style.border = '2px solid #E9542F';
         this.incorrectWords.push(matchBtn.innerHTML);
         this.playAudio('../../../assets/incorrect-sound.mp3');
       } else if (answer === 'Skip') {
@@ -331,9 +409,7 @@ class GameAudioController {
       }
       // set matchBtn to green and set target to red
       matchBtn.classList.add('correct');
-      // matchBtn.style.backgroundColor = '#497141';
-      // matchBtn.style.color = '#1e2733';
-      // matchBtn.style.border = '2px solid #497141';
+      this.updateLearnedWord(word.id, true);
     }
     if (this.audioWords) {
       img.src = `${this.baseUrl}${this.audioWords[this.currentWordIndex].image}`;
@@ -346,6 +422,16 @@ class GameAudioController {
     setTimeout(() => {
       img.style.opacity = '1';
     }, 200);
+  }
+
+  async updateLearnedWord(wordId: string, remove: boolean) {
+    if (this.userId) {
+      if (remove) {
+        removeLearnedWord(wordId);
+      } else {
+        createLearnedWord(wordId);
+      }
+    }
   }
 
   resetValues() {
@@ -397,6 +483,10 @@ class GameAudioController {
         options: shuffledWords,
         matchIndex: correctIndex,
         image: word.image,
+        // eslint-disable-next-line no-underscore-dangle
+        id: word._id,
+        word: word.word,
+        translation: word.wordTranslate,
       };
       arr.push(wordObj);
       usedWords = [];

@@ -404,6 +404,7 @@ export const createLearnedWord = async (wordId: string) => {
     },
   };
   const getResponse = await fetch(url, ARGS_AUTH);
+  console.log('createLearnedWord  get', getResponse);
   if (getResponse.status === 200) {
     const contentCurrentResp: IWordOpt = await getResponse.json();
     isUserWord = true;
@@ -424,6 +425,8 @@ export const createLearnedWord = async (wordId: string) => {
   };
 
   const rawResponse = await fetch(url, requestParams);
+  console.log('createLearnedWord raw', rawResponse);
+  console.log('createLearnedWord params :', requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
     console.log('content', content);
@@ -460,6 +463,7 @@ export const removeLearnedWord = async (wordId: string) => {
     },
   };
   const getResponse = await fetch(url, ARGS_AUTH);
+  console.log('removeLearnedWord get', getResponse);
   if (getResponse.status === 200) {
     const contentCurrentResp: IWordOpt = await getResponse.json();
     if (contentCurrentResp.optional) {
@@ -478,6 +482,7 @@ export const removeLearnedWord = async (wordId: string) => {
   };
 
   const rawResponse = await fetch(url, requestParams);
+  console.log('removeLearnedWord raw', rawResponse);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
     console.log('content', content);

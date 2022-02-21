@@ -152,16 +152,24 @@
   display: block;
   position: absolute;
   right: 0; 
-  bottom: -1px; 
+  bottom: -2px; 
   left: 25px;
   width: 127px;
-  height: 1px;
+  height: 3px;
   transition: all .5s ease;
 }
 
 .to-go-btn:hover::after {
   background-color: #edd874;
   color: #edd874;
+}
+
+.to-go-btn.active {
+  color: #edd874;
+}
+
+.to-go-btn.active::after {
+  background-color: #edd874;
 }
 
 #keyboard-layout {
@@ -195,4 +203,42 @@
   border: 1px solid white;
   padding: 5px;
   border-radius: 5px;
+}
+
+.word-list-container {
+  display: none;
+}
+
+.word-list-wrong,
+.word-list-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.word-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.word-item-text {
+  color: #1e2733;
+}
+
+.word-list-title {
+  font-size: 26px;
+  margin: 15px 0;
+  color: #1e2733;
+}
+
+.word-item-sound {
+  display: flex;
+
+}
+
+.word-item-player {
+     color: #edd874;
+     width: 30px;
+     height: 30px;
 }
