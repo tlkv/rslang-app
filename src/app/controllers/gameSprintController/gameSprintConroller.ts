@@ -438,7 +438,6 @@ class GameSprintController {
         // eslint-disable-next-line no-underscore-dangle
         { id: w._id },
         { audio: w.audio },
-        { level: w.userWord.difficulty },
       );
       return obj;
     });

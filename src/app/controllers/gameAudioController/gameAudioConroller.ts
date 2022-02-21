@@ -55,14 +55,18 @@ class GameAudioController {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-audio-btn') as HTMLInputElement;
-        const restartBtn = (e.target as HTMLElement).closest('#restart-btn') as HTMLInputElement;
+        const restartBtn = (e.target as HTMLElement).closest('#restart-sprint-btn') as HTMLInputElement;
         const toWordsBtn = (e.target as HTMLElement).closest('#to-words-btn') as HTMLInputElement;
+        const toResultsBtn = (e.target as HTMLElement).closest('#to-results-btn') as HTMLInputElement;
         if (startBtn) {
           this.startPress();
         } else if (restartBtn) {
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_START;
         } else if (toWordsBtn) {
-          this.showWords();
+          // this.showWords();
+          GameAudioController.showSeeMyWords();
+        } else if (toResultsBtn) {
+          GameAudioController.showResults();
         }
       }
     });
@@ -94,8 +98,22 @@ class GameAudioController {
     this.view.frontBlock.container.setAttribute('tabindex', '0');
   }
 
-  showWords() {
-    this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_WORDS;
+  static showSeeMyWords() {
+    const resultsDiv = document.getElementById('modal-results') as HTMLElement;
+    const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    resultsDiv.style.display = 'none';
+    wordListDiv.style.display = 'block';
+  }
+
+  static showResults() {
+    const resultsDiv = document.getElementById('modal-results') as HTMLElement;
+    const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    resultsDiv.style.display = 'block';
+    wordListDiv.style.display = 'none';
+  }
+
+  setSeeWords() {
+    // this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_WORDS;
     const wordListContainer = document.getElementById('word-list-container') as HTMLElement;
     const parser = new DOMParser();
     if (this.incorrectWords.length > 0) {
@@ -312,6 +330,8 @@ class GameAudioController {
     (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
     (document.getElementById('correct-count') as HTMLElement).innerHTML = this.correctWords.length.toString();
     (document.getElementById('incorrect-count') as HTMLElement).innerHTML = this.incorrectWords.length.toString();
+
+    this.setSeeWords();
   }
 
   skipQuestions(e: Event) {
@@ -334,7 +354,7 @@ class GameAudioController {
         this.audio.pause();
         this.audio.currentTime = 0;
         this.audio.play();
-      });
+      }).catch((e) => console.log('Don\'t click or press so fast, please'));
     } else {
       this.audio.play();
     }
