@@ -228,32 +228,60 @@ export const createDifficultWord = async (wordId: string) => {
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log('content', content);
+    console.log('content ', content);
   }
   await removeLearnedStats(wordId);
 };
 
-/* export const handleGamesResults = async (wordId: string) => {
+export const handleGamesAnswers = async (wordId: string, gametype: string, answertype: string) => {
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
-  let isUserWord = false;
-  const contentGetResp: IWordOpt = {
-    difficulty: 'difficult',
+  const sptintDef: IWordOpt = {
     optional: {
-      isLearned: 'no',
+      sprintAttempts: 0,
+      sprintSuccesful: 0,
     },
   };
+  const audioDef: IWordOpt = {
+    optional: {
+      audioAttempts: 0,
+      audioSuccesful: 0,
+    },
+  };
+
+  const contentGetResp: IWordOpt = {};
+  if (gametype === 'sprint') {
+    Object.assign(contentGetResp, sptintDef);
+  } else if (gametype === 'audio') {
+    Object.assign(contentGetResp, audioDef);
+  }
+  let isUserWord = false;
+
   const getResponse = await fetch(url, ARGS_AUTH);
   if (getResponse.status === 200) {
     const contentCurrentResp: IWordOpt = await getResponse.json();
     isUserWord = true;
     if (contentCurrentResp.optional) {
-      Object.assign(contentGetResp.optional, contentCurrentResp.optional, {
-        isLearned: 'no',
-      });
+      Object.assign(contentGetResp.optional, contentCurrentResp.optional);
     }
   }
-  console.log('get contentGetResp', contentGetResp);
+  if (gametype === 'sprint') {
+    //@ts-ignore
+    contentGetResp.optional.sprintAttempts += 1;
+    if (answertype === 'right') {
+      //@ts-ignore
+      contentGetResp?.optional?.sprintSuccesful += 1;
+    }
+  } else if (gametype === 'audio') {
+    //@ts-ignore
+    contentGetResp!.optional!.audioAttempts += 1;
+
+    if (answertype === 'right') {
+      //@ts-ignore
+      contentGetResp!.optional!.audioSuccesful += 1;
+    }
+  }
+
   const respBody = JSON.stringify(contentGetResp);
   const currentMethod = isUserWord ? 'PUT' : 'POST';
   const requestParams = {
@@ -266,10 +294,9 @@ export const createDifficultWord = async (wordId: string) => {
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log('content', content);
+    console.log('content upd game stats', content);
   }
-  await removeLearnedStats(wordId);
-}; */
+};
 
 export const addNewWordsStats = async (wordId: string, gametype: string) => {
   console.log('START addNewWordsStats');
@@ -294,7 +321,7 @@ export const addNewWordsStats = async (wordId: string, gametype: string) => {
         wId: wordId,
         wDate: new Date().toLocaleDateString('ru-RU'),
       });
-    } else {
+    } else if (gametype === 'audio') {
       currentStats.optional?.newWordsAudio?.stat?.push({
         wId: wordId,
         wDate: new Date().toLocaleDateString('ru-RU'),
@@ -341,7 +368,7 @@ export const percentStats = async (percent: number, gametype: string) => {
       perc: percent,
       wDate: new Date().toLocaleDateString('ru-RU'),
     });
-  } else {
+  } else if (gametype === 'audio') {
     currentStats.optional?.percentAudio?.stat?.push({
       perc: percent,
       wDate: new Date().toLocaleDateString('ru-RU'),

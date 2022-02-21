@@ -192,6 +192,12 @@ class TextbookView extends Component {
     const renderWordCard = (word: IDictWord) => {
       const isDifficult = isAuth && word?.userWord?.difficulty === 'difficult';
       const isLearned = isAuth && word?.userWord?.optional?.isLearned === 'learned';
+      const isSprintGame = isAuth && word?.userWord?.optional?.sprintAttempts;
+      const isAudioGame = isAuth && word?.userWord?.optional?.audioAttempts;
+      const sprintSuccessful = isSprintGame ? word?.userWord?.optional?.sprintSuccesful : 0;
+      const sprintAttempts = isSprintGame ? word?.userWord?.optional?.sprintAttempts : 0;
+      const audioSuccessful = isAudioGame ? word?.userWord?.optional?.audioSuccesful : 0;
+      const audioAttempts = isAudioGame ? word?.userWord?.optional?.audioAttempts : 0;
       // eslint-disable-next-line no-underscore-dangle
       const wId = isAuth ? word._id : word.id;
       const addDifficult = `
@@ -218,9 +224,11 @@ class TextbookView extends Component {
           ${!isLearned && !textbookShowDifficult ? addLearned : ''}
           <h2 class="textbook-game-answers">
           <i class="fa-solid fa-trophy color-group-${word.group + 1}"></i> Game Answers</h2>
-          <div class="textbook-game-res res-textbook-${word.group + 1}">Sprint Game - 0 of N</div>
+          <div class="textbook-game-res res-textbook-${word.group + 1}">Sprint Game - 
+          ${sprintSuccessful} of ${sprintAttempts}</div>
           <div class="textbook-game-res 
-          res-textbook-${word.group + 1}"> Audio Challenge - 0 of N</div>`;
+          res-textbook-${word.group + 1}"> Audio Challenge - 
+          ${audioSuccessful} of ${audioAttempts}</div>`;
       const wordCard = `
       <div class="textbook-card-item item-shadow-${word.group + 1}
       ${isLearned ? 'textbook-card-learned' : ''}"

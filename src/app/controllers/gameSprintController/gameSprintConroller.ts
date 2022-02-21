@@ -4,6 +4,7 @@ import { State, state } from '../../models/api/state/state';
 import {
   addNewWordsStats,
   getWordsTextbook,
+  handleGamesAnswers,
   percentStats,
 } from '../../models/api/api/getWordsTextbook';
 import IMatchWord from '../../models/api/interfaces/IMatchWord';
@@ -184,15 +185,16 @@ class GameSprintController {
     }
   }
 
-  checkAnswer(answer: boolean) {
+  async checkAnswer(answer: boolean) {
     if (!this.matchingWords || this.totalTime <= 0) return;
     const word = this.matchingWords[this.currentWordIndex];
-    addNewWordsStats(word.id, 'sprint');
+    await addNewWordsStats(word.id, 'sprint');
     const countDiv = document.getElementById('score-count') as HTMLElement;
     const pointsDiv = document.getElementById('score-info') as HTMLElement;
     const alertRight = document.querySelector('.alert-right') as HTMLElement;
     const alertWrong = document.querySelector('.alert-wrong') as HTMLElement;
     if (word.match === answer) {
+      await handleGamesAnswers(word.id, 'sprint', 'right');
       this.audio.src = '../../../assets/correct-sound.mp3';
       this.audio.play();
       this.correctCount += 1;
@@ -212,6 +214,7 @@ class GameSprintController {
       }
       this.updateLearnedWord(word.id, false);
     } else {
+      await handleGamesAnswers(word.id, 'sprint', 'wrong');
       this.audio.src = '../../../assets/incorrect-sound.mp3';
       this.audio.play();
       this.incorrectCount += 1;

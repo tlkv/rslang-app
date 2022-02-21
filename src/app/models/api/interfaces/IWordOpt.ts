@@ -3,5 +3,9 @@ export interface IWordOpt {
   optional?: {
     isLearned?: string;
     testValue?: number;
+    sprintAttempts?: number;
+    sprintSuccesful?: number;
+    audioAttempts?: number;
+    audioSuccesful?: number;
   };
 }
