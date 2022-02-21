@@ -22,7 +22,7 @@ class GameSprintController {
 
   audio = new Audio();
 
-  baseUrl = 'https://react-learnwords-example.herokuapp.com/';
+  baseUrl = 'https://rslang29.herokuapp.com/';
 
   matchingWords: IMatchWord[] | undefined;
 

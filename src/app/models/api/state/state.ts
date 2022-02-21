@@ -36,15 +36,6 @@ export class State {
       learnedWords: 0,
     };
   }
-
-  /* // optional methods - not required for All fields
-  set setCurrentPage(page: number) {
-    this.currentPage = page;
-  }
-
-  get getCurrentPage() {
-    return this.currentPage;
-  } */
 }
 
 export const state = new State();

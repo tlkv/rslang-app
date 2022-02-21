@@ -1,6 +1,10 @@
 import GameAudioView from '../../views/gameAudioView/gameAudioView';
 import { State, state } from '../../models/api/state/state';
-import { createLearnedWord, getWordsTextbook, removeLearnedWord } from '../../models/api/api/getWordsTextbook';
+import {
+  createLearnedWord,
+  getWordsTextbook,
+  removeLearnedWord,
+} from '../../models/api/api/getWordsTextbook';
 import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
@@ -17,7 +21,7 @@ class GameAudioController {
 
   audio = new Audio();
 
-  baseUrl = 'https://react-learnwords-example.herokuapp.com/';
+  baseUrl = 'https://rslang29.herokuapp.com/';
 
   audioWords: IAudioWord[] | undefined;
 
@@ -58,9 +62,13 @@ class GameAudioController {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-audio-btn') as HTMLInputElement;
-        const restartBtn = (e.target as HTMLElement).closest('#restart-sprint-btn') as HTMLInputElement;
+        const restartBtn = (e.target as HTMLElement).closest(
+          '#restart-sprint-btn',
+        ) as HTMLInputElement;
         const toWordsBtn = (e.target as HTMLElement).closest('#to-words-btn') as HTMLInputElement;
-        const toResultsBtn = (e.target as HTMLElement).closest('#to-results-btn') as HTMLInputElement;
+        const toResultsBtn = (e.target as HTMLElement).closest(
+          '#to-results-btn',
+        ) as HTMLInputElement;
         if (startBtn) {
           this.startPress();
         } else if (restartBtn) {
@@ -138,7 +146,10 @@ class GameAudioController {
       this.incorrectWords.forEach((el) => {
         const incWord = this.audioWords?.find((w) => w.translation === el);
         if (incWord) {
-          const wordItem = parser.parseFromString(createWordItem(incWord.word, incWord.translation), 'text/html');
+          const wordItem = parser.parseFromString(
+            createWordItem(incWord.word, incWord.translation),
+            'text/html',
+          );
           const wordItemSound = wordItem.getElementById('word-sound') as HTMLElement;
           wordItemSound.onclick = () => {
             this.playAudio(`${this.baseUrl}${incWord.audio}`);
@@ -161,7 +172,10 @@ class GameAudioController {
       this.correctWords.forEach((el) => {
         const corWord = this.audioWords?.find((w) => w.translation === el);
         if (corWord) {
-          const wordItem = parser.parseFromString(createWordItem(corWord.word, corWord.translation), 'text/html');
+          const wordItem = parser.parseFromString(
+            createWordItem(corWord.word, corWord.translation),
+            'text/html',
+          );
           const wordItemSound = wordItem.getElementById('word-sound') as HTMLElement;
           wordItemSound.onclick = () => {
             this.playAudio(`${this.baseUrl}${corWord.audio}`);
@@ -236,7 +250,8 @@ class GameAudioController {
           }
         }
       } else {
-        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked = true;
+        (document.querySelector('input[type="radio"]:first-of-type') as HTMLInputElement).checked =
+          true;
       }
     } else {
       // in game - controll game btns
@@ -336,11 +351,14 @@ class GameAudioController {
     }
     const percent = this.calculateResult();
     (document.getElementById('percent-circle') as HTMLElement).style.strokeDashoffset = (
-      4.4 * (100 - percent)
+      4.4 *
+      (100 - percent)
     ).toString();
     (document.getElementById('percentage-amount') as HTMLElement).innerHTML = percent.toString();
-    (document.getElementById('correct-count') as HTMLElement).innerHTML = this.correctWords.length.toString();
-    (document.getElementById('incorrect-count') as HTMLElement).innerHTML = this.incorrectWords.length.toString();
+    (document.getElementById('correct-count') as HTMLElement).innerHTML =
+      this.correctWords.length.toString();
+    (document.getElementById('incorrect-count') as HTMLElement).innerHTML =
+      this.incorrectWords.length.toString();
 
     this.setSeeWords();
   }
@@ -361,11 +379,13 @@ class GameAudioController {
     this.audio.src = path;
     const playPromise = this.audio.play();
     if (playPromise !== undefined) {
-      await playPromise.then(() => {
-        this.audio.pause();
-        this.audio.currentTime = 0;
-        this.audio.play();
-      }).catch((e) => console.log('Don\'t click or press so fast, please'));
+      await playPromise
+        .then(() => {
+          this.audio.pause();
+          this.audio.currentTime = 0;
+          this.audio.play();
+        })
+        .catch((e) => console.log("Don't click or press so fast, please"));
     } else {
       this.audio.play();
     }
