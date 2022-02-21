@@ -1,7 +1,11 @@
 /* eslint-disable operator-linebreak */
 import GameStartSprintView from '../../views/gameSprintView/GameStartSprintView';
 import { State, state } from '../../models/api/state/state';
-import { addNewWordsStats, getWordsTextbook } from '../../models/api/api/getWordsTextbook';
+import {
+  addNewWordsStats,
+  getWordsTextbook,
+  percentStats,
+} from '../../models/api/api/getWordsTextbook';
 import IMatchWord from '../../models/api/interfaces/IMatchWord';
 import {
   FRONT_BLOCK_CONTENT_START,
@@ -183,7 +187,7 @@ class GameSprintController {
   checkAnswer(answer: boolean) {
     if (!this.matchingWords || this.totalTime <= 0) return;
     const word = this.matchingWords[this.currentWordIndex];
-    addNewWordsStats(word.id);
+    addNewWordsStats(word.id, 'sprint');
     const countDiv = document.getElementById('score-count') as HTMLElement;
     const pointsDiv = document.getElementById('score-info') as HTMLElement;
     const alertRight = document.querySelector('.alert-right') as HTMLElement;
@@ -268,7 +272,7 @@ class GameSprintController {
     return Math.round(percent);
   }
 
-  updateTime() {
+  async updateTime() {
     if (this.isGameStarted === false) return;
     (document.getElementById('sprint-timer') as HTMLElement).innerHTML = `${this.totalTime}`;
     if (this.totalTime <= 0) {
@@ -294,6 +298,7 @@ class GameSprintController {
         this.correctCount.toString();
       (document.getElementById('incorrect-count') as HTMLElement).innerHTML =
         this.incorrectCount.toString();
+      await percentStats(percent, 'sprint');
       // select elements and insert innerHtml scores
       // restart btn has the same id as the start btn
     } else {
