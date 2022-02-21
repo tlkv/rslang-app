@@ -17,7 +17,12 @@ interface IDictWord {
   userWord: {
     difficulty: string;
     optional: {
-      isLearned: string;
+      isLearned?: string;
+      testValue?: number;
+      sprintAttempts?: number;
+      sprintSuccesful?: number;
+      audioAttempts?: number;
+      audioSuccesful?: number;
     };
   };
 }
