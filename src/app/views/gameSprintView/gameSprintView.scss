@@ -209,26 +209,31 @@ input[type="radio"]:checked + .level-circle {
 .fade-out {
   animation: fadeOut ease-in 1s;
   animation-fill-mode: forwards;
-  -webkit-animation: fadeOut ease-in 1s;
+  -webkit-animation: fadeOut ease-in .5s;
 }
 
 @keyframes fadeOut1 {
   0% {
     opacity: 1;
+    transform: scale(1);
   }
   100% {
     opacity: 0;
+    transform: scale(2);
   }
 }
 
 @keyframes fadeOut2 {
   0% {
     opacity: 1;
+    transform: scale(1);
   }
   100% {
     opacity: 0;
+    transform: scale(2);
   }
 }
+
 
 .modal-upper-btns {
   background-color: #fff;
@@ -264,16 +269,24 @@ input[type="radio"]:checked + .level-circle {
   display: block;
   position: absolute;
   right: 0; 
-  bottom: -1px; 
+  bottom: -2px; 
   left: 25px;
   width: 127px;
-  height: 1px;
+  height: 3px;
   transition: all .5s ease;
 }
 
 .to-go-btn:hover::after {
   background-color: #edd874;
   color: #edd874;
+}
+
+.to-go-btn.active {
+  color: #edd874;
+}
+
+.to-go-btn.active::after {
+  background-color: #edd874;
 }
 
 .card {
@@ -467,4 +480,37 @@ svg circle:nth-child(2) {
 
 .word-list-container {
   display: none;
+}
+
+.word-list-wrong,
+.word-list-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.word-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.word-item-text {
+  color: #1e2733;
+}
+
+.word-list-title {
+  font-size: 26px;
+  margin: 15px 0;
+  color: #1e2733;
+}
+
+.word-item-sound {
+  display: flex;
+}
+
+.word-item-player {
+     color: #edd874;
+     width: 30px;
+     height: 30px;
 }

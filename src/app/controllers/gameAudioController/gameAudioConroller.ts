@@ -104,15 +104,23 @@ class GameAudioController {
   static showSeeMyWords() {
     const resultsDiv = document.getElementById('modal-results') as HTMLElement;
     const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    const seeMyWordsBtn = document.getElementById('to-words-btn') as HTMLInputElement;
+    const resultsBtn = document.getElementById('to-results-btn') as HTMLInputElement;
     resultsDiv.style.display = 'none';
     wordListDiv.style.display = 'block';
+    seeMyWordsBtn.classList.add('active');
+    resultsBtn.classList.remove('active');
   }
 
   static showResults() {
     const resultsDiv = document.getElementById('modal-results') as HTMLElement;
     const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    const seeMyWordsBtn = document.getElementById('to-words-btn') as HTMLInputElement;
+    const resultsBtn = document.getElementById('to-results-btn') as HTMLInputElement;
     resultsDiv.style.display = 'block';
     wordListDiv.style.display = 'none';
+    seeMyWordsBtn.classList.remove('active');
+    resultsBtn.classList.add('active');
   }
 
   setSeeWords() {

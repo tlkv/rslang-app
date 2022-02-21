@@ -53,7 +53,7 @@ const FRONT_BLOCK_CONTENT_GAME = `<section class="sprint-game">
 const FRONT_BLOCK_CONTENT_MODAL = `<section class="sprint-game-modal">
 <div class="sprint-game-modal-content">
 <div class="modal-upper-btns">
-<button class="to-go-btn" id="to-results-btn">Result</button>
+<button class="to-go-btn active" id="to-results-btn">Result</button>
 <button class="to-go-btn" id="to-words-btn">See my words</button>
 </div>
 <div id="modal-main-content">
@@ -119,9 +119,8 @@ const FRONT_BLOCK_CONTENT_WORDS = `<section class="sprint-game-modal">
 </section>`;
 
 const createWordItem = (en: string, ru: string) => `<div class="word-item">
-  <span class="word-item-sound" id="word-sound"></span>
-  <span class="word-item-en">${en}</span>
-  <span class="word-item-ru">- ${ru}</span>
+<span class="word-item-sound" id="word-sound"><ion-icon name="volume-high-outline" class="word-item-player"></ion-icon></span>
+<span class="word-item-text">${en} - ${ru}</span>
 </div> `;
 
 export {
