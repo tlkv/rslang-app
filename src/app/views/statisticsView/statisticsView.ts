@@ -38,15 +38,13 @@ class StatisticsView extends Component {
   }
 
   drawView(
-    sprintNewWords: string,
-    sprintCurrentAnswers: string,
-    sprintAnswerChains: string,
+    sprintNewWords: number,
+    sprintCurrentAnswers: number,
     audioNewWords: string,
     audioCurrentAnswers: string,
-    audiotAnswerChains: string,
     generalLernedWords: number,
     generalNewWords: number,
-    generalCurrentAnswers: string,
+    generalCurrentAnswers: number,
   ) {
     this.AuthStatisticBlockContent = `<section class="statistic-page">
       <h2 class="statistic-title">Daily statistic</h2>
@@ -70,12 +68,6 @@ class StatisticsView extends Component {
                 </svg>
                 Correct answers: <span class="count" id="sprint-current-answers">${sprintCurrentAnswers}</span>%
               </p>
-              <p>
-                <svg class="svgIcon" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"></path>
-                </svg>
-                Longest series of correct answers: <span class="count" id="sprint-answer-chain">${sprintAnswerChains}</span>
-              </p>
             </div>
             <div class="statistic-card right">
               <h3 class="game-title right-title">Audio game</h3>
@@ -93,12 +85,6 @@ class StatisticsView extends Component {
                 </svg>
                 Correct answers: <span class="count" id="audio-current-answers">${audioCurrentAnswers}</span>%
               </p>
-             <p>
-              <svg class="svgIcon" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"></path>
-              </svg>
-              Longest series of correct answers: <span class="count" id="audio-answer-chain">${audiotAnswerChains}</span>
-            </p>
           </div>
         </div>
         <div class="general-statistics">

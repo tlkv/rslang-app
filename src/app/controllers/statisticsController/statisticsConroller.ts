@@ -94,7 +94,7 @@ class StatisticsController {
 
   renderStats(stats: IStats) {
     const uniqueKeysLearned = Array.from(
-      new Set(stats.optional?.wordList?.stat?.map((i) => i.wDate)),
+      new Set(stats.optional?.wordListLearned?.stat?.map((i) => i.wDate)),
     );
     const uniqueKeysNewWords = Array.from(
       new Set(stats.optional?.newWords?.stat?.map((i) => i.wDate)),
@@ -102,7 +102,7 @@ class StatisticsController {
 
     const graphDataLearned = uniqueKeysLearned.map((elem) => ({
       dateGraph: elem,
-      wordsAmount: stats.optional?.wordList?.stat?.filter((i) => i.wDate === elem).length,
+      wordsAmount: stats.optional?.wordListLearned?.stat?.filter((i) => i.wDate === elem).length,
     }));
 
     const graphDataNew = uniqueKeysNewWords.map((elem) => ({
@@ -125,6 +125,64 @@ class StatisticsController {
 
     if (todayDataNew.length !== 0 && todayDataNew[0].wordsAmount) {
       newToday = todayDataNew[0].wordsAmount;
+    }
+    function percentAverage(statistics: { perc: number; wDate: string }[]) {
+      const sumPerc = statistics?.map((i) => i.perc).reduce((acc, el) => acc + el, 0);
+      const dividerPerc = statistics.length;
+      return sumPerc && dividerPerc ? Math.round(sumPerc / dividerPerc) : 0;
+    }
+
+    // const allTimeNewSprint = stats.optional?.newWordsSprint?.stat?.length;
+    const uniqueKeysSprint = Array.from(
+      new Set(stats.optional?.newWordsSprint?.stat?.map((i) => i.wDate)),
+    );
+    const graphDataNewSprint = uniqueKeysSprint.map((elem) => ({
+      dateGraph: elem,
+      wordsAmount: stats.optional?.newWordsSprint?.stat?.filter((i) => i.wDate === elem).length,
+    }));
+    const todayDataNewSprint = graphDataNewSprint.filter((i) => i.dateGraph === todayDateKey);
+    let newSprintToday = 0;
+    if (todayDataNewSprint.length !== 0 && todayDataNewSprint[0].wordsAmount) {
+      newSprintToday = todayDataNewSprint[0].wordsAmount;
+    }
+    const allTimePercentSprint = stats.optional?.percentSprint?.stat
+      ? percentAverage(stats.optional?.percentSprint?.stat)
+      : 0;
+    const uniqueKeysPercentSprint = Array.from(
+      new Set(stats.optional?.percentSprint?.stat?.map((i) => i.wDate)),
+    );
+    const graphDataPercentSprint = uniqueKeysPercentSprint.map((elem) => ({
+      dateGraph: elem,
+      percentAvg: stats.optional?.percentSprint?.stat
+        ? percentAverage(stats.optional?.percentSprint?.stat.filter((i) => i.wDate === elem))
+        : 0,
+    }));
+    const todayDataPercentSprint = graphDataPercentSprint.filter(
+      (i) => i.dateGraph === todayDateKey,
+    );
+    let todayPercentSprint = 0;
+    if (todayDataPercentSprint.length !== 0 && todayDataPercentSprint[0].percentAvg) {
+      todayPercentSprint = todayDataPercentSprint[0].percentAvg;
+    }
+
+    // overall percent stats
+    const allTimePercent = stats.optional?.percentAll?.stat
+      ? percentAverage(stats.optional?.percentAll?.stat)
+      : 0;
+    const uniqueKeysPercentAll = Array.from(
+      new Set(stats.optional?.wordListLearned?.stat?.map((i) => i.wDate)),
+    );
+
+    const graphDataPercentAll = uniqueKeysPercentAll.map((elem) => ({
+      dateGraph: elem,
+      percentAvg: stats.optional?.percentAll?.stat
+        ? percentAverage(stats.optional?.percentAll?.stat.filter((i) => i.wDate === elem))
+        : 0,
+    }));
+    const todayDataPercentAll = graphDataPercentAll.filter((i) => i.dateGraph === todayDateKey);
+    let todayPercentAll = 0;
+    if (todayDataPercentAll.length !== 0 && todayDataPercentAll[0].percentAvg) {
+      todayPercentAll = todayDataPercentAll[0].percentAvg;
     }
 
     const labels = [' '] as string[];
@@ -158,15 +216,13 @@ class StatisticsController {
     this.drawBarGraphData.datasets[0].data = data;
 
     this.view.drawView(
-      statisticdataTest.sprint.NewWords as string,
-      statisticdataTest.sprint.CurrentAnswers as string,
-      statisticdataTest.sprint.AnswerChains as string,
+      newSprintToday as number,
+      todayPercentSprint as number,
       statisticdataTest.audio.NewWords as string,
       statisticdataTest.audio.CurrentAnswers as string,
-      statisticdataTest.audio.AnswerChains as string,
       learnedToday as number,
       newToday as number,
-      statisticdataTest.general.CurrentAnswers as string,
+      todayPercentAll as number,
     );
     this.chooseStatistic(this.drawLineGraphData as IGraphData, this.drawBarGraphData as IGraphData);
   }
