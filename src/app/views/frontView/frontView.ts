@@ -4,7 +4,7 @@ import Header from '../_templates/header/header';
 import Footer from '../_templates/footer/footer';
 
 class FrontView extends Component {
-  SectionMainContent = `<section class="main-page"> 
+  SectionMainContent = `<section class="main-page">
       <div class="greetings-box"> 
         <h2 class="greetings">Hey! Do you want to learn English easily? You to us!</h2>
         <p>RS Lang - an application for learning English in an easy game form.  
