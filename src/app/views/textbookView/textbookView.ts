@@ -188,7 +188,7 @@ class TextbookView extends Component {
     textbookShowDifficult: boolean,
     textbookShowLearned: boolean,
   ) {
-    console.log('words', words);
+    // console.log('words', words);
     const renderWordCard = (word: IDictWord) => {
       const isDifficult = isAuth && word?.userWord?.difficulty === 'difficult';
       const isLearned = isAuth && word?.userWord?.optional?.isLearned === 'learned';

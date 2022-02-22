@@ -17,22 +17,22 @@ class TestController {
   }
 
   async handleStatsUpdate() {
-    console.log('test stats', this.model);
+    // console.log('test stats', this.model);
 
     if (this.model.isAuth) {
       this.model.stats = await getStatistics();
     } else {
-      console.log('not auth');
+      // console.log('not auth');
     }
     this.renderWordsStatsView(this.model.isAuth);
   }
 
   renderWordsStatsView(isAuth: boolean) {
-    console.log('stats TEST this.model.stats', this.model.stats);
+    // console.log('stats TEST this.model.stats', this.model.stats);
     if (isAuth) {
       this.view.renderStats(this.model.stats, this.model.isAuth);
     } else {
-      console.log('not auth - no render');
+      // console.log('not auth - no render');
     }
   }
 
@@ -56,16 +56,16 @@ class TestController {
         this.model.textbookPage = 0;
         this.model.textbookShowDifficult = false;
         this.model.textbookShowLearned = false;
-        console.log('this.model.isAuth', this.model.isAuth);
+        // console.log('this.model.isAuth', this.model.isAuth);
       }
 
-      console.log(
+      // console.log(
         'I catch Event! ',
         e,
         'showState + increase by 1 and DRAW IT',
         (this.model.textbookPage += 1),
       );
-      console.log('state now', state);
+      // console.log('state now', state);
       this.view.frontBlockWrapper.container.innerHTML += `textbook state change ${
         state.textbookPage
       } words data
