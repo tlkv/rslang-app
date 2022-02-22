@@ -64,14 +64,14 @@
 }
 
 .advantages {
-  width: 1200px;
+  width: 1300px;
   height: 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: absolute;
   z-index: 3;
-  top: 890px;
+  top: -100px;
   background: #ffffff;
   border-radius: 20px;
   box-shadow: 1px 3px 4px rgb(0 0 0 / 10%);
@@ -196,7 +196,19 @@
 
 .contribution-description {
   background: #ffe97d;
-  padding: 10px;
+  padding: 5px;
   font-size: 20px;
   color: #2e3844;
+}
+
+@media (max-width: 1000px) {
+  .advantages {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .main-img {
+    display: none;
+  }
 }

@@ -4,7 +4,7 @@ import Header from '../_templates/header/header';
 import Footer from '../_templates/footer/footer';
 
 class FrontView extends Component {
-  SectionMainContent = `<section class="main-page"> 
+  SectionMainContent = `<section class="main-page">
       <div class="greetings-box"> 
         <h2 class="greetings">Hey! Do you want to learn English easily? You to us!</h2>
         <p>RS Lang - an application for learning English in an easy game form.  
@@ -19,9 +19,17 @@ class FrontView extends Component {
   SectionMainWrapper = new Component('div', ['container']);
 
   SectionAdvatagesContent = `<section class="advantages">
-      <div class="advantage">More than 3000 words, <br> divided into 6 sections.</div>
-      <div class="advantage advantage-border">Daily statistics of learned words!<br> Improve it every day and reach new heights</div>
-      <div class="advantage">Learning words in a playful way!<br> two mini-games for better word memorization</div>
+      <div class="advantage">There are over 3,000 words in our textbook divided into six sections.
+       There is also a "learned words" section, where you can add those that are already known.
+       Is a word difficult to give? Add it to the "difficult words" section to repeat it more often!
+      </div>
+      <div class="advantage advantage-border">Check out the statistics section to track your progress every day and improve it!
+       You will find detailed statistics on mini-games and the words you have learned!
+      </div>
+      <div class="advantage">Learn words in a fun way!
+       Check out the games section where you'll find two exciting mini-games
+       that will help you quickly memorize new words not only in written but also in audio format!
+      </div>
     </section>`;
 
   SectionAdvatagesWrapper = new Component('div', ['container']);
@@ -31,27 +39,42 @@ class FrontView extends Component {
         <h2 class="our-team-title">Our team</h2>
         <div class="team-card-box">
           <div class="teammate">
-            <img src="https://avatars.githubusercontent.com/u/42784731?v=4" alt="kristina" class="teammate-img" >
+            <img src="./assets/kristina.jpg" alt="kristina" class="teammate-img" >
             <div class="info-box">
               <a  href="https://github.com/kristykov" class="name">Kristina</a>
-              <span class="position">Position</span>
-              <p class="contribution-description">contribution-description</p>
+              <span class="position">teamlead</span>
+              <p class="contribution-description">Sprint Game
+              </p>
+              <p class="contribution-description">Audio Challenge Game
+              </p>
+              <p class="contribution-description">Visual Design
+              </p>
               </div>
           </div>
           <div class="teammate">
-            <img src="https://avatars.githubusercontent.com/u/54753081?v=4" alt="andrey" class="teammate-img">
+            <img src="./assets/andrey.jpg" alt="andrey" class="teammate-img">
             <div class="info-box">
               <a href="https://github.com/tlkv"class="name">Andrey</a>
-              <span class="position">Position</span>
-              <p class="contribution-description">contribution-description</p>
+              <span class="position">developer</span>
+              <p class="contribution-description">Textbook page
+              </p>
+              <p class="contribution-description">Collecting user statistics
+              </p>
+              <p class="contribution-description">Project Architecture
+              </p>
             </div>  
           </div>
           <div class="teammate">
             <img src="./assets/anastasiya.jpg" alt="anastasiya" class="teammate-img">
             <div class="info-box">
               <a href="https://github.com/AnastasiyaPoleshuk" class="name">Anastasiya</a>
-              <span class="position">Position</span>
-              <p class="contribution-description">contribution-description</p>
+              <span class="position">developer</span>
+              <p class="contribution-description">User authorisation
+              </p>
+              <p class="contribution-description">Statistics page
+              </p>
+              <p class="contribution-description">Front Page & Visual Design
+              </p>
             </div>
           </div>
         </div>

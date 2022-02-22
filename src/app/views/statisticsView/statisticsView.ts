@@ -3,6 +3,7 @@ import Component from '../_templates/component';
 import Header from '../_templates/header/header';
 import Footer from '../_templates/footer/footer';
 import { state, State } from '../../models/api/state/state';
+import defaultRoutes from '../../models/router/defaultRoutes';
 
 class StatisticsView extends Component {
   frontBlockWrapper = new Component('div', ['container']);
@@ -37,15 +38,13 @@ class StatisticsView extends Component {
   }
 
   drawView(
-    sprintNewWords: string,
-    sprintCurrentAnswers: string,
-    sprintAnswerChains: string,
-    audioNewWords: string,
-    audioCurrentAnswers: string,
-    audiotAnswerChains: string,
-    generalLernedWords: string,
-    generalNewWords: string,
-    generalCurrentAnswers: string,
+    sprintNewWords: number,
+    sprintCurrentAnswers: number,
+    audioNewWords: number,
+    audioCurrentAnswers: number,
+    generalLernedWords: number,
+    generalNewWords: number,
+    generalCurrentAnswers: number,
   ) {
     this.AuthStatisticBlockContent = `<section class="statistic-page">
       <h2 class="statistic-title">Daily statistic</h2>
@@ -69,12 +68,6 @@ class StatisticsView extends Component {
                 </svg>
                 Correct answers: <span class="count" id="sprint-current-answers">${sprintCurrentAnswers}</span>%
               </p>
-              <p>
-                <svg class="svgIcon" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"></path>
-                </svg>
-                Longest series of correct answers: <span class="count" id="sprint-answer-chain">${sprintAnswerChains}</span>
-              </p>
             </div>
             <div class="statistic-card right">
               <h3 class="game-title right-title">Audio game</h3>
@@ -92,12 +85,6 @@ class StatisticsView extends Component {
                 </svg>
                 Correct answers: <span class="count" id="audio-current-answers">${audioCurrentAnswers}</span>%
               </p>
-             <p>
-              <svg class="svgIcon" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"></path>
-              </svg>
-              Longest series of correct answers: <span class="count" id="audio-answer-chain">${audiotAnswerChains}</span>
-            </p>
           </div>
         </div>
         <div class="general-statistics">
@@ -118,23 +105,16 @@ class StatisticsView extends Component {
     </div>
     <div class="long-term-statistics">
       <h2 class="long-term-statistic-title">Long term statistic</h2>
-      <div class="container-switch">
-        <div class="switch white">
-          <input type="radio" name="switch" data-action="switch-off">
-          <input type="radio" name="switch" data-action="switch-on" checked>
-          <label for="switch-off">learned words</label>
-          <label for="switch-on">Progress</label>
-          <span class="toggle"></span>
-        </div>
-      </div>
       <div class="canvas-box">
         <canvas class="schedule-line"></canvas>
-        <canvas class="schedule-bar schedule-hide"></canvas>
+        <canvas class="schedule-bar"></canvas>
+        <canvas class="schedule-line games-schedule"></canvas>
       </div>
     </div>
   </section> `;
 
-    this.NotAuthStatisticBlockContent = `<div class="warning">Sorry, you can't come here! Register and come back :)</div>`;
+    this.NotAuthStatisticBlockContent = `<div class="warning">Sorry, you can't come here! 
+  <a href="#${defaultRoutes.authorization.path}"> Register</a> and come back :)</div>`;
 
     if (this.model.isAuth) {
       this.statisticBlockContent = this.AuthStatisticBlockContent;

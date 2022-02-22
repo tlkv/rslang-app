@@ -3,15 +3,18 @@ import GameStartSprintView from '../../views/gameSprintView/GameStartSprintView'
 import { State, state } from '../../models/api/state/state';
 import {
   addNewWordsStats,
+  createLearnedWord,
   getWordsTextbook,
-  handleGamesAnswers,
   percentStats,
+  removeLearnedStats,
+  removeLearnedWord,
 } from '../../models/api/api/getWordsTextbook';
 import IMatchWord from '../../models/api/interfaces/IMatchWord';
 import {
   FRONT_BLOCK_CONTENT_START,
   FRONT_BLOCK_CONTENT_GAME,
   FRONT_BLOCK_CONTENT_MODAL,
+  createWordItem,
 } from '../../views/gameSprintView/const';
 
 class GameSprintController {
@@ -20,6 +23,8 @@ class GameSprintController {
   model: State;
 
   audio = new Audio();
+
+  baseUrl = 'https://rslang29.herokuapp.com/';
 
   matchingWords: IMatchWord[] | undefined;
 
@@ -34,6 +39,10 @@ class GameSprintController {
   correctCount: number;
 
   incorrectCount: number;
+
+  correctWords: IMatchWord[];
+
+  incorrectWords: IMatchWord[];
 
   level: number;
 
@@ -50,27 +59,31 @@ class GameSprintController {
   constructor(root: HTMLElement) {
     this.view = new GameStartSprintView(root);
     this.model = state;
-    this.totalTime = 30;
+    this.totalTime = 60;
     this.currentWordIndex = 0;
     this.correctCount = 0;
     this.incorrectCount = 0;
     this.level = 0;
-    this.pageStart = 1;
+    this.pageStart = Math.floor(Math.random() * 28);
     this.isGameStarted = false;
     this.threeInRowCounter = 0;
     this.scoreMultiplier = 10;
     this.scoreCount = '';
+    this.correctWords = [];
+    this.incorrectWords = [];
     this.userId = localStorage.getItem('userId');
     this.containerListener();
   }
 
   resetValues() {
-    this.totalTime = 30;
+    this.totalTime = 60;
     this.currentWordIndex = 0;
     this.correctCount = 0;
     this.incorrectCount = 0;
     this.threeInRowCounter = 0;
     this.scoreMultiplier = 10;
+    this.correctWords = [];
+    this.incorrectWords = [];
     this.isGameStarted = false;
   }
 
@@ -78,6 +91,10 @@ class GameSprintController {
     this.view.frontBlock.container.addEventListener('click', async (e) => {
       if (!this.isGameStarted) {
         const startBtn = (e.target as HTMLElement).closest('#start-sprint-btn') as HTMLInputElement;
+        const toWordsBtn = (e.target as HTMLElement).closest('#to-words-btn') as HTMLInputElement;
+        const toResultsBtn = (e.target as HTMLElement).closest(
+          '#to-results-btn',
+        ) as HTMLInputElement;
         const restartBtn = (e.target as HTMLElement).closest(
           '#restart-sprint-btn',
         ) as HTMLInputElement;
@@ -86,12 +103,17 @@ class GameSprintController {
             'input[name="sprint-level"]:checked',
           ) as HTMLInputElement;
           this.level = +checkedInput.value;
-          this.pageStart = 1;
+          this.pageStart = Math.floor(Math.random() * 28);
           this.matchingWords = await this.getWords(this.level, this.pageStart);
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
           this.startGame();
         } else if (restartBtn) {
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_START;
+        } else if (toWordsBtn) {
+          // aaa
+          GameSprintController.showSeeMyWords();
+        } else if (toResultsBtn) {
+          GameSprintController.showResults();
         }
       } else {
         const target = e.target as HTMLElement;
@@ -125,6 +147,88 @@ class GameSprintController {
     this.view.frontBlock.container.setAttribute('tabindex', '0');
   }
 
+  static showSeeMyWords() {
+    const resultsDiv = document.getElementById('modal-results') as HTMLElement;
+    const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    const seeMyWordsBtn = document.getElementById('to-words-btn') as HTMLInputElement;
+    const resultsBtn = document.getElementById('to-results-btn') as HTMLInputElement;
+    resultsDiv.style.display = 'none';
+    wordListDiv.style.display = 'block';
+    seeMyWordsBtn.classList.add('active');
+    resultsBtn.classList.remove('active');
+  }
+
+  static showResults() {
+    const resultsDiv = document.getElementById('modal-results') as HTMLElement;
+    const wordListDiv = document.getElementById('word-list-container') as HTMLElement;
+    const seeMyWordsBtn = document.getElementById('to-words-btn') as HTMLInputElement;
+    const resultsBtn = document.getElementById('to-results-btn') as HTMLInputElement;
+    resultsDiv.style.display = 'block';
+    wordListDiv.style.display = 'none';
+    seeMyWordsBtn.classList.remove('active');
+    resultsBtn.classList.add('active');
+  }
+
+  setSeeWords() {
+    // this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_WORDS;
+    const wordListContainer = document.getElementById('word-list-container') as HTMLElement;
+    const parser = new DOMParser();
+    if (this.incorrectWords.length > 0) {
+      const incorrectAnswersTitle = document.createElement('div');
+      incorrectAnswersTitle.classList.add('word-list-title');
+      incorrectAnswersTitle.innerHTML = 'Incorrect answers';
+      wordListContainer.appendChild(incorrectAnswersTitle);
+      const incorrectWordsContainer = document.createElement('div');
+      incorrectWordsContainer.classList.add('word-list-wrong');
+      wordListContainer.appendChild(incorrectWordsContainer);
+      this.incorrectWords.forEach((el) => {
+        const wordItem = parser.parseFromString(createWordItem(el.eng, el.ru), 'text/html');
+        const wordItemSound = wordItem.getElementById('word-sound') as HTMLElement;
+        wordItemSound.onclick = () => {
+          this.playAudio(`${this.baseUrl}${el.audio}`);
+        };
+        const child = wordItem.body.firstElementChild;
+        if (child) {
+          incorrectWordsContainer.appendChild(child);
+        }
+      });
+    }
+    if (this.correctWords.length > 0) {
+      const correctAnswersTitle = document.createElement('div');
+      correctAnswersTitle.classList.add('word-list-title');
+      correctAnswersTitle.innerHTML = 'Correct answers';
+      wordListContainer.appendChild(correctAnswersTitle);
+      const correctWordsContainer = document.createElement('div');
+      correctWordsContainer.classList.add('word-list-right');
+      wordListContainer.appendChild(correctWordsContainer);
+      this.correctWords.forEach((el) => {
+        const wordItem = parser.parseFromString(createWordItem(el.eng, el.ru), 'text/html');
+        const wordItemSound = wordItem.getElementById('word-sound') as HTMLElement;
+        wordItemSound.onclick = () => {
+          this.playAudio(`${this.baseUrl}${el.audio}`);
+        };
+        const child = wordItem.body.firstElementChild;
+        if (child) {
+          correctWordsContainer.appendChild(child);
+        }
+      });
+    }
+  }
+
+  async playAudio(path: string) {
+    this.audio.src = path;
+    const playPromise = this.audio.play();
+    if (playPromise !== undefined) {
+      await playPromise.then(() => {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.audio.play();
+      });
+    } else {
+      this.audio.play();
+    }
+  }
+
   async startPress() {
     const checkedInput = document.querySelector(
       'input[name="sprint-level"]:checked',
@@ -135,7 +239,7 @@ class GameSprintController {
       return;
     }
     this.level = +checkedInput.value;
-    this.pageStart = 1;
+    this.pageStart = Math.floor(Math.random() * 28);
     this.matchingWords = await this.getWords(this.level, this.pageStart);
     this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_GAME;
     this.startGame();
@@ -178,9 +282,9 @@ class GameSprintController {
       }
     } else if (this.isGameStarted) {
       if (direction === 'right') {
-        this.checkAnswer(true);
-      } else {
         this.checkAnswer(false);
+      } else {
+        this.checkAnswer(true);
       }
     }
   }
@@ -194,11 +298,11 @@ class GameSprintController {
     const alertRight = document.querySelector('.alert-right') as HTMLElement;
     const alertWrong = document.querySelector('.alert-wrong') as HTMLElement;
     if (word.match === answer) {
-      await handleGamesAnswers(word.id, 'sprint', 'right');
       this.audio.src = '../../../assets/correct-sound.mp3';
       this.audio.play();
       this.correctCount += 1;
       this.threeInRowCounter += 1;
+      this.correctWords.push(word);
       if (this.threeInRowCounter === 3) {
         this.scoreMultiplier *= 2;
         this.scoreMultiplier = this.scoreMultiplier > 80 ? 80 : this.scoreMultiplier;
@@ -213,12 +317,14 @@ class GameSprintController {
         alertRight.style.animationName = 'fadeOut1';
       }
       this.updateLearnedWord(word.id, false);
+      // await handleGamesAnswers(word.id, 'sprint', 'right');
     } else {
-      await handleGamesAnswers(word.id, 'sprint', 'wrong');
+      removeLearnedStats(word.id); // remove from learned if wrong
       this.audio.src = '../../../assets/incorrect-sound.mp3';
       this.audio.play();
       this.incorrectCount += 1;
       this.threeInRowCounter = 0;
+      this.incorrectWords.push(word);
       this.scoreMultiplier = 10;
       pointsDiv.innerHTML = `Points: x${this.scoreMultiplier}`;
       countDiv.innerHTML = `${+countDiv.innerHTML - 10 < 0 ? 0 : +countDiv.innerHTML - 10}`;
@@ -229,6 +335,7 @@ class GameSprintController {
         alertWrong.style.animationName = 'fadeOut1';
       }
       this.updateLearnedWord(word.id, true);
+      // await handleGamesAnswers(word.id, 'sprint', 'wrong');
     }
     this.nextWord();
   }
@@ -236,11 +343,9 @@ class GameSprintController {
   async updateLearnedWord(wordId: string, remove: boolean) {
     if (this.userId) {
       if (remove) {
-        // remove word from learned words
+        removeLearnedWord(wordId);
       } else {
-        // get user word from the server using userId and wordId
-        // if response 201 - not found -> post the word using api with userId and wordId
-        // add word to learned words
+        createLearnedWord(wordId);
       }
     }
   }
@@ -250,8 +355,8 @@ class GameSprintController {
     this.currentWordIndex += 1;
     if (this.currentWordIndex >= this.matchingWords.length) {
       this.currentWordIndex = 0;
-      this.pageStart += 2;
-      if (this.pageStart > 30) return;
+      this.pageStart = Math.floor(Math.random() * 28);
+      // if (this.pageStart >= 30) return;
       this.matchingWords = await this.getWords(this.level, this.pageStart);
     }
     this.setWords();
@@ -302,6 +407,8 @@ class GameSprintController {
       (document.getElementById('incorrect-count') as HTMLElement).innerHTML =
         this.incorrectCount.toString();
       await percentStats(percent, 'sprint');
+      // set see my words
+      this.setSeeWords();
       // select elements and insert innerHtml scores
       // restart btn has the same id as the start btn
     } else {
@@ -337,11 +444,17 @@ class GameSprintController {
     const words1 = await getWordsTextbook(level, pageStart, this.model.isAuth);
     const words2 = await getWordsTextbook(level, pageStart + 1, this.model.isAuth);
     this.model.words = words1.concat(words2);
-    console.log(this.model.words);
     const arr = this.model.words.map((w) => {
       const obj = Object.create(null);
-      // eslint-disable-next-line no-underscore-dangle
-      Object.assign(obj, { eng: w.word }, { ru: w.wordTranslate }, { match: true }, { id: w._id });
+      Object.assign(
+        obj,
+        { eng: w.word },
+        { ru: w.wordTranslate },
+        { match: true },
+        // eslint-disable-next-line no-underscore-dangle
+        { id: w._id },
+        { audio: w.audio },
+      );
       return obj;
     });
     const shuffledArr = GameSprintController.shuffle(arr);

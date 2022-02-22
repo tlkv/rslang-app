@@ -88,12 +88,13 @@
 .authorization-block {
   min-height: calc(100vh - 200px);
 }
-
+.auth-info {
+  font-weight: bold;
+}
 .log-out {
   border: none;
   font-size: 26px;
   text-decoration: none;
-  color: #ffffff;
   transition: 0.3s;
 
   &:hover,

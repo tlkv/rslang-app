@@ -1,5 +1,3 @@
-
-
 .game-audio-block {
   min-height: calc(100vh - 100px);
   // background: linear-gradient(20deg, #425670 10%, #1e2733 45%);
@@ -9,14 +7,14 @@
 .audio-game,
 .sprint-game-modal {
   display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    max-width: 900px;
-    width: 90%;
-    text-align: center;
-    padding: 100px 0;
-    margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 900px;
+  width: 90%;
+  text-align: center;
+  padding: 100px 0;
+  margin: 0 auto;
 }
 
 .start-btn {
@@ -26,7 +24,7 @@
   border-radius: 40px;
   margin-top: 50px;
   font-size: 28px;
-  transition: background-color .5s ease;
+  transition: background-color 0.5s ease;
   color: #1e2733;
   outline: none;
 }
@@ -34,7 +32,6 @@
 .start-btn:hover {
   background-color: #edd874;
 }
-
 
 .audio-word-player {
   margin: 50px 20px 50px;
@@ -54,7 +51,7 @@
   0% {
     transform: scale(1);
   }
-  50%{
+  50% {
     transform: scale(1.2);
     color: #edd874;
   }
@@ -90,23 +87,28 @@
   border: 2px solid #edd874;
   background-color: #1e2733;
   border-radius: 30px;
-  transition: background-color .5s ease;
+  transition: background-color 0.5s ease;
 }
 
 .audio-word-btn.correct {
   background-color: rgb(73, 113, 65);
   color: rgb(30, 39, 51);
   border: 2px solid rgb(73, 113, 65);
-  box-shadow: rgb(0 0 0 / 17%) 0px -23px 25px 0px inset, rgb(0 0 0 / 15%) 0px -36px 30px 0px inset, rgb(0 0 0 / 10%) 0px -79px 40px 0px inset, rgb(0 0 0 / 6%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 4px 2px, rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px, rgb(0 0 0 / 9%) 0px 32px 16px;
+  box-shadow: rgb(0 0 0 / 17%) 0px -23px 25px 0px inset, rgb(0 0 0 / 15%) 0px -36px 30px 0px inset,
+    rgb(0 0 0 / 10%) 0px -79px 40px 0px inset, rgb(0 0 0 / 6%) 0px 2px 1px,
+    rgb(0 0 0 / 9%) 0px 4px 2px, rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px,
+    rgb(0 0 0 / 9%) 0px 32px 16px;
 }
 
 .audio-word-btn.incorrect {
   background-color: rgb(233, 84, 47);
   color: rgb(30, 39, 51);
   border: 2px solid rgb(233, 84, 47);
-  box-shadow: rgb(0 0 0 / 17%) 0px -23px 25px 0px inset, rgb(0 0 0 / 15%) 0px -36px 30px 0px inset, rgb(0 0 0 / 10%) 0px -79px 40px 0px inset, rgb(0 0 0 / 6%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 4px 2px, rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px, rgb(0 0 0 / 9%) 0px 32px 16px;
+  box-shadow: rgb(0 0 0 / 17%) 0px -23px 25px 0px inset, rgb(0 0 0 / 15%) 0px -36px 30px 0px inset,
+    rgb(0 0 0 / 10%) 0px -79px 40px 0px inset, rgb(0 0 0 / 6%) 0px 2px 1px,
+    rgb(0 0 0 / 9%) 0px 4px 2px, rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px,
+    rgb(0 0 0 / 9%) 0px 32px 16px;
 }
-
 
 .audio-word-btn.active {
   background-color: #ffffff52 !important;
@@ -119,7 +121,7 @@
   border: 1px solid #edd874;
   background-color: #edd874;
   border-radius: 30px;
-  transition: background-color .5s ease;
+  transition: background-color 0.5s ease;
   color: #1e2733;
 }
 
@@ -151,12 +153,12 @@
   content: '';
   display: block;
   position: absolute;
-  right: 0; 
-  bottom: -1px; 
+  right: 0;
+  bottom: -2px;
   left: 25px;
   width: 127px;
-  height: 1px;
-  transition: all .5s ease;
+  height: 3px;
+  transition: all 0.5s ease;
 }
 
 .to-go-btn:hover::after {
@@ -164,17 +166,25 @@
   color: #edd874;
 }
 
+.to-go-btn.active {
+  color: #edd874;
+}
+
+.to-go-btn.active::after {
+  background-color: #edd874;
+}
+
 #keyboard-layout {
   position: absolute;
-    top: 0;
-    right: 0;
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    background: #0000003b;
-    padding: 10px;
-    border-radius: 10px;
-    gap: 10px;
+  top: 0;
+  right: 0;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  background: #0000003b;
+  padding: 10px;
+  border-radius: 10px;
+  gap: 10px;
 }
 
 .keyboard-row {
@@ -195,4 +205,54 @@
   border: 1px solid white;
   padding: 5px;
   border-radius: 5px;
+}
+
+.word-list-container {
+  display: none;
+}
+
+.word-list-wrong,
+.word-list-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.word-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.word-item-text {
+  color: #1e2733;
+}
+
+.word-list-title {
+  font-size: 26px;
+  margin: 15px 0;
+  color: #1e2733;
+}
+
+.word-item-sound {
+  display: flex;
+}
+
+.word-item-player {
+  color: #edd874;
+  width: 30px;
+  height: 30px;
+}
+
+@media (max-width: 900px) {
+  .audio-word-btn {
+    margin: 5px;
+  }
+  .image-container .img {
+    width: 50%;
+  }
+  .audio-words {
+    max-width: 360px;
+    flex-wrap: wrap;
+  }
 }
