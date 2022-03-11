@@ -41,17 +41,17 @@ export const getWordsTextbook = async (group: number, page: number, isAuth: bool
   if (isAuth && rawResponse.status === 200) {
     const contentAuth: IDictAuth[] = await rawResponse.json();
     content = contentAuth[0].paginatedResults;
-    console.log('contentAuth', contentAuth);
-    console.log('content', content);
+    // console.log('contentAuth', contentAuth);
+    // console.log('content', content);
   } else if (!isAuth && rawResponse.status === 200) {
     content = await rawResponse.json();
-    console.log('content', content);
+    // console.log('content', content);
   }
   return content;
 };
 
 export const resetStatistics = async () => {
-  console.log('reset stats');
+  // console.log('reset stats');
   const userIdLoc = localStorage.getItem('userId');
   const tokenLoc = localStorage.getItem('token');
   const OBJ_HEADERS_RESET = {
@@ -94,7 +94,7 @@ export const resetStatistics = async () => {
   };
   const resp = await fetch(url, requestParams);
   if (resp.status === 200) {
-    console.log('reset stats success');
+    // console.log('reset stats success');
   }
 };
 
@@ -103,11 +103,11 @@ export const getStatistics = async () => {
   const rawResponse = await fetch(url, ARGS_AUTH);
   let content: IStats = {};
   if (rawResponse.status === 200) {
-    console.log('fetch stats');
+    // console.log('fetch stats');
     content = await rawResponse.json();
-    console.log('fetch stats RES', content);
+    // console.log('fetch stats RES', content);
   } else {
-    console.log('NO stats on server');
+    // console.log('NO stats on server');
   }
   return content;
 };
@@ -118,7 +118,7 @@ export const addLearnedStats = async (wordId: string) => {
   let learnedBefore = false;
 
   const currentStats = await getStatistics();
-  console.log('currentStats', currentStats, 'wordId', wordId);
+  // console.log('currentStats', currentStats, 'wordId', wordId);
 
   delete currentStats.id;
   if (currentStats.optional?.wordListLearned?.stat?.find((item) => item.wId === wordId)) {
@@ -133,14 +133,14 @@ export const addLearnedStats = async (wordId: string) => {
       wDate: new Date().toLocaleDateString('ru-RU'),
     });
   }
-  console.log('learnedBefore', learnedBefore);
+  // console.log('learnedBefore', learnedBefore);
 
-  console.log('currStat Before JSON', currentStats);
+  // console.log('currStat Before JSON', currentStats);
 
   const response = currentStats;
 
   const respBody = JSON.stringify(response);
-  console.log('respBody', respBody);
+  // console.log('respBody', respBody);
   const requestParams = {
     method: 'PUT',
     withCredentials: true,
@@ -151,7 +151,7 @@ export const addLearnedStats = async (wordId: string) => {
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log('pushed stats', content);
+    // console.log('pushed stats', content);
   }
 };
 
@@ -160,13 +160,13 @@ export const removeLearnedStats = async (wordId: string) => {
   if (!userId || !token) return;
   let learnedBefore = false;
   const currentStats = await getStatistics();
-  console.log('delete currentStats', currentStats, 'wordId', wordId);
+  // console.log('delete currentStats', currentStats, 'wordId', wordId);
   delete currentStats.id;
   if (currentStats.optional?.wordListLearned?.stat?.find((item) => item.wId === wordId)) {
     learnedBefore = true;
   }
 
-  console.log('LEARNED BEFORE', learnedBefore);
+  // console.log('LEARNED BEFORE', learnedBefore);
 
   if (learnedBefore) {
     if (currentStats?.learnedWords) {
@@ -176,10 +176,10 @@ export const removeLearnedStats = async (wordId: string) => {
     // eslint-disable-next-line operator-linebreak
     currentStats.optional!.wordListLearned!.stat =
       currentStats?.optional?.wordListLearned?.stat?.filter((i) => i.wId !== wordId);
-    console.log(' delete currStat Before JSON', currentStats);
+    // console.log(' delete currStat Before JSON', currentStats);
 
     const respBody = JSON.stringify(currentStats);
-    console.log('delete respBody', respBody);
+    // console.log('delete respBody', respBody);
     const requestParams = {
       method: 'PUT',
       withCredentials: true,
@@ -190,7 +190,7 @@ export const removeLearnedStats = async (wordId: string) => {
     const rawResponse = await fetch(url, requestParams);
     if (rawResponse.status === 200) {
       const content = await rawResponse.json();
-      console.log('delete stats XXX', content);
+      // console.log('delete stats XXX', content);
     }
   }
 };
@@ -204,7 +204,7 @@ export const removeLearnedWord = async (wordId: string) => {
     },
   };
   const getResponse = await fetch(url, ARGS_AUTH);
-  console.log('removeLearnedWord get', getResponse);
+  // console.log('removeLearnedWord get', getResponse);
   if (getResponse.status === 200) {
     const contentCurrentResp: IWordOpt = await getResponse.json();
     if (contentCurrentResp.optional) {
@@ -213,7 +213,7 @@ export const removeLearnedWord = async (wordId: string) => {
       });
     }
   }
-  console.log('get contentGetResp', contentGetResp);
+  // console.log('get contentGetResp', contentGetResp);
   const respBody = JSON.stringify(contentGetResp);
   const requestParams = {
     method: 'PUT',
@@ -223,10 +223,10 @@ export const removeLearnedWord = async (wordId: string) => {
   };
 
   const rawResponse = await fetch(url, requestParams);
-  console.log('removeLearnedWord raw', rawResponse);
+  // console.log('removeLearnedWord raw', rawResponse);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log('content', content);
+    // console.log('content', content);
   }
   await removeLearnedStats(wordId);
 };
@@ -251,7 +251,7 @@ export const createDifficultWord = async (wordId: string) => {
       });
     }
   }
-  console.log('get contentGetResp', contentGetResp);
+  // console.log('get contentGetResp', contentGetResp);
   const respBody = JSON.stringify(contentGetResp);
   const currentMethod = isUserWord ? 'PUT' : 'POST';
   const requestParams = {
@@ -264,7 +264,7 @@ export const createDifficultWord = async (wordId: string) => {
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log('content ', content);
+    // console.log('content ', content);
   }
   await removeLearnedWord(wordId); //test
 };
@@ -331,7 +331,7 @@ export const createDifficultWord = async (wordId: string) => {
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log('content upd game stats', content);
+    // console.log('content upd game stats', content);
   }
   const requestParams2 = {
     method: 'PUT',
@@ -343,29 +343,29 @@ export const createDifficultWord = async (wordId: string) => {
   const rawResponse2 = await fetch(url, requestParams2);
   if (rawResponse2.status === 200) {
     const content = await rawResponse.json();
-    console.log('content upd game stats', content);
+    // console.log('content upd game stats', content);
   }
 }; */
 
 export const addNewWordsStats = async (wordId: string, gametype: string) => {
-  console.log('START addNewWordsStats');
+  // console.log('START addNewWordsStats');
   const url = `${baseUrl}/users/${userId}/statistics`;
   if (!userId || !token) return;
   let wasNewBefore = false;
   const currentStats = await getStatistics();
-  console.log('currentStats NEW', currentStats, 'wordId', wordId);
+  // console.log('currentStats NEW', currentStats, 'wordId', wordId);
   delete currentStats.id;
   if (currentStats.optional?.newWords?.stat?.find((item) => item.wId === wordId)) {
     wasNewBefore = true;
   }
   if (!wasNewBefore) {
-    console.log('currentStats.optional', currentStats.optional);
+    // console.log('currentStats.optional', currentStats.optional);
     currentStats.optional?.newWords?.stat?.push({
       wId: wordId,
       wDate: new Date().toLocaleDateString('ru-RU'),
     });
     if (gametype === 'sprint') {
-      console.log('sprint');
+      // console.log('sprint');
       currentStats.optional?.newWordsSprint?.stat?.push({
         wId: wordId,
         wDate: new Date().toLocaleDateString('ru-RU'),
@@ -377,13 +377,13 @@ export const addNewWordsStats = async (wordId: string, gametype: string) => {
       });
     }
   }
-  console.log('wasNewBefore', wasNewBefore);
+  // console.log('wasNewBefore', wasNewBefore);
 
-  console.log('currStat Before JSON NEW', currentStats);
+  // console.log('currStat Before JSON NEW', currentStats);
 
   const response = currentStats;
   const respBody = JSON.stringify(response);
-  console.log('respBody NEW', respBody);
+  // console.log('respBody NEW', respBody);
   const requestParams = {
     method: 'PUT',
     withCredentials: true,
@@ -394,25 +394,25 @@ export const addNewWordsStats = async (wordId: string, gametype: string) => {
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log('pushed stats NEW', content);
+    // console.log('pushed stats NEW', content);
   }
 };
 
 export const percentStats = async (percent: number, gametype: string) => {
-  console.log('START percentStats');
+  // console.log('START percentStats');
   const url = `${baseUrl}/users/${userId}/statistics`;
   if (!userId || !token) return;
   const currentStats = await getStatistics();
-  console.log('currentStats PERC', currentStats, 'percent', percent);
+  // console.log('currentStats PERC', currentStats, 'percent', percent);
   delete currentStats.id;
 
-  console.log('currentStats.optional', currentStats.optional);
+  // console.log('currentStats.optional', currentStats.optional);
   currentStats.optional?.percentAll?.stat?.push({
     perc: percent,
     wDate: new Date().toLocaleDateString('ru-RU'),
   });
   if (gametype === 'sprint') {
-    console.log('sprint');
+    // console.log('sprint');
     currentStats.optional?.percentSprint?.stat?.push({
       perc: percent,
       wDate: new Date().toLocaleDateString('ru-RU'),
@@ -423,11 +423,11 @@ export const percentStats = async (percent: number, gametype: string) => {
       wDate: new Date().toLocaleDateString('ru-RU'),
     });
   }
-  console.log('currStat Before JSON PERC', currentStats);
+  // console.log('currStat Before JSON PERC', currentStats);
 
   const response = currentStats;
   const respBody = JSON.stringify(response);
-  console.log('respBody PERC', respBody);
+  // console.log('respBody PERC', respBody);
   const requestParams = {
     method: 'PUT',
     withCredentials: true,
@@ -438,7 +438,7 @@ export const percentStats = async (percent: number, gametype: string) => {
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log('pushed stats PERC', content);
+    // console.log('pushed stats PERC', content);
   }
 };
 
@@ -453,7 +453,7 @@ export const createLearnedWord = async (wordId: string) => {
     },
   };
   const getResponse = await fetch(url, ARGS_AUTH);
-  console.log('createLearnedWord  get', getResponse);
+  // console.log('createLearnedWord  get', getResponse);
   if (getResponse.status === 200) {
     const contentCurrentResp: IWordOpt = await getResponse.json();
     isUserWord = true;
@@ -463,7 +463,7 @@ export const createLearnedWord = async (wordId: string) => {
       });
     }
   }
-  console.log('get contentGetResp', contentGetResp);
+  // console.log('get contentGetResp', contentGetResp);
   const respBody = JSON.stringify(contentGetResp);
   const currentMethod = isUserWord ? 'PUT' : 'POST';
   const requestParams = {
@@ -474,11 +474,11 @@ export const createLearnedWord = async (wordId: string) => {
   };
 
   const rawResponse = await fetch(url, requestParams);
-  console.log('createLearnedWord raw', rawResponse);
-  console.log('createLearnedWord params :', requestParams);
+  // console.log('createLearnedWord raw', rawResponse);
+  // console.log('createLearnedWord params :', requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log('content', content);
+    // console.log('content', content);
   }
   await addLearnedStats(wordId);
 };
@@ -499,7 +499,7 @@ export const removeDifficultWord = async (wordId: string) => {
   const rawResponse = await fetch(url, requestParams);
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
-    console.log(content);
+    // console.log(content);
   }
 };
 
@@ -511,7 +511,7 @@ export const filterDifficultWords = async () => {
     contentAuth = await rawResponse.json();
   }
   const content = contentAuth[0].paginatedResults;
-  console.log('content', content);
+  // console.log('content', content);
   return content;
 };
 
@@ -524,6 +524,6 @@ export const filterLearnedWords = async () => {
     contentAuth = await rawResponse.json();
   }
   const content = contentAuth[0].paginatedResults;
-  console.log('content', content);
+  // console.log('content', content);
   return content;
 };

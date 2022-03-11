@@ -30,7 +30,7 @@ class TextbookController {
   }
 
   async handleWordsUpdate() {
-    console.log('this.model', this.model);
+    // console.log('this.model', this.model);
 
     if (this.model.isAuth && this.model.textbookShowDifficult) {
       this.model.words = await filterDifficultWords();
