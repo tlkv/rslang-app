@@ -1,4 +1,4 @@
-## RS Lang (RS School team task)
+## RS Lang - learn 3600 words online with mini-games and user dictionary
 
 ![TyoeScript](https://img.shields.io/badge/-TypeScript-0D1117?style=for-the-badge&logo=TypeScript)
 ![SASS](https://img.shields.io/badge/-SASS-0D1117?style=for-the-badge&logo=sass)
