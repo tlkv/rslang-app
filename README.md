@@ -15,7 +15,7 @@ https://rs-lang-rs-school.netlify.app/
 teststats1234@mail.com:teststats1234
 
 ## Downloading
-`git clone https://github.com/kristykov/rslang`
+`git clone https://github.com/tlkv/rslang`
 
 ## Client 
 
