@@ -47,6 +47,10 @@
 .sprint-settings-title {
   font-size: 80px;
   margin-bottom: 40px;
+  @media (max-width: 700px) {
+    font-size: 60px;
+    margin-bottom: 15px;
+  }
 }
 
 .sprint-settings-description {
