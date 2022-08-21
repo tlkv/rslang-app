@@ -234,6 +234,7 @@ class GameSprintController {
     ) as HTMLInputElement;
 
     if (!checkedInput) {
+      alert('Please select a level');
       return;
     }
     this.level = +checkedInput.value;
