@@ -59,10 +59,10 @@ class TextbookView extends Component {
     );
     let secTitile = `Textbook - Group ${textbookGroup + 1}`;
     if (isAuth && textbookShowDifficult) {
-      secTitile = `Difficult (current) - <span class="additional-counter">
+      secTitile = `Difficult - <span class="additional-counter">
       ${words.length}</span>`;
     } else if (isAuth && textbookShowLearned) {
-      secTitile = `Learned (current) - <span class="additional-counter">
+      secTitile = `Learned - <span class="additional-counter">
       ${words.length}</span>`;
     }
 
@@ -188,16 +188,10 @@ class TextbookView extends Component {
     textbookShowDifficult: boolean,
     textbookShowLearned: boolean,
   ) {
-    // console.log('words', words);
     const renderWordCard = (word: IDictWord) => {
       const isDifficult = isAuth && word?.userWord?.difficulty === 'difficult';
       const isLearned = isAuth && word?.userWord?.optional?.isLearned === 'learned';
-      /* const isSprintGame = isAuth && word?.userWord?.optional?.sprintAttempts;
-      const isAudioGame = isAuth && word?.userWord?.optional?.audioAttempts;
-      const sprintSuccessful = isSprintGame ? word?.userWord?.optional?.sprintSuccesful : 0;
-      const sprintAttempts = isSprintGame ? word?.userWord?.optional?.sprintAttempts : 0;
-      const audioSuccessful = isAudioGame ? word?.userWord?.optional?.audioSuccesful : 0;
-      const audioAttempts = isAudioGame ? word?.userWord?.optional?.audioAttempts : 0; */
+
       // eslint-disable-next-line no-underscore-dangle
       const wId = isAuth ? word._id : word.id;
       const addDifficult = `

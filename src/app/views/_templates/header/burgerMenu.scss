@@ -12,9 +12,9 @@
     position: fixed;
     top: 10px;
     left: 10px;
-    z-index: 30;
-    width: 60px;
-    height: 60px;
+    z-index: 3000;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     background: #7dcddb;
     transition: 0.5s;
@@ -70,7 +70,7 @@
 .burger-menu-nav {
   padding-top: 80px;
   position: fixed;
-  z-index: 20;
+  z-index: 2999;
   display: flex;
   flex-flow: column;
   width: 170px;
@@ -103,7 +103,7 @@
   left: 0px;
   width: 100vw;
   height: 100vh;
-  z-index: 10;
+  z-index: 2998;
   background: #19212bc5;
 }
 

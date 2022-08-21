@@ -9,15 +9,14 @@
 ![Chart.js](https://img.shields.io/badge/chart.js-0D1117.svg?style=for-the-badge&logo=chart.js&logoColor=white)
 
 ## Demo
-https://rs-lang-rs-school.netlify.app/
 
-#### Test user:
-teststats1234@mail.com:teststats1234
+https://rs-lang-26.netlify.app/
 
 ## Downloading
+
 `git clone https://github.com/tlkv/rslang`
 
-## Client 
+## Client
 
 ```
 $ cd rslang

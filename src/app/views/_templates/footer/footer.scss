@@ -1,7 +1,6 @@
 footer {
   width: 100%;
   height: 70px;
-  background: #1e2733;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,6 +19,21 @@ footer {
   margin: 15px;
 }
 
+@media (max-width: 600px) {
+  .year-of-creation {
+    display: none;
+  }
+  .rs-school {
+    display: none;
+  }
+}
+
+@media (max-width: 320px) {
+  .github-img {
+    display: none;
+  }
+}
+
 .author {
   text-decoration: none;
   margin: 15px;
@@ -30,9 +44,16 @@ footer {
     cursor: pointer;
     transition: 0.3s;
   }
+  @media (max-width: 400px) {
+    margin: 6px;
+  }
 }
 
 .rs-school {
   width: 100px;
   height: 50px;
+}
+
+.fa-github {
+  font-size: 50px;
 }

@@ -14,7 +14,7 @@ button > i {
 }
 
 .textbook-block {
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 155px);
   padding-top: 15px;
 }
 
@@ -55,11 +55,9 @@ button > i {
 
 .textbook-card-content {
   padding: 15px 10px 25px 15px;
-  /* background-color: #f3f4f8;*/
 }
 
 .textbook-card-content * {
-  /* background-color: #f3f4f8; */
   color: #000;
   .textbook-audio {
     cursor: pointer;
@@ -126,25 +124,6 @@ button > i {
 .color-group-6 {
   color: $textbook-color-6;
 }
-
-/* .item-shadow-1 {
-  box-shadow: 0 5px 10px $textbook-color-1;
-}
-.item-shadow-2 {
-  box-shadow: 0 5px 10px $textbook-color-2;
-}
-.item-shadow-3 {
-  box-shadow: 0 5px 10px $textbook-color-3;
-}
-.item-shadow-4 {
-  box-shadow: 0 5px 10px $textbook-color-4;
-}
-.item-shadow-5 {
-  box-shadow: 0 5px 10px $textbook-color-5;
-}
-.item-shadow-6 {
-  box-shadow: 0 5px 10px $textbook-color-6;
-} */
 
 .textbook-categories-button {
   margin: 10px;
@@ -296,6 +275,9 @@ button > i {
   text-transform: uppercase;
   text-align: center;
   color: #fff;
+  @media (max-width: 768px) {
+    font-size: 32px;
+  }
 }
 
 .textbook-learned-button,
@@ -435,6 +417,12 @@ button > i {
   }
 }
 
+@media (max-width: 500px) {
+  .textbook-words-wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 @media (max-width: 1000px) {
   .textbook-categories-button {
     width: 30%;
@@ -444,5 +432,6 @@ button > i {
 @media (max-width: 600px) {
   .textbook-categories-button {
     width: 45%;
+    margin: 5px;
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 import GameAudioView from '../../views/gameAudioView/gameAudioView';
 import { State, state } from '../../models/api/state/state';
 import {
