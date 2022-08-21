@@ -1,20 +1,24 @@
 .statistic-page {
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .statistic-title {
-  width: fit-content;
+  text-align: center;
   font-size: 62px;
   font-weight: bold;
   color: #7dcddb;
-  margin: 70px 0 20px 455px;
+}
+
+.statistics-block {
+  min-height: calc(100vh - 140px);
 }
 
 .daily-statistic {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .statistic-wrapp {
@@ -27,32 +31,37 @@
 
 .statistic-img {
   margin-bottom: 50px;
+  max-width: 490px;
+  width: 100%;
 }
 
 .game-statistic {
-  width: 600px;
+  max-width: 600px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .statistic-card {
-  width: 300px;
-  height: 200px;
+  max-width: 300px;
+  min-height: 200px;
   background: #fff;
+  border-radius: 65px;
 }
 
-.left {
+.stat-left {
+  margin-top: 10px;
   border-top-left-radius: 65px;
   border-bottom-left-radius: 65px;
-  margin-right: 30px;
 }
 
-.right {
+.stat-right {
+  margin-top: 10px;
   border-top-right-radius: 65px;
   border-bottom-right-radius: 65px;
-  margin-left: 30px;
 }
 
 .game-title {
@@ -96,10 +105,11 @@
 }
 
 .general-statistics {
-  width: 700px;
+  max-width: 700px;
   display: flex;
   justify-content: inherit;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .general-learned-words {
@@ -153,9 +163,16 @@
 }
 
 .warning {
-  height: 80vh;
-  padding: 398px 0;
-  font-size: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  height: 100px;
+  font-size: 20px;
   text-align: center;
   color: #7dcddb;
+  a {
+    padding: 5px;
+  }
 }

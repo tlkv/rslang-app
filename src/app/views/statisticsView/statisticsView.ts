@@ -47,12 +47,12 @@ class StatisticsView extends Component {
     generalCurrentAnswers: number,
   ) {
     this.AuthStatisticBlockContent = `<section class="statistic-page">
-      <h2 class="statistic-title">Daily statistic</h2>
+      <h2 class="statistic-title">Daily statistics</h2>
       <div class="daily-statistic">
         <img src="./assets/statistic.png" alt="statistic" class="statistic-img">
         <div class="statistic-wrapp">
           <div class="game-statistic">
-            <div class="statistic-card left">
+            <div class="statistic-card stat-left">
               <h3 class="game-title left-title">Sprint game</h3>
               <p>
                 <svg class="svgIcon" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
@@ -69,7 +69,7 @@ class StatisticsView extends Component {
                 Correct answers: <span class="count" id="sprint-current-answers">${sprintCurrentAnswers}</span>%
               </p>
             </div>
-            <div class="statistic-card right">
+            <div class="statistic-card stat-right">
               <h3 class="game-title right-title">Audio game</h3>
               <p>
                 <svg class="svgIcon" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
@@ -103,18 +103,10 @@ class StatisticsView extends Component {
         </div>
       </div>
     </div>
-    <div class="long-term-statistics">
-      <h2 class="long-term-statistic-title">Long term statistic</h2>
-      <div class="canvas-box">
-        <canvas class="schedule-line"></canvas>
-        <canvas class="schedule-bar"></canvas>
-        <canvas class="schedule-line games-schedule"></canvas>
-      </div>
-    </div>
   </section> `;
 
     this.NotAuthStatisticBlockContent = `<div class="warning">Sorry, you can't come here! 
-  <a href="#${defaultRoutes.authorization.path}"> Register</a> and come back :)</div>`;
+  <a href="#${defaultRoutes.authorization.path}"> Sign in</a> and come back :)</div>`;
 
     if (this.model.isAuth) {
       this.statisticBlockContent = this.AuthStatisticBlockContent;

@@ -12,7 +12,7 @@ class Header extends Component {
   }
 
   elemContent = `<nav class="navigation"> 
-        <div class="title">
+        <div class="title rsl-logo">
           <a href="#frontpage">
             <img src="./assets/icon.png" alt="icon" class="icon" />
           </a> 
@@ -67,12 +67,6 @@ class Header extends Component {
 
   static toggleMenu(menu: HTMLDivElement) {
     menu.classList.toggle('burger-menu-active');
-
-    if (menu.classList.contains('burger-menu-active')) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'visible';
-    }
   }
 }
 

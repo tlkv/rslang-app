@@ -1,7 +1,7 @@
 const FRONT_BLOCK_CONTENT_START = `<section class="sprint-settings-page">
 <div class="sprint-settings-container wide">
 <p class="sprint-settings-title">Sprint</p>
-<p class="sprint-settings-description">Sprint is a speed training game. Try to guess as many words as you can in 60 seconds</p>
+<p class="sprint-settings-description">Try to guess as many words as you can in 60 seconds</p>
 </div>
 <div class="sprint-settings-container">
 <p class="sprint-settings-title-levels">Choose the level:</p>
@@ -43,7 +43,7 @@ const FRONT_BLOCK_CONTENT_GAME = `<section class="sprint-game">
 <ion-icon class="alert-right" name="checkmark-circle-outline"></ion-icon>
 <ion-icon class="alert-wrong" name="close-circle-outline"></ion-icon>
 </div> 
-<div class="words-combinations"><span class="en-word" id="en-word">totally</span><span class="middle-word">is</span><span class="ru-word" id="ru-word">кошка</span></div>
+<div class="words-combinations"><div class="en-word" id="en-word">totally</div><div class="middle-word">is</div><div class="ru-word" id="ru-word">кошка</div></div>
 <div class="answer-btns">
 <button class="right-btn" id="sprint-right-btn">Yes</button>
 <button class="wrong-btn" id="sprint-wrong-btn">No</button>

@@ -23,7 +23,6 @@ class App {
 
   start() {
     window.addEventListener('hashchange', () => {
-      // console.log('state.isAuth', state.isAuth);
       this.router();
     });
   }
@@ -43,8 +42,6 @@ class App {
       if (localStorage.getItem('loc-tb-learned')) {
         state.textbookShowLearned = JSON.parse(localStorage.getItem('loc-tb-learned') as string);
       }
-
-      // console.log('state.isAuth', state.isAuth);
       this.router();
     });
 
@@ -57,8 +54,6 @@ class App {
   }
 
   router() {
-    // console.log('state', state);
-
     const routes = [
       { path: defaultRoutes.authorization.path, Controller: AuthorizationController },
       { path: defaultRoutes.textbook.path, Controller: TextbookController },

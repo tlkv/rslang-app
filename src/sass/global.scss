@@ -1,7 +1,5 @@
 * {
   font-size: 20px;
-  /* line-height: 24px; */
-  /* letter-spacing: 5px; this can't be applied globally*/
   font-style: normal;
   font-weight: normal;
   font-family: 'Neucha';
@@ -10,7 +8,8 @@
 }
 
 body {
-  background: #1e2733;
+  background: linear-gradient(0deg, #026a8d, rgba(28, 5, 169, 0.3) 60.41%), #000;
+  padding-top: 70px;
 }
 
 .container {
@@ -20,10 +19,39 @@ body {
   overflow: hidden;
 }
 
+.scroll-block {
+  overflow-x: auto;
+}
+
+.rsl-logo {
+  padding-left: 10px;
+}
+
 .app-center-block {
   position: relative;
 }
 
 .app-center-block:focus {
   outline: none;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #000428 #999;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  border: 1px solid #666;
+  background-color: #29539b;
+  background: linear-gradient(to top, #000428, #1e2733);
 }

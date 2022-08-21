@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import Chart from 'chart.js/auto';
 import StatisticsView from '../../views/statisticsView/statisticsView';
 import { State, state } from '../../models/api/state/state';
@@ -5,19 +6,13 @@ import {
   learnedData,
   progressData,
   chartOptions,
-  chartGameOptions,
   sprintData,
   audioData,
   gameProgressData,
 } from '../../models/api/state/state2';
 import { getStatistics } from '../../models/api/api/getWordsTextbook';
 import IStats from '../../models/api/interfaces/IStats';
-import {
-  IGraphData,
-  IGameData,
-  IGameProgressData,
-  IChartGameOptions,
-} from '../../models/api/interfaces/IGraphData';
+import { IGraphData, IGameData, IGameProgressData } from '../../models/api/interfaces/IGraphData';
 
 class StatisticsController {
   view: StatisticsView;
@@ -90,17 +85,11 @@ class StatisticsController {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   createTwoBarsSchedul(gamesData: IGameProgressData) {
     const canvas = this.view.frontBlock.container.querySelector(
       '.games-schedule',
     ) as HTMLCanvasElement;
-
-    const barChart = new Chart(canvas, {
-      type: 'bar',
-      data: gamesData,
-      //@ts-ignore
-      options: chartGameOptions as IChartGameOptions,
-    });
   }
 
   async handleStatsUpdate() {
@@ -237,7 +226,7 @@ class StatisticsController {
     });
 
     if (graphDataLearned.length > 1) {
-      for (let i = 0; i < graphDataLearned.length; i++) {
+      for (let i = 0; i < graphDataLearned.length; i += 1) {
         const amount = graphDataLearned[i].wordsAmount as number;
         if (i - 1 >= 0) {
           const prevAmount = dataLine[i - 1] as number;
@@ -274,9 +263,9 @@ class StatisticsController {
       todayPercentAll as number,
     );
 
-    this.createLineSchedule(this.drawLineGraphData as IGraphData);
+    /* this.createLineSchedule(this.drawLineGraphData as IGraphData);
     this.createBarSchedule(this.drawBarGraphData as IGraphData);
-    this.createTwoBarsSchedul(this.gameProgressData as IGameProgressData);
+    this.createTwoBarsSchedul(this.gameProgressData as IGameProgressData); */
   }
 }
 

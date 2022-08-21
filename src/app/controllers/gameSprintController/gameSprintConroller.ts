@@ -110,7 +110,6 @@ class GameSprintController {
         } else if (restartBtn) {
           this.view.frontBlockWrapper.container.innerHTML = FRONT_BLOCK_CONTENT_START;
         } else if (toWordsBtn) {
-          // aaa
           GameSprintController.showSeeMyWords();
         } else if (toResultsBtn) {
           GameSprintController.showResults();
@@ -235,7 +234,6 @@ class GameSprintController {
     ) as HTMLInputElement;
 
     if (!checkedInput) {
-      alert('Please select a level');
       return;
     }
     this.level = +checkedInput.value;
