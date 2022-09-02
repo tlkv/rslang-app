@@ -24,7 +24,7 @@ class GameSprintController {
 
   audio = new Audio();
 
-  baseUrl = 'https://rslang29.herokuapp.com/';
+  baseUrl = 'https://rslang29.onrender.com/';
 
   matchingWords: IMatchWord[] | undefined;
 

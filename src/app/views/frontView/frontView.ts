@@ -59,7 +59,6 @@ class FrontView extends Component {
         <h2 class="our-team-title">Our team</h2>
         <div class="team-card-box">
           <div class="teammate">
-            <img src="./assets/kristina.jpg" alt="kristina" class="teammate-img" >
             <div class="info-box">
               <a  href="https://github.com/kristykov" class="name">Kristina</a>
               <p class="contribution-description">Sprint Game
@@ -71,7 +70,6 @@ class FrontView extends Component {
               </div>
           </div>
           <div class="teammate">
-            <img src="./assets/andrey.jpg" alt="andrey" class="teammate-img">
             <div class="info-box">
               <a href="https://github.com/tlkv"class="name">Andrey</a>
               <p class="contribution-description">Textbook page
@@ -85,7 +83,6 @@ class FrontView extends Component {
             </div>  
           </div>
           <div class="teammate">
-            <img src="./assets/anastasiya.jpg" alt="anastasiya" class="teammate-img">
             <div class="info-box">
               <a href="https://github.com/AnastasiyaPoleshuk" class="name">Anastasiya</a>
               <p class="contribution-description">User authorisation

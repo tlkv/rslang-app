@@ -6,7 +6,7 @@ import IDictAuth from '../interfaces/IDictAuth';
 import { IWordOpt } from '../interfaces/IWordOpt';
 import IStats from '../interfaces/IStats';
 
-export const baseUrl = 'https://rslang29.herokuapp.com';
+export const baseUrl = 'https://rslang29.onrender.com';
 
 const userId = localStorage.getItem('userId');
 const token = localStorage.getItem('token');

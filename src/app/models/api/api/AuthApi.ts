@@ -1,7 +1,7 @@
 import { resetStatistics } from './getWordsTextbook';
 
 class Api {
-  private base = 'https://rslang29.herokuapp.com/' as string;
+  private base = 'https://rslang29.onrender.com/' as string;
 
   private users = `${this.base}users` as string;
 
