@@ -38,6 +38,7 @@ export const getWordsTextbook = async (group: number, page: number, isAuth: bool
   if (isAuth) {
     url = `${baseUrl}/users/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=20`;
   }
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const args = isAuth ? ARGS_AUTH : ARGS_DEF;
   const rawResponse = await fetch(url, args);
   let content: IDictWord[] = [];
@@ -47,6 +48,7 @@ export const getWordsTextbook = async (group: number, page: number, isAuth: bool
   } else if (!isAuth && rawResponse.status === 200) {
     content = await rawResponse.json();
   }
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
   return content;
 };
 
@@ -91,16 +93,20 @@ export const resetStatistics = async () => {
     headers: OBJ_HEADERS_RESET,
     body: JSON.stringify(defContent),
   };
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const resp = await fetch(url, requestParams);
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
 };
 
 export const getStatistics = async () => {
   const url = `${baseUrl}/users/${userId}/statistics`;
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const rawResponse = await fetch(url, ARGS_AUTH);
   let content: IStats = {};
   if (rawResponse.status === 200) {
     content = await rawResponse.json();
   }
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
   return content;
 };
 
@@ -108,7 +114,7 @@ export const addLearnedStats = async (wordId: string) => {
   const url = `${baseUrl}/users/${userId}/statistics`;
   if (!userId || !token) return;
   let learnedBefore = false;
-
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const currentStats = await getStatistics();
   delete currentStats.id;
   if (currentStats.optional?.wordListLearned?.stat?.find((item) => item.wId === wordId)) {
@@ -138,6 +144,7 @@ export const addLearnedStats = async (wordId: string) => {
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
   }
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
 };
 
 export const removeLearnedStats = async (wordId: string) => {
@@ -158,7 +165,7 @@ export const removeLearnedStats = async (wordId: string) => {
     // eslint-disable-next-line operator-linebreak
     currentStats.optional!.wordListLearned!.stat =
       currentStats?.optional?.wordListLearned?.stat?.filter((i) => i.wId !== wordId);
-
+    document?.getElementById('modal-spin')?.classList.remove('hide-loader');
     const respBody = JSON.stringify(currentStats);
     const requestParams = {
       method: 'PUT',
@@ -171,6 +178,7 @@ export const removeLearnedStats = async (wordId: string) => {
     if (rawResponse.status === 200) {
       const content = await rawResponse.json();
     }
+    document?.getElementById('modal-spin')?.classList.add('hide-loader');
   }
 };
 
@@ -182,6 +190,7 @@ export const removeLearnedWord = async (wordId: string) => {
       isLearned: 'no',
     },
   };
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const getResponse = await fetch(url, ARGS_AUTH);
   if (getResponse.status === 200) {
     const contentCurrentResp: IWordOpt = await getResponse.json();
@@ -204,6 +213,7 @@ export const removeLearnedWord = async (wordId: string) => {
     const content = await rawResponse.json();
   }
   await removeLearnedStats(wordId);
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
 };
 
 export const createDifficultWord = async (wordId: string) => {
@@ -216,6 +226,7 @@ export const createDifficultWord = async (wordId: string) => {
       isLearned: 'no',
     },
   };
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const getResponse = await fetch(url, ARGS_AUTH);
   if (getResponse.status === 200) {
     const contentCurrentResp: IWordOpt = await getResponse.json();
@@ -240,13 +251,15 @@ export const createDifficultWord = async (wordId: string) => {
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
   }
-  await removeLearnedWord(wordId); // test
+  await removeLearnedWord(wordId);
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
 };
 
 export const addNewWordsStats = async (wordId: string, gametype: string) => {
   const url = `${baseUrl}/users/${userId}/statistics`;
   if (!userId || !token) return;
   let wasNewBefore = false;
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const currentStats = await getStatistics();
   delete currentStats.id;
   if (currentStats.optional?.newWords?.stat?.find((item) => item.wId === wordId)) {
@@ -283,11 +296,13 @@ export const addNewWordsStats = async (wordId: string, gametype: string) => {
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
   }
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
 };
 
 export const percentStats = async (percent: number, gametype: string) => {
   const url = `${baseUrl}/users/${userId}/statistics`;
   if (!userId || !token) return;
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const currentStats = await getStatistics();
   delete currentStats.id;
 
@@ -320,10 +335,12 @@ export const percentStats = async (percent: number, gametype: string) => {
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
   }
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
 };
 
 export const createLearnedWord = async (wordId: string) => {
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   if (!userId || !token) return;
   let isUserWord = false;
   const contentGetResp: IWordOpt = {
@@ -356,12 +373,13 @@ export const createLearnedWord = async (wordId: string) => {
     const content = await rawResponse.json();
   }
   await addLearnedStats(wordId);
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
 };
 
 export const removeDifficultWord = async (wordId: string) => {
   const url = `${baseUrl}/users/${userId}/words/${wordId}`;
   if (!userId || !token) return;
-
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const requestParams = {
     method: 'PUT',
     withCredentials: true,
@@ -375,9 +393,11 @@ export const removeDifficultWord = async (wordId: string) => {
   if (rawResponse.status === 200) {
     const content = await rawResponse.json();
   }
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
 };
 
 export const filterDifficultWords = async () => {
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const url = `${baseUrl}/users/${userId}/aggregatedWords?wordsPerPage=3600&filter={"userWord.difficulty":"difficult"}`;
   const rawResponse = await fetch(url, ARGS_AUTH);
   let contentAuth: IDictAuth[] = [];
@@ -385,10 +405,12 @@ export const filterDifficultWords = async () => {
     contentAuth = await rawResponse.json();
   }
   const content = contentAuth[0].paginatedResults;
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
   return content;
 };
 
 export const filterLearnedWords = async () => {
+  document?.getElementById('modal-spin')?.classList.remove('hide-loader');
   const url = `${baseUrl}/users/${userId}/aggregatedWords?wordsPerPage=3600&filter={"userWord.optional.isLearned":"learned"}`;
   let contentAuth: IDictAuth[] = [];
 
@@ -397,5 +419,6 @@ export const filterLearnedWords = async () => {
     contentAuth = await rawResponse.json();
   }
   const content = contentAuth[0].paginatedResults;
+  document?.getElementById('modal-spin')?.classList.add('hide-loader');
   return content;
 };

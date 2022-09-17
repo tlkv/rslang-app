@@ -23,6 +23,7 @@ class Api {
   }
 
   registerUser = async (name: string, email: string, password: string) => {
+    document?.getElementById('modal-spin')?.classList.remove('hide-loader');
     const response = await fetch(this.users, {
       method: 'POST',
       headers: {
@@ -43,10 +44,12 @@ class Api {
       }
     }
     result = { isSucceeded: false, status: res.status };
+    document?.getElementById('modal-spin')?.classList.add('hide-loader');
     return result;
   };
 
   signInUser = async (email: string, password: string) => {
+    document?.getElementById('modal-spin')?.classList.remove('hide-loader');
     const response = await fetch(this.signin, {
       method: 'POST',
       headers: {
@@ -64,16 +67,21 @@ class Api {
       return result;
     }
     result = { isSucceeded: false, status: res.status };
+    document?.getElementById('modal-spin')?.classList.add('hide-loader');
     return result;
   };
 
   getAllWords = async (group = 1, page = 1) => {
+    document?.getElementById('modal-spin')?.classList.remove('hide-loader');
     const response = (await fetch(`${this.base}words?group=${group}&page=${page}`)).json();
+    document?.getElementById('modal-spin')?.classList.add('hide-loader');
     return response;
   };
 
   getWordById = async (wordId: string) => {
+    document?.getElementById('modal-spin')?.classList.remove('hide-loader');
     const response = (await fetch(`${this.base}words/${wordId}`)).json();
+    document?.getElementById('modal-spin')?.classList.add('hide-loader');
     return response;
   };
 

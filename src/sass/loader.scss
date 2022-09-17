@@ -1,0 +1,25 @@
+#modal-spin {
+  z-index: 5;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  pointer-events: none;
+  width: 80px;
+  height: 80px;
+  background: url('../assets/svg/loader.svg') center / 100% no-repeat;
+  animation: loading-spinner-spin 2s linear infinite;
+}
+
+@keyframes loading-spinner-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hide-loader {
+  display: none;
+}
